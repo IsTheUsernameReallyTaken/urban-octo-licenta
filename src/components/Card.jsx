@@ -5,7 +5,7 @@ import { Draggable } from "react-beautiful-dnd";
 const CardStyled = styled.div`
   background: lightcyan;
 
-  margin: 5% auto;
+  margin-top: 20px;
   padding: 10px;
 
   text-align: center;

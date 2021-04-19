@@ -42,7 +42,7 @@ const initialData = {
         },
         {
             id: 'card-11',
-            title: 'DWADWAWUNWDNIADNWI'
+            title: 'Some other task????'
         }
     ],
     lists:[

@@ -30,11 +30,10 @@ export default class List extends React.Component {
     }
 
     return (
-      <ListStyled>
-        <div>{titluLista}</div>
-
-        <Droppable droppableId={this.props.id}>
-          {(provided, snapshot) => (
+      <Droppable droppableId={this.props.id}>
+        {(provided, snapshot) => (
+          <ListStyled>
+            <div>{titluLista}</div>
             <div {...provided.droppableProps} ref={provided.innerRef}>
               {this.props.cardIDs.map((IDCard, index) => {
                 let UNIDMS, UNTITLUMS;
@@ -56,9 +55,9 @@ export default class List extends React.Component {
               })}
               {provided.placeholder}
             </div>
-          )}
-        </Droppable>
-      </ListStyled>
+          </ListStyled>
+        )}
+      </Droppable>
     );
   }
 }
