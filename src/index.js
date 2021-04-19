@@ -27,37 +27,27 @@ class App extends React.Component{
       }
     }
 
-    const sourceList = this.state.lists
-    .map(liste =>{
-      if(liste.id=== source.droppableId){
-        return liste;
-      }
-    })
-    .filter(Boolean);
-    const newHasCards = Array.from(sourceList[0].hasCards);
-    console.log(newHasCards);
-
-    newHasCards.splice(source.index, 1);
-    newHasCards.splice(destination.index, 0, draggableId);
-    console.log(newHasCards);    
-
-    const newList = {
-      ...this.state.lists.obj,
-      hasCards: newHasCards,
-    };
-    console.log('noua lista este '); 
-    console.log(newList);
-
-    let newState = this.state;
-
-    newState = newState.lists.map(liste=>{
-      if(liste.id===newList.id){
-        liste.hasCards = newHasCards;
-        return liste;
-      }
-    });
-
-    this.setState(newState);
+    if(destination.droppableId === source.droppableId){
+      let stateCopy = this.state;
+      stateCopy.lists.forEach(listele =>{
+        if(listele.id === source.droppableId){
+          listele.hasCards.splice(source.index, 1);
+          listele.hasCards.splice(destination.index, 0, draggableId);
+        }
+      })
+      this.setState(stateCopy);
+    } else {
+      let stateCopy = this.state;
+      stateCopy.lists.forEach(listele =>{
+        if(listele.id === source.droppableId){
+          listele.hasCards.splice(source.index, 1);
+        }
+        if(listele.id === destination.droppableId){
+          listele.hasCards.splice(destination.index, 0, draggableId);
+        }
+      })
+      this.setState(stateCopy);
+    }
   }
 
   render(){

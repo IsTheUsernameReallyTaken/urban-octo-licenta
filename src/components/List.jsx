@@ -40,17 +40,7 @@ export default class List extends React.Component {
                 let UNIDMS, UNTITLUMS;
                 this.props.state.cards.forEach((carduri) => {
                   if (IDCard === carduri.id) {
-                    /*
-                    console.log(
-                      "cardul " +
-                        IDCard +
-                        " are indexul " +
-                        index +
-                        " in lista " +
-                        this.props.id +
-                        "."
-                    );
-                    */
+                    //console.log("cardul " + IDCard + " are indexul " + index + " in lista " + this.props.id + "." );
                     UNIDMS = carduri.id;
                     UNTITLUMS = carduri.title;
                   }
@@ -64,7 +54,6 @@ export default class List extends React.Component {
                   />
                 );
               })}
-
               {provided.placeholder}
             </div>
           )}
