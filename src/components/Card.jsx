@@ -5,7 +5,7 @@ import { Draggable } from "react-beautiful-dnd";
 const CardStyled = styled.div`
   background: lightcyan;
 
-  margin-top: 20px;
+  margin-bottom: 15px;
   padding: 10px;
 
   text-align: center;
@@ -15,6 +15,9 @@ const CardStyled = styled.div`
   border-width: thin;
 
   font-weight: normal;
+
+  transition: background 0.2s ease;
+  background: ${(props) => (props.isDragging ? "palegreen" : "lightcyan")};
 `;
 
 const Bubble = styled.div`
@@ -42,6 +45,7 @@ export default class Card extends React.Component {
             {...provided.draggableProps}
             {...provided.dragHandleProps}
             ref={provided.innerRef}
+            isDragging={snapshot.isDragging}
           >
             <Bubble>{bubbleText}</Bubble>
             {content}

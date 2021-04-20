@@ -18,7 +18,16 @@ const ListStyled = styled.div`
 
   display: flex;
   flex-direction: column;
+
+  transition: background 0.2s ease;
+  background: ${(props) => (props.isDraggingOver ? "powderblue" : "lightgrey")};
 `;
+
+const TitleDiv = styled.div`
+  margin-bottom: 25px;
+`;
+
+const CardsDiv = styled.div``;
 
 export default class List extends React.Component {
   render() {
@@ -32,9 +41,13 @@ export default class List extends React.Component {
     return (
       <Droppable droppableId={this.props.id}>
         {(provided, snapshot) => (
-          <ListStyled>
-            <div>{titluLista}</div>
-            <div {...provided.droppableProps} ref={provided.innerRef}>
+          <ListStyled
+            ref={provided.innerRef}
+            {...provided.droppableProps}
+            isDraggingOver={snapshot.isDraggingOver}
+          >
+            <TitleDiv>{titluLista}</TitleDiv>
+            <CardsDiv>
               {this.props.cardIDs.map((IDCard, index) => {
                 let UNIDMS, UNTITLUMS;
                 this.props.state.cards.forEach((carduri) => {
@@ -54,7 +67,7 @@ export default class List extends React.Component {
                 );
               })}
               {provided.placeholder}
-            </div>
+            </CardsDiv>
           </ListStyled>
         )}
       </Droppable>

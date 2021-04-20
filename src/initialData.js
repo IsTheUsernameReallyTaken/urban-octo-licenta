@@ -30,7 +30,7 @@ const initialData = {
         },
         {
             id: 'card-8',
-            title: 'Unlock the Deagle 44 in Battlefield 4'
+            title: 'Unlock the Deagle 44 in Battlefield 4 (i.e. Complete the Recoil Kinetics DLC assignment)'
         },
         {
             id: 'card-9',
@@ -39,10 +39,6 @@ const initialData = {
         {
             id: 'card-10',
             title: '100 push-ups'
-        },
-        {
-            id: 'card-11',
-            title: 'Some other task????'
         }
     ],
     lists:[
@@ -63,8 +59,8 @@ const initialData = {
         },
         {
             id: 'list-4',
-            title: 'Not gonna happen soon List',
-            hasCards: ['card-10', 'card-11']
+            title: 'Needs assistance',
+            hasCards: ['card-10']
         }
     ],  
     order: ['list-1', 'list-2', 'list-3', 'list-4'] 
