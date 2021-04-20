@@ -34,8 +34,12 @@ export default class List extends React.Component {
     let numarOite = this.props.id.replace(/^\D+/g, "");
     let titluLista = "#" + numarOite + ": " + this.props.title + " ";
 
-    for (let i = 1; i <= numarOite; i++) {
-      titluLista = titluLista + "🐑";
+    if (this.props.id !== "list-4") {
+      for (let i = 1; i <= numarOite; i++) {
+        titluLista = titluLista + "🐑";
+      }
+    } else {
+      titluLista = titluLista + "👷🏻‍♀️⛔️";
     }
 
     return (
