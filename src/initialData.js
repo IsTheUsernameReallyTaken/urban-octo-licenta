@@ -44,7 +44,7 @@ const initialData = {
     lists:[
         {
             id: 'list-1',
-            title: 'To Do List',
+            title: 'To Do List (also testing for long titles)',
             hasCards: ['card-1', 'card-2', 'card-5', 'card-8', 'card-9']
         },
         {

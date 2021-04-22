@@ -21,10 +21,15 @@ const ListStyled = styled.div`
 
   transition: background 0.2s ease;
   background: ${(props) => (props.isDraggingOver ? "powderblue" : "lightgrey")};
+
+  display: grid;
 `;
 
 const TitleDiv = styled.div`
-  margin-bottom: 25px;
+  align-self: end;
+  margin: 10px;
+  font-size: x-large;
+  text-align: center;
 `;
 
 const CardsDiv = styled.div``;
@@ -50,13 +55,12 @@ export default class List extends React.Component {
             {...provided.droppableProps}
             isDraggingOver={snapshot.isDraggingOver}
           >
-            <TitleDiv>{titluLista}</TitleDiv>
             <CardsDiv>
               {this.props.cardIDs.map((IDCard, index) => {
                 let UNIDMS, UNTITLUMS;
                 this.props.state.cards.forEach((carduri) => {
                   if (IDCard === carduri.id) {
-                    //console.log("cardul " + IDCard + " are indexul " + index + " in lista " + this.props.id + "." );
+                    //console.log("cardul " + IDCard + " are indexul " + index + " in lista " + this.props.id + ".");
                     UNIDMS = carduri.id;
                     UNTITLUMS = carduri.title;
                   }
@@ -72,6 +76,8 @@ export default class List extends React.Component {
               })}
               {provided.placeholder}
             </CardsDiv>
+
+            <TitleDiv>{titluLista}</TitleDiv>
           </ListStyled>
         )}
       </Droppable>
