@@ -16,8 +16,8 @@ const CardStyled = styled.div`
 
   font-weight: normal;
 
-  transition: background 0.2s ease;
-  background: ${(props) => (props.isDragging ? "palegreen" : "lightcyan")};
+  transition: background 0.3s linear;
+  background: ${(props) => (props.isDragging ? "yellowgreen" : "lightcyan")};
 `;
 
 const Bubble = styled.div`

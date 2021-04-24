@@ -45,21 +45,25 @@ const initialData = {
         {
             id: 'list-1',
             title: 'To Do List (also testing for long titles)',
+            emptyText:'It looks like there any tasks left for you to do. Congrats!',
             hasCards: ['card-1', 'card-2', 'card-5', 'card-8', 'card-9']
         },
         {
             id: 'list-2',
             title: 'In Progress List',
+            emptyText:'This is a bit awkward. I am no snitch but you really should be working.',
             hasCards: ['card-3', 'card-6', 'card-10']
         },
         {
             id: 'list-3',
             title: 'Done List',
+            emptyText:'Why is this list empty? You could at least try to get something done.',
             hasCards: ['card-4', 'card-7']
         },
         {
             id: 'list-4',
             title: 'Needs assistance',
+            emptyText:'If you cannot wrap your head around a task or it simply does not work, just drop it here and one of your supervisors will help you. You monumental fuck-up.',
             hasCards: []
         }
     ],  
