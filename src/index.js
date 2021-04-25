@@ -60,8 +60,8 @@ class App extends React.Component{
           {this.state.order.map(listID =>{
             let titlu, cardIDs;
             this.state.lists.forEach(liste=>{
-              if (liste.id===listID){
-                titlu=liste.title;
+              if (liste.id === listID){
+                titlu = liste.title;
                 cardIDs = liste.hasCards;
               }
             })

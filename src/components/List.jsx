@@ -15,12 +15,14 @@ const ListStyled = styled.div`
   border-width: medium;
 
   font-weight: bold;
+  font-family: "Georgia", serif;
 
   display: flex;
   flex-direction: column;
 
   transition: background 0.3s linear;
-  background: ${(props) => (props.isDraggingOver ? "steelblue" : "lightgrey")};
+  background: ${(props) =>
+    props.isDraggingOverList ? "lightsalmon" : "lightgrey"};
 
   display: grid;
 `;
@@ -38,14 +40,14 @@ const EmptyDiv = styled.div`
   padding: 10px;
   margin: 10px;
   text-align: center;
-  color: grey;
-  transition: color 0.2s ease;
+  transition: color 0.3s linear;
+  color: ${(props) => (props.isDraggingOverEmptyList ? "lightsalmon" : "grey")};
 `;
 
 export default class List extends React.Component {
   numberOfCards = 0;
 
-  emptyListFunction = () => {
+  emptyListFunction = (isDraggingOverEmptyList) => {
     let text;
     if (this.props.cardIDs.length === 0) {
       this.props.state.lists.forEach((listele) => {
@@ -53,7 +55,11 @@ export default class List extends React.Component {
           text = listele.emptyText;
         }
       });
-      return <EmptyDiv>{text}</EmptyDiv>;
+      return (
+        <EmptyDiv isDraggingOverEmptyList={isDraggingOverEmptyList}>
+          {text}
+        </EmptyDiv>
+      );
     }
   };
 
@@ -61,12 +67,20 @@ export default class List extends React.Component {
     let numarOite = this.props.id.replace(/^\D+/g, "");
     let titluLista = "#" + numarOite + ": " + this.props.title + " ";
 
-    if (this.props.id !== "list-4") {
+    let cond1EM = this.props.id[0] === "e";
+    let cond2EM = this.props.id[1] === "m";
+
+    let condEM = cond1EM && cond2EM;
+
+    console.log("conditia 1 este " + cond1EM);
+    console.log("conditia 2 este " + cond2EM);
+
+    if (condEM) {
+      titluLista = titluLista + "👷🏻‍♀️⛔️";
+    } else {
       for (let i = 1; i <= numarOite; i++) {
         titluLista = titluLista + "🐑";
       }
-    } else {
-      titluLista = titluLista + "👷🏻‍♀️⛔️";
     }
 
     return (
@@ -75,7 +89,7 @@ export default class List extends React.Component {
           <ListStyled
             ref={provided.innerRef}
             {...provided.droppableProps}
-            isDraggingOver={snapshot.isDraggingOver}
+            isDraggingOverList={snapshot.isDraggingOver}
           >
             <CardsDiv>
               {this.props.cardIDs.map((IDCard, index) => {
@@ -97,7 +111,7 @@ export default class List extends React.Component {
                   />
                 );
               })}
-              {this.emptyListFunction()}
+              {this.emptyListFunction(snapshot.isDraggingOver)}
               {provided.placeholder}
             </CardsDiv>
 

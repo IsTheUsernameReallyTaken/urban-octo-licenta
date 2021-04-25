@@ -21,7 +21,9 @@ const CardStyled = styled.div`
 `;
 
 const Bubble = styled.div`
-  width: 35px;
+  width: 45px;
+  height: 20px;
+
   background: coral;
   font-weight: bold;
 
