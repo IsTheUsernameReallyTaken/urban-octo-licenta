@@ -1,18 +1,60 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import List from "./List";
 import WelcomeCard from "./WelcomeCard";
 import { DragDropContext } from "react-beautiful-dnd";
 import initialData from "../initialData";
 import styled from "styled-components";
 
+import firebase from "../firebase";
+import "firebase/firestore";
+
 const AppContainer = styled.div`
   display: flex;
   flex-direction: row;
 `;
 
-export default function App() {
-  const [state, setState] = useState(initialData);
+const DebugDiv = styled.div`
+  background: yellow;
+  margin: 10px;
+  padding: 10px;
+`;
 
+export default function App() {
+  //const [state, setState] = useState(initialData);
+
+  const [lists, setLists] = useState([]);
+  const [cards, setCards] = useState([]);
+
+  const refLists = firebase.firestore().collection("lists");
+  const refCards = firebase.firestore().collection("cards");
+
+  const order = ["list-1", "list-2", "list-3", "em-list-4"];
+
+  function getLists() {
+    refLists.onSnapshot((querySnapshot) => {
+      const listItems = [];
+      querySnapshot.forEach((document) => {
+        listItems.push(document.data());
+      });
+      setLists(listItems);
+    });
+  }
+
+  function getCards() {
+    refCards.onSnapshot((querySnapshot) => {
+      const cardItems = [];
+      querySnapshot.forEach((document) => {
+        cardItems.push(document.data());
+      });
+      setCards(cardItems);
+    });
+  }
+
+  function onDragEnd(result) {
+    console.log("am facut un drag/drop");
+  }
+
+  /*
   function onDragEnd(result) {
     const { source, destination, draggableId } = result;
 
@@ -48,27 +90,38 @@ export default function App() {
       setState(stateCopy);
     }
   }
+  */
+  useEffect(() => {
+    getLists();
+    getCards();
+  }, []);
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <WelcomeCard />
       <AppContainer>
-        {state.order.map((listID) => {
+        {order.map((listID) => {
           let titlu, cardIDs;
-          state.lists.forEach((liste) => {
+          lists.forEach((liste) => {
             if (liste.id === listID) {
               titlu = liste.title;
               cardIDs = liste.hasCards;
             }
           });
+
           return (
-            <List
-              key={listID}
-              id={listID}
-              title={titlu}
-              state={state}
-              cardIDs={cardIDs}
-            />
+            <div>
+              {
+                <List
+                  key={listID}
+                  id={listID}
+                  title={titlu}
+                  lists={lists}
+                  cards={cards}
+                  cardIDs={cardIDs}
+                />
+              }
+            </div>
           );
         })}
       </AppContainer>

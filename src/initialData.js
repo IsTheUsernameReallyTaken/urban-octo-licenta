@@ -50,7 +50,7 @@ const initialData = {
         },
         {
             id: 'list-2',
-            title: 'Currently Doing List',
+            title: 'Currently Doing',
             emptyText:'This is a bit awkward. I am no snitch but you really should be working.',
             hasCards: ['card-3', 'card-6', 'card-10']
         },
