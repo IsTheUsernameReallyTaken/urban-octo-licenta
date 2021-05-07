@@ -105,23 +105,13 @@ export default function App() {
           });
 
           return (
-            <div>
-              {/*console.log(listID)}
-              {console.log(titlu)}
-              {console.log(cardIDs)}
-              {console.log(lists)}
-          {console.log(cards)*/}
-              {
-                <List
-                  key={listID}
-                  id={listID}
-                  title={titlu}
-                  lists={lists}
-                  cards={cards}
-                  cardIDs={cardIDs}
-                />
-              }
-            </div>
+            <List
+              key={listID}
+              id={listID}
+              title={titlu}
+              lists={lists}
+              cards={cards}
+            />
           );
         })}
       </AppContainer>

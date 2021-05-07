@@ -37,7 +37,7 @@ const Bubble = styled.div`
 
 export default class Card extends React.Component {
   render() {
-    let titleNumber = "#";
+    let titleNumber = "";
     const content = this.props.title;
 
     this.props.cards.map((carduri) => {
@@ -46,7 +46,7 @@ export default class Card extends React.Component {
       }
     });
 
-    titleNumber = titleNumber.replace(/^\D+/g, "");
+    titleNumber = titleNumber.replace(/[^0-9]/g, "");
 
     const bubbleText = "#" + titleNumber;
 
@@ -59,7 +59,6 @@ export default class Card extends React.Component {
             ref={provided.innerRef}
             isDragging={snapshot.isDragging}
           >
-            {console.log("id-ul acestui card este: " + this.props.id)}
             {<Bubble>{bubbleText}</Bubble>}
             {content}
           </CardStyled>

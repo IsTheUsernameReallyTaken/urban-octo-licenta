@@ -47,34 +47,28 @@ const EmptyDiv = styled.div`
 export default class List extends React.Component {
   numberOfCards = 0;
   listaCarduri = [];
+  emptyText = "";
+
+  getEmptyText = () => {
+    this.props.lists.map((listele) => {
+      if (listele.id === this.props.id) {
+        this.emptyText = listele.emptyText;
+      }
+    });
+  };
 
   emptyListFunction = (isDraggingOverEmptyList) => {
-    /*
-    if (this.props.cardIDs.length === 0) {
-      this.props.lists.forEach((listele) => {
-        if (listele.id === this.props.id) {
-          text = listele.emptyText;
-        }
-      });
-      return (
-        <EmptyDiv isDraggingOverEmptyList={isDraggingOverEmptyList}>
-          {text}
-        </EmptyDiv>
-      );
-    }
-    */
     let text;
     this.props.lists.map((listele) => {
       if (listele.id === this.props.id) {
         if (listele.hasCards.length === 0) {
-          text = listele.emptyText;
+          return (
+            <EmptyDiv isDraggingOverEmptyList={isDraggingOverEmptyList}>
+              {text}
+            </EmptyDiv>
+          );
         }
       }
-      return (
-        <EmptyDiv isDraggingOverEmptyList={isDraggingOverEmptyList}>
-          {text}
-        </EmptyDiv>
-      );
     });
   };
 
@@ -89,9 +83,6 @@ export default class List extends React.Component {
   render() {
     let numarOite = this.props.id.replace(/^\D+/g, "");
     let titluLista = "#" + numarOite + ": " + this.props.title + " ";
-
-    //let cond1EM = this.props.id[this.props.id.length - 2] === "e";
-    //let cond2EM = this.props.id[this.props.id.length - 1] === "m";
 
     let cond1EM = this.props.id[0] === "e";
     let cond2EM = this.props.id[1] === "m";
@@ -137,6 +128,8 @@ export default class List extends React.Component {
                   />
                 );
               })}
+
+              {this.getEmptyText()}
               {this.emptyListFunction(snapshot.isDraggingOver)}
               {provided.placeholder}
             </CardsDiv>
