@@ -13,12 +13,6 @@ const AppContainer = styled.div`
   flex-direction: row;
 `;
 
-const DebugDiv = styled.div`
-  background: yellow;
-  margin: 10px;
-  padding: 10px;
-`;
-
 export default function App() {
   //const [state, setState] = useState(initialData);
 
@@ -91,6 +85,7 @@ export default function App() {
     }
   }
   */
+
   useEffect(() => {
     getLists();
     getCards();
@@ -111,6 +106,11 @@ export default function App() {
 
           return (
             <div>
+              {/*console.log(listID)}
+              {console.log(titlu)}
+              {console.log(cardIDs)}
+              {console.log(lists)}
+          {console.log(cards)*/}
               {
                 <List
                   key={listID}

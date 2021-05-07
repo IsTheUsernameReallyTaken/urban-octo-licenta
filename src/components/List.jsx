@@ -46,9 +46,10 @@ const EmptyDiv = styled.div`
 
 export default class List extends React.Component {
   numberOfCards = 0;
+  listaCarduri = [];
 
   emptyListFunction = (isDraggingOverEmptyList) => {
-    let text;
+    /*
     if (this.props.cardIDs.length === 0) {
       this.props.lists.forEach((listele) => {
         if (listele.id === this.props.id) {
@@ -61,6 +62,28 @@ export default class List extends React.Component {
         </EmptyDiv>
       );
     }
+    */
+    let text;
+    this.props.lists.map((listele) => {
+      if (listele.id === this.props.id) {
+        if (listele.hasCards.length === 0) {
+          text = listele.emptyText;
+        }
+      }
+      return (
+        <EmptyDiv isDraggingOverEmptyList={isDraggingOverEmptyList}>
+          {text}
+        </EmptyDiv>
+      );
+    });
+  };
+
+  getCardsOfThisList = () => {
+    this.props.lists.map((liste) => {
+      if (this.props.id === liste.id) {
+        this.listaCarduri = liste.hasCards;
+      }
+    });
   };
 
   render() {
@@ -92,37 +115,26 @@ export default class List extends React.Component {
             isDraggingOverList={snapshot.isDraggingOver}
           >
             <CardsDiv>
-              {this.props.cardIDs.map((IDCard, index) => {
-                let UNIDMS, UNTITLUMS;
-                this.props.cards.forEach((carduri) => {
+              {this.getCardsOfThisList()}
+              {this.listaCarduri.map((IDCard, index) => {
+                let ID, TITLU, INDEX;
+                this.props.cards.map((carduri) => {
                   if (IDCard === carduri.id) {
-                    console.log(
-                      "cardul " +
-                        IDCard +
-                        " are indexul " +
-                        index +
-                        " in lista " +
-                        this.props.id +
-                        "."
-                    );
-                    UNIDMS = carduri.id;
-                    UNTITLUMS = carduri.title;
-                    this.numberOfCards++;
+                    ID = carduri.id;
+                    TITLU = carduri.title;
+                    INDEX = index;
                   }
                 });
 
                 return (
-                  <div>
-                    {console.log(UNIDMS)}
-                    {
-                      <Card
-                        key={UNIDMS}
-                        id={UNIDMS}
-                        title={UNTITLUMS}
-                        index={index}
-                      />
-                    }
-                  </div>
+                  <Card
+                    key={ID}
+                    id={ID}
+                    title={TITLU}
+                    index={INDEX}
+                    cards={this.props.cards}
+                    lists={this.props.lists}
+                  />
                 );
               })}
               {this.emptyListFunction(snapshot.isDraggingOver)}

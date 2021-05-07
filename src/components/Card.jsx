@@ -37,8 +37,18 @@ const Bubble = styled.div`
 
 export default class Card extends React.Component {
   render() {
-    //const bubbleText = "#" + this.props.id.replace(/^\D+/g, "");
+    let titleNumber = "#";
     const content = this.props.title;
+
+    this.props.cards.map((carduri) => {
+      if (carduri.id === this.props.id) {
+        titleNumber = carduri.id;
+      }
+    });
+
+    titleNumber = titleNumber.replace(/^\D+/g, "");
+
+    const bubbleText = "#" + titleNumber;
 
     return (
       <Draggable draggableId={this.props.id} index={this.props.index}>
@@ -50,7 +60,7 @@ export default class Card extends React.Component {
             isDragging={snapshot.isDragging}
           >
             {console.log("id-ul acestui card este: " + this.props.id)}
-            {<Bubble>{this.props.id}</Bubble>}
+            {<Bubble>{bubbleText}</Bubble>}
             {content}
           </CardStyled>
         )}
