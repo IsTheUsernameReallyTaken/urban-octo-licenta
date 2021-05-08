@@ -50,30 +50,15 @@ export default class List extends React.Component {
   emptyText = "";
 
   getEmptyText = () => {
-    this.props.lists.map((listele) => {
+    this.props.lists.forEach((listele) => {
       if (listele.id === this.props.id) {
         this.emptyText = listele.emptyText;
       }
     });
   };
 
-  emptyListFunction = (isDraggingOverEmptyList) => {
-    let text;
-    this.props.lists.map((listele) => {
-      if (listele.id === this.props.id) {
-        if (listele.hasCards.length === 0) {
-          return (
-            <EmptyDiv isDraggingOverEmptyList={isDraggingOverEmptyList}>
-              {text}
-            </EmptyDiv>
-          );
-        }
-      }
-    });
-  };
-
   getCardsOfThisList = () => {
-    this.props.lists.map((liste) => {
+    this.props.lists.forEach((liste) => {
       if (this.props.id === liste.id) {
         this.listaCarduri = liste.hasCards;
       }
@@ -109,7 +94,7 @@ export default class List extends React.Component {
               {this.getCardsOfThisList()}
               {this.listaCarduri.map((IDCard, index) => {
                 let ID, TITLU, INDEX;
-                this.props.cards.map((carduri) => {
+                this.props.cards.forEach((carduri) => {
                   if (IDCard === carduri.id) {
                     ID = carduri.id;
                     TITLU = carduri.title;
@@ -130,7 +115,20 @@ export default class List extends React.Component {
               })}
 
               {this.getEmptyText()}
-              {this.emptyListFunction(snapshot.isDraggingOver)}
+              {this.props.lists.map((listele) => {
+                let text = "";
+                if (this.props.id === listele.id) {
+                  if (listele.hasCards.length === 0) {
+                    text = listele.emptyText;
+                  }
+                }
+                return (
+                  <EmptyDiv isDraggingOverEmptyList={snapshot.isDraggingOver}>
+                    {text}
+                  </EmptyDiv>
+                );
+              })}
+
               {provided.placeholder}
             </CardsDiv>
 

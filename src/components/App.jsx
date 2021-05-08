@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import List from "./List";
 import WelcomeCard from "./WelcomeCard";
 import { DragDropContext } from "react-beautiful-dnd";
-import initialData from "../initialData";
 import styled from "styled-components";
 
 import firebase from "../firebase";
@@ -14,8 +13,6 @@ const AppContainer = styled.div`
 `;
 
 export default function App() {
-  //const [state, setState] = useState(initialData);
-
   const [lists, setLists] = useState([]);
   const [cards, setCards] = useState([]);
 
@@ -45,11 +42,11 @@ export default function App() {
   }
 
   function onDragEnd(result) {
-    console.log("am facut un drag/drop");
+    console.log("Drag and Drop Yay");
   }
 
-  /*
-  function onDragEnd(result) {
+  function onDragEndTODO(result) {
+    /*
     const { source, destination, draggableId } = result;
 
     if (!destination) {
@@ -83,8 +80,8 @@ export default function App() {
       });
       setState(stateCopy);
     }
+    */
   }
-  */
 
   useEffect(() => {
     getLists();
@@ -96,11 +93,10 @@ export default function App() {
       <WelcomeCard />
       <AppContainer>
         {order.map((listID) => {
-          let titlu, cardIDs;
+          let titlu;
           lists.forEach((liste) => {
             if (liste.id === listID) {
               titlu = liste.title;
-              cardIDs = liste.hasCards;
             }
           });
 

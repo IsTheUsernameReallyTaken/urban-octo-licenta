@@ -40,7 +40,7 @@ export default class Card extends React.Component {
     let titleNumber = "";
     const content = this.props.title;
 
-    this.props.cards.map((carduri) => {
+    this.props.cards.forEach((carduri) => {
       if (carduri.id === this.props.id) {
         titleNumber = carduri.id;
       }
