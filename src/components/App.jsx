@@ -41,11 +41,57 @@ export default function App() {
     });
   }
 
-  function onDragEnd(result) {
-    console.log("Drag and Drop Yay");
+  function updateList(updatedList) {
+    refLists
+      .doc(updatedList.id)
+      .update(updatedList)
+      .catch((err) => {
+        console.error(err);
+      });
   }
 
-  function onDragEndTODO(result) {
+  function onDragEnd(result) {
+    const { source, destination, draggableId } = result;
+
+    if (!destination) {
+      return;
+    }
+
+    if (destination.droppableId === source.droppableId) {
+      if (destination.index === source.index) {
+        return;
+      }
+    }
+
+    if (destination.droppableId === source.droppableId) {
+      let listToUpdate = {};
+      lists.forEach((listele) => {
+        if (destination.droppableId === listele.id) {
+          listToUpdate = listele;
+          listToUpdate.hasCards.splice(source.index, 1);
+          listToUpdate.hasCards.splice(destination.index, 0, draggableId);
+        }
+      });
+      updateList(listToUpdate);
+    } else {
+      let firstListToUpdate,
+        secondListToUpdate = {};
+      lists.forEach((listele) => {
+        if (source.droppableId === listele.id) {
+          firstListToUpdate = listele;
+          firstListToUpdate.hasCards.splice(source.index, 1);
+        }
+        if (destination.droppableId === listele.id) {
+          secondListToUpdate = listele;
+          secondListToUpdate.hasCards.splice(destination.index, 0, draggableId);
+        }
+      });
+      updateList(firstListToUpdate);
+      updateList(secondListToUpdate);
+    }
+  }
+
+  function oldOnDragEnd(result) {
     /*
     const { source, destination, draggableId } = result;
 
