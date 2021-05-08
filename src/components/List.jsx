@@ -42,6 +42,12 @@ const EmptyDiv = styled.div`
   text-align: center;
   transition: color 0.3s linear;
   color: ${(props) => (props.isDraggingOverEmptyList ? "lightsalmon" : "grey")};
+
+  /*
+  border-radius: 7px;
+  border-style: solid;
+  border-width: thin;
+  */
 `;
 
 export default class List extends React.Component {
@@ -121,12 +127,15 @@ export default class List extends React.Component {
                   if (listele.hasCards.length === 0) {
                     text = listele.emptyText;
                   }
+
+                  return text.length === 0 ? (
+                    <div />
+                  ) : (
+                    <EmptyDiv isDraggingOverEmptyList={snapshot.isDraggingOver}>
+                      {text}
+                    </EmptyDiv>
+                  );
                 }
-                return (
-                  <EmptyDiv isDraggingOverEmptyList={snapshot.isDraggingOver}>
-                    {text}
-                  </EmptyDiv>
-                );
               })}
 
               {provided.placeholder}
