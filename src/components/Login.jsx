@@ -5,7 +5,6 @@ import { TextField, Button } from "@material-ui/core";
 
 const Wrapper = styled.div`
   width: 600px;
-  height: 275px;
 
   margin: 20px;
   padding: 20px;
