@@ -1,9 +1,7 @@
-import { React, useState } from "react";
+import { React, useState, useEffect } from "react";
 import styled from "styled-components";
 
 import { TextField, Button } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
-import Icon from "@material-ui/core/Icon";
 
 const Wrapper = styled.div`
   width: 600px;
@@ -38,37 +36,47 @@ const SubmitDiv = styled.div`
   padding: 5px;
 `;
 
-const initialCredentials = {
-  username: "",
-  password: "",
-};
-
 export default function Login() {
-  const [credentials, setCredentials] = useState(initialCredentials);
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [valid, setValid] = useState(false);
 
-  function handleSextChangeHaha() {}
+  function verifyLoginData(username, password) {
+    if (username === "danieml") {
+      if (password === "parola") {
+        return true;
+      } else return false;
+    } else return false;
+  }
+
+  function onSubmit() {
+    const aux1 = document.getElementById("usernameField").value,
+      aux2 = document.getElementById("passwordField").value;
+
+    if (verifyLoginData(aux1, aux2) === true) {
+      console.log("Welcome, " + aux1 + "!");
+    } else {
+      console.log("Login was NOT successful!");
+      console.log("username: " + aux1 + ", parola: " + aux2);
+    }
+  }
 
   return (
     <Wrapper>
-      <TitleDiv>Hello there! Welcome to our (MINE) tiny little app.</TitleDiv>
+      <TitleDiv>
+        <div>Hello there! Welcome to our (MINE) tiny little app.</div>
+      </TitleDiv>
       <form>
         <TextFieldDiv>
-          <TextField
-            variant="outlined"
-            label="Username"
-            name="username"
-            value={credentials.username}
-            onChange={handleSextChangeHaha}
-          />
+          <TextField id="usernameField" variant="outlined" label="Username" />
         </TextFieldDiv>
 
         <TextFieldDiv>
           <TextField
+            id="passwordField"
             variant="outlined"
             label="Password"
-            name="password"
-            value={credentials.password}
-            onChange={handleSextChangeHaha}
+            type="password"
           />
         </TextFieldDiv>
 
@@ -77,11 +85,7 @@ export default function Login() {
             variant="contained"
             color="primary"
             size="large"
-            onClick={function () {
-              console.log("AM APASAT BUTONUL");
-              console.log("Textul din Username: " + credentials.username);
-              console.log("Textul din Password: " + credentials.password);
-            }}
+            onClick={onSubmit}
           >
             LOGIN
           </Button>
