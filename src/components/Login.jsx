@@ -1,5 +1,8 @@
-import { React, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+
+import firebase from "../firebase";
+import "firebase/firestore";
 
 import { TextField, Button } from "@material-ui/core";
 
@@ -36,6 +39,20 @@ const SubmitDiv = styled.div`
 `;
 
 export default function Login() {
+  const [users, setUsers] = useState([]);
+
+  const refUsers = firebase.firestore().collection("usernames");
+
+  function getUsers() {
+    refUsers.onSnapshot((querySnapshot) => {
+      const userItems = [];
+      querySnapshot.forEach((document) => {
+        userItems.push(document.data());
+      });
+      setUsers(userItems);
+    });
+  }
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [valid, setValid] = useState(false);
@@ -60,8 +77,13 @@ export default function Login() {
     }
   }
 
+  useEffect(() => {
+    getUsers();
+  }, []);
+
   return (
     <Wrapper>
+      {console.log(users)}
       <TitleDiv>
         <div>Hello there! Welcome to our (MINE) tiny little app.</div>
       </TitleDiv>
