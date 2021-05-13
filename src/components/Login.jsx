@@ -59,12 +59,16 @@ export default function Login() {
   }
 
   function verifyLoginData(username1, password1) {
-    let toReturn = false;
+    let toReturn = {
+      correctUsername: false,
+      correctPassword: false,
+    };
 
     users.forEach((useri) => {
       if (useri.username === username1) {
+        toReturn.correctUsername = true;
         if (useri.password === password1) {
-          toReturn = true;
+          toReturn.correctPassword = true;
         }
       }
     });
@@ -75,12 +79,23 @@ export default function Login() {
   function onSubmit() {
     const aux1 = document.getElementById("usernameField").value,
       aux2 = document.getElementById("passwordField").value;
+    const result = verifyLoginData(aux1, aux2);
 
-    if (verifyLoginData(aux1, aux2) === true) {
+    if ((result.correctUsername === true) & (result.correctPassword === true)) {
       console.log("Welcome, " + aux1 + "!");
     } else {
-      console.log("Login was NOT successful!");
-      console.log("username: " + aux1 + ", parola: " + aux2);
+      if (
+        (result.correctUsername === true) &
+        (result.correctPassword === false)
+      ) {
+        console.log("The password for " + aux1 + " is incorrect.");
+      }
+      if (
+        (result.correctUsername === false) &
+        (result.correctPassword === false)
+      ) {
+        console.log("There is nobody called " + aux1 + " in our DB.");
+      }
     }
   }
 
