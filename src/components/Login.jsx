@@ -39,6 +39,11 @@ const SubmitDiv = styled.div`
 `;
 
 export default function Login() {
+  /*
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [valid, setValid] = useState(false);
+  */
   const [users, setUsers] = useState([]);
 
   const refUsers = firebase.firestore().collection("usernames");
@@ -53,16 +58,18 @@ export default function Login() {
     });
   }
 
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [valid, setValid] = useState(false);
+  function verifyLoginData(username1, password1) {
+    let toReturn = false;
 
-  function verifyLoginData(username, password) {
-    if (username === "danieml") {
-      if (password === "parola") {
-        return true;
-      } else return false;
-    } else return false;
+    users.forEach((useri) => {
+      if (useri.username === username1) {
+        if (useri.password === password1) {
+          toReturn = true;
+        }
+      }
+    });
+
+    return toReturn;
   }
 
   function onSubmit() {
@@ -83,7 +90,6 @@ export default function Login() {
 
   return (
     <Wrapper>
-      {console.log(users)}
       <TitleDiv>
         <div>Hello there! Welcome to our (MINE) tiny little app.</div>
       </TitleDiv>
