@@ -12,7 +12,7 @@ const AppContainer = styled.div`
   flex-direction: row;
 `;
 
-export default function App() {
+export default function App(props) {
   const [lists, setLists] = useState([]);
   const [cards, setCards] = useState([]);
 
@@ -136,7 +136,7 @@ export default function App() {
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <WelcomeCard />
+      <WelcomeCard username={props.username} />
       <AppContainer>
         {order.map((listID) => {
           let titlu;

@@ -5,6 +5,7 @@ import firebase from "../firebase";
 import "firebase/firestore";
 
 import { TextField, Button } from "@material-ui/core";
+import App from "./App";
 
 const Wrapper = styled.div`
   width: 600px;
@@ -75,6 +76,9 @@ export default function Login() {
   const [passWrong, setPassWrong] = useState(false);
   const [userWrong, setUserWrong] = useState(false);
 
+  const [valid, setValid] = useState(false);
+  const [username, setUsername] = useState("");
+
   const [users, setUsers] = useState([]);
 
   const refUsers = firebase.firestore().collection("usernames");
@@ -115,6 +119,8 @@ export default function Login() {
     if ((result.correctUsername === true) & (result.correctPassword === true)) {
       setPassWrong(false);
       setUserWrong(false);
+      setValid(true);
+      setUsername(aux1);
       console.log("Welcome, " + aux1 + "!");
     } else {
       if (
@@ -140,7 +146,9 @@ export default function Login() {
     getUsers();
   }, []);
 
-  return (
+  return valid ? (
+    <App username={username} />
+  ) : (
     <Wrapper>
       <TitleDiv>
         <div>Hello there! Welcome to our (MINE) tiny little app.</div>

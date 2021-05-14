@@ -15,17 +15,13 @@ const Title = styled.h1`
   color: palevioletred;
 `;
 
-const welcome = "Welcome to our humble little app. ";
-const actually = "(it's just mine, but oh well)";
-
 export default class WelcomeCard extends React.Component {
   render() {
+    const welcome =
+      "Welcome to our humble little app, " + this.props.username + ".";
     return (
       <Wrapper>
-        <Title>
-          {welcome}
-          {actually}
-        </Title>
+        <Title>{welcome}</Title>
       </Wrapper>
     );
   }
