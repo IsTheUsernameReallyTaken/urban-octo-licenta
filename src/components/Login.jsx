@@ -38,12 +38,47 @@ const SubmitDiv = styled.div`
   padding: 5px;
 `;
 
+class PasswordField extends React.Component {
+  render() {
+    return (
+      <TextFieldDiv>
+        <TextField
+          error={this.props.error}
+          helperText={this.props.error ? "Incorrect Password" : ""}
+          id="passwordField"
+          variant="outlined"
+          label="Password"
+          type="password"
+        />
+      </TextFieldDiv>
+    );
+  }
+}
+
+class UsernameField extends React.Component {
+  render() {
+    return (
+      <TextFieldDiv>
+        <TextField
+          error={this.props.error}
+          helperText={this.props.error ? "Username does not exist" : ""}
+          id="usernameField"
+          variant="outlined"
+          label="Username"
+        />
+      </TextFieldDiv>
+    );
+  }
+}
+
 export default function Login() {
   /*
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [valid, setValid] = useState(false);
   */
+  const [passWrong, setPassWrong] = useState(false);
+  const [userWrong, setUserWrong] = useState(false);
+
   const [users, setUsers] = useState([]);
 
   const refUsers = firebase.firestore().collection("usernames");
@@ -82,18 +117,23 @@ export default function Login() {
     const result = verifyLoginData(aux1, aux2);
 
     if ((result.correctUsername === true) & (result.correctPassword === true)) {
+      setPassWrong(false);
+      setUserWrong(false);
       console.log("Welcome, " + aux1 + "!");
     } else {
       if (
         (result.correctUsername === true) &
         (result.correctPassword === false)
       ) {
+        setUserWrong(false);
+        setPassWrong(true);
         console.log("The password for " + aux1 + " is incorrect.");
       }
       if (
         (result.correctUsername === false) &
         (result.correctPassword === false)
       ) {
+        setUserWrong(true);
         console.log("There is nobody called " + aux1 + " in our DB.");
       }
     }
@@ -109,18 +149,8 @@ export default function Login() {
         <div>Hello there! Welcome to our (MINE) tiny little app.</div>
       </TitleDiv>
       <form>
-        <TextFieldDiv>
-          <TextField id="usernameField" variant="outlined" label="Username" />
-        </TextFieldDiv>
-
-        <TextFieldDiv>
-          <TextField
-            id="passwordField"
-            variant="outlined"
-            label="Password"
-            type="password"
-          />
-        </TextFieldDiv>
+        <UsernameField error={userWrong} />
+        <PasswordField error={passWrong} />
 
         <SubmitDiv>
           <Button
