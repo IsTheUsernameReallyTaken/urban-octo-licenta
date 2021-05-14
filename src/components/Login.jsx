@@ -38,6 +38,22 @@ const SubmitDiv = styled.div`
   padding: 5px;
 `;
 
+class UsernameField extends React.Component {
+  render() {
+    return (
+      <TextFieldDiv>
+        <TextField
+          error={this.props.error}
+          helperText={this.props.error ? "Username does not exist" : ""}
+          id="usernameField"
+          variant="outlined"
+          label="Username"
+        />
+      </TextFieldDiv>
+    );
+  }
+}
+
 class PasswordField extends React.Component {
   render() {
     return (
@@ -55,27 +71,7 @@ class PasswordField extends React.Component {
   }
 }
 
-class UsernameField extends React.Component {
-  render() {
-    return (
-      <TextFieldDiv>
-        <TextField
-          error={this.props.error}
-          helperText={this.props.error ? "Username does not exist" : ""}
-          id="usernameField"
-          variant="outlined"
-          label="Username"
-        />
-      </TextFieldDiv>
-    );
-  }
-}
-
 export default function Login() {
-  /*
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  */
   const [passWrong, setPassWrong] = useState(false);
   const [userWrong, setUserWrong] = useState(false);
 
@@ -134,6 +130,7 @@ export default function Login() {
         (result.correctPassword === false)
       ) {
         setUserWrong(true);
+        setPassWrong(false);
         console.log("There is nobody called " + aux1 + " in our DB.");
       }
     }
