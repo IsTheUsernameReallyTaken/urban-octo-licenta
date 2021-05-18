@@ -116,6 +116,7 @@ export default class List extends React.Component {
                     index={INDEX}
                     cards={this.props.cards}
                     lists={this.props.lists}
+                    username={this.props.username}
                     parentList={this.props.id}
                   />
                 );

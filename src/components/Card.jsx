@@ -107,9 +107,24 @@ export default class Card extends React.Component {
     titleNumber = titleNumber.replace(/[^0-9]/g, "");
 
     const bubbleText = "#" + titleNumber;
+    let isDragDisabled = false;
+
+    this.props.cards.forEach((carduri) => {
+      if (carduri.id === this.props.id) {
+        if (carduri.by !== this.props.username) {
+          if (this.props.parentList !== "list-1") {
+            isDragDisabled = true;
+          }
+        }
+      }
+    });
 
     return (
-      <Draggable draggableId={this.props.id} index={this.props.index}>
+      <Draggable
+        draggableId={this.props.id}
+        index={this.props.index}
+        isDragDisabled={isDragDisabled}
+      >
         {(provided, snapshot) => (
           <CardStyled
             {...provided.draggableProps}
