@@ -35,6 +35,13 @@ const Bubble = styled.div`
   margin-bottom: 7px;
 `;
 
+const ByDiv = styled.div`
+  margin: 1px;
+  padding: 1px;
+
+  color: grey;
+`;
+
 export default class Card extends React.Component {
   render() {
     let titleNumber = "";
@@ -45,6 +52,17 @@ export default class Card extends React.Component {
         titleNumber = carduri.id;
       }
     });
+
+    let byUser = "";
+
+    const getByUser = () => {
+      this.props.cards.forEach((carduri) => {
+        if (carduri.id === this.props.id) {
+          byUser = carduri.by;
+          //console.log("pentru cardul " + carduri.id + " avem: by " + byUser);
+        }
+      });
+    };
 
     titleNumber = titleNumber.replace(/[^0-9]/g, "");
 
@@ -61,6 +79,7 @@ export default class Card extends React.Component {
           >
             {<Bubble>{bubbleText}</Bubble>}
             {content}
+            {getByUser()}
           </CardStyled>
         )}
       </Draggable>
