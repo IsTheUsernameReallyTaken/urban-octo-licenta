@@ -54,11 +54,12 @@ export default class Card extends React.Component {
     });
 
     let byUser = "";
-    let timestamp1, timestamp2;
+    let timestamp1, timestamp2, duration;
     var date1, date2;
     let time1 = "",
       time2 = "",
-      duration = "";
+      durationUnit = "",
+      durationString = "";
 
     const whyTF = 60 * 60 * 24 * (3990 - 2021);
 
@@ -83,6 +84,22 @@ export default class Card extends React.Component {
           time2 = date2.toLocaleString("en-GB");
 
           duration = Math.floor(carduri.endTime - carduri.startTime);
+          durationUnit = "seconds";
+
+          if (duration > 60) {
+            duration = duration / 60;
+            durationUnit = "minutes";
+            if (duration > 60) {
+              duration = duration / 60;
+              durationUnit = "hours";
+              if (duration > 24) {
+                duration = duration / 24;
+                durationUnit = "days";
+              }
+            }
+          }
+
+          durationString = duration.toFixed(2) + " " + durationUnit;
         }
       });
     };
@@ -102,8 +119,7 @@ export default class Card extends React.Component {
           >
             {<Bubble>{bubbleText}</Bubble>}
             {content}
-            {getByUser()}
-            {byUser.length !== 0 ? <ByDiv>by: {byUser}</ByDiv> : <div />}
+
             {getDifference()}
             {timestamp1 && !timestamp2 ? (
               <ByDiv>started at: {time1}</ByDiv>
@@ -112,12 +128,15 @@ export default class Card extends React.Component {
             )}
             {timestamp1 && timestamp2 ? (
               <div>
-                <ByDiv>done at: {time2} secs</ByDiv>
-                <ByDiv>duration: {duration} secs</ByDiv>
+                {/*<ByDiv>done at: {time2} secs</ByDiv>*/}
+                <ByDiv>duration: {durationString}</ByDiv>
               </div>
             ) : (
               <div />
             )}
+
+            {getByUser()}
+            {byUser.length !== 0 ? <ByDiv>by: {byUser}</ByDiv> : <div />}
           </CardStyled>
         )}
       </Draggable>
