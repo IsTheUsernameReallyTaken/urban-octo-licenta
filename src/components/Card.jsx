@@ -54,11 +54,35 @@ export default class Card extends React.Component {
     });
 
     let byUser = "";
+    let timestamp1, timestamp2;
+    var date1, date2;
+    let time1 = "",
+      time2 = "",
+      duration = "";
+
+    const whyTF = 60 * 60 * 24 * (3990 - 2021);
 
     const getByUser = () => {
       this.props.cards.forEach((carduri) => {
         if (carduri.id === this.props.id) {
           byUser = carduri.by;
+        }
+      });
+    };
+
+    const getDifference = () => {
+      this.props.cards.forEach((carduri) => {
+        if (carduri.id === this.props.id) {
+          timestamp1 = carduri.startTime.seconds * 1000;
+          timestamp2 = carduri.endTime.seconds * 1000;
+
+          date1 = new Date(timestamp1);
+          date2 = new Date(timestamp2);
+
+          time1 = date1.toLocaleString("en-GB");
+          time2 = date2.toLocaleString("en-GB");
+
+          duration = Math.floor(carduri.endTime - carduri.startTime);
         }
       });
     };
@@ -80,6 +104,20 @@ export default class Card extends React.Component {
             {content}
             {getByUser()}
             {byUser.length !== 0 ? <ByDiv>by: {byUser}</ByDiv> : <div />}
+            {getDifference()}
+            {timestamp1 && !timestamp2 ? (
+              <ByDiv>started at: {time1}</ByDiv>
+            ) : (
+              <div />
+            )}
+            {timestamp1 && timestamp2 ? (
+              <div>
+                <ByDiv>done at: {time2} secs</ByDiv>
+                <ByDiv>duration: {duration} secs</ByDiv>
+              </div>
+            ) : (
+              <div />
+            )}
           </CardStyled>
         )}
       </Draggable>

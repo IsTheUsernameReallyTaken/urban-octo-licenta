@@ -114,6 +114,8 @@ export default function App(props) {
           id: draggableId,
           title: cardTitle,
           by: "",
+          startTime: "",
+          endTime: "",
         };
 
         lists.forEach((listele) => {
@@ -150,6 +152,7 @@ export default function App(props) {
             id: draggableId,
             title: cardTitle,
             by: props.username,
+            startTime: new Date(),
           };
           lists.forEach((listele) => {
             if (source.droppableId === listele.id) {
@@ -170,23 +173,61 @@ export default function App(props) {
           updateList(secondListToUpdate);
           updateCard(cardToUpdate);
         } else {
-          //what to do if lists are different
-          lists.forEach((listele) => {
-            if (source.droppableId === listele.id) {
-              firstListToUpdate = listele;
-              firstListToUpdate.hasCards.splice(source.index, 1);
-            }
-            if (destination.droppableId === listele.id) {
-              secondListToUpdate = listele;
-              secondListToUpdate.hasCards.splice(
-                destination.index,
-                0,
-                draggableId
-              );
-            }
-          });
-          updateList(firstListToUpdate);
-          updateList(secondListToUpdate);
+          if (
+            source.droppableId === "list-2" &&
+            destination.droppableId === "list-3"
+          ) {
+            let cardTitle = "";
+
+            cards.forEach((carduri) => {
+              if (carduri.id === draggableId) {
+                cardTitle = carduri.title;
+              }
+            });
+
+            let cardToUpdate = {
+              id: draggableId,
+              title: cardTitle,
+              by: props.username,
+              endTime: new Date(),
+            };
+            lists.forEach((listele) => {
+              if (source.droppableId === listele.id) {
+                firstListToUpdate = listele;
+                firstListToUpdate.hasCards.splice(source.index, 1);
+              }
+              if (destination.droppableId === listele.id) {
+                secondListToUpdate = listele;
+                secondListToUpdate.hasCards.splice(
+                  destination.index,
+                  0,
+                  draggableId
+                );
+              }
+            });
+
+            updateList(firstListToUpdate);
+            updateList(secondListToUpdate);
+            updateCard(cardToUpdate);
+          } else {
+            //what to do if lists are different
+            lists.forEach((listele) => {
+              if (source.droppableId === listele.id) {
+                firstListToUpdate = listele;
+                firstListToUpdate.hasCards.splice(source.index, 1);
+              }
+              if (destination.droppableId === listele.id) {
+                secondListToUpdate = listele;
+                secondListToUpdate.hasCards.splice(
+                  destination.index,
+                  0,
+                  draggableId
+                );
+              }
+            });
+            updateList(firstListToUpdate);
+            updateList(secondListToUpdate);
+          }
         }
       }
 
