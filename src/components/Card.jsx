@@ -59,7 +59,6 @@ export default class Card extends React.Component {
       this.props.cards.forEach((carduri) => {
         if (carduri.id === this.props.id) {
           byUser = carduri.by;
-          //console.log("pentru cardul " + carduri.id + " avem: by " + byUser);
         }
       });
     };
@@ -80,6 +79,7 @@ export default class Card extends React.Component {
             {<Bubble>{bubbleText}</Bubble>}
             {content}
             {getByUser()}
+            {byUser.length !== 0 ? <ByDiv>by: {byUser}</ByDiv> : <div />}
           </CardStyled>
         )}
       </Draggable>
