@@ -18,6 +18,8 @@ const CardStyled = styled.div`
 
   transition: background 0.3s linear;
   background: ${(props) => (props.isDragging ? "yellowgreen" : "lightcyan")};
+
+  opacity: ${(props) => (props.lowerOpacity ? "0.56" : "1")};
 `;
 
 const Bubble = styled.div`
@@ -108,12 +110,14 @@ export default class Card extends React.Component {
 
     const bubbleText = "#" + titleNumber;
     let isDragDisabled = false;
+    let lowerOpacity = false;
 
     this.props.cards.forEach((carduri) => {
       if (carduri.id === this.props.id) {
         if (carduri.by !== this.props.username) {
           if (this.props.parentList !== "list-1") {
             isDragDisabled = true;
+            lowerOpacity = true;
           }
         }
       }
@@ -131,6 +135,7 @@ export default class Card extends React.Component {
             {...provided.dragHandleProps}
             ref={provided.innerRef}
             isDragging={snapshot.isDragging}
+            lowerOpacity={lowerOpacity}
           >
             {<Bubble>{bubbleText}</Bubble>}
             {content}
