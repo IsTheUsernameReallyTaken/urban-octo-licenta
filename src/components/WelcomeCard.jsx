@@ -8,12 +8,22 @@ const Wrapper = styled.section`
   border-radius: 10px;
   border-style: solid;
   border-width: thin;
+
+  position: relative;
 `;
 
 const Title = styled.h1`
   font-size: 1.7em;
   text-align: center;
   color: palevioletred;
+`;
+
+const ButtonDiv = styled.button`
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  margin: 10px;
+  padding: 4px;
 `;
 
 export default function WelcomeCard(props) {
@@ -23,14 +33,13 @@ export default function WelcomeCard(props) {
   return (
     <Wrapper>
       <Title>{welcome}</Title>
-      <button
+      <ButtonDiv
         onClick={() => {
           setButtonShow(true);
-          console.log("Something");
         }}
       >
         Show puppy up
-      </button>
+      </ButtonDiv>
       <PopUp show={buttonShow} showFunction={setButtonShow} />
     </Wrapper>
   );
