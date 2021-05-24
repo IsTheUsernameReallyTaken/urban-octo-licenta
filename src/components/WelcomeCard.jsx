@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import PopUp from "./PopUp";
 
+import { Button } from "@material-ui/core";
+
 const Wrapper = styled.section`
   padding: 1em;
   background: papayawhip;
@@ -18,12 +20,17 @@ const Title = styled.h1`
   color: palevioletred;
 `;
 
-const ButtonDiv = styled.button`
+const ButtonDiv = styled.div`
   position: absolute;
   bottom: 0;
   right: 0;
+
+  border-radius: 7px;
+  border-style: solid;
+  border-width: thin;
+
   margin: 10px;
-  padding: 4px;
+  background: lightgrey;
 `;
 
 export default function WelcomeCard(props) {
@@ -33,12 +40,16 @@ export default function WelcomeCard(props) {
   return (
     <Wrapper>
       <Title>{welcome}</Title>
-      <ButtonDiv
-        onClick={() => {
-          setButtonShow(true);
-        }}
-      >
-        Show puppy up
+      <ButtonDiv>
+        <Button
+          color="default"
+          size="small"
+          onClick={() => {
+            setButtonShow(true);
+          }}
+        >
+          ADD CARDS
+        </Button>
       </ButtonDiv>
       <PopUp show={buttonShow} showFunction={setButtonShow} />
     </Wrapper>
