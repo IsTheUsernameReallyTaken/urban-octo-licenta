@@ -1,19 +1,30 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 
 import { TextField, Button } from "@material-ui/core";
 
+import firebase from "../firebase";
+import "firebase/firestore";
+
 const WrapperDiv = styled.div`
   position: fixed;
-  top: 0;
-  left: 0;
+  top: 30%;
+  left: 30%;
 
-  width: 100%;
-  height: 100vh;
+  border-radius: 7px;
+  border-style: solid;
+  border-width: thin;
+
+  width: 40%;
+  height: 40vh;
 
   background: white;
 
   padding: 20px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const TitleDiv = styled.div`
@@ -37,12 +48,96 @@ const SubmitDiv = styled.div`
 `;
 
 export default function PopUp(props) {
+  const [lists, setLists] = useState([]);
+  const [cards, setCards] = useState([]);
+
+  const refLists = firebase.firestore().collection("lists");
+  const refCards = firebase.firestore().collection("cards");
+
+  function getLists() {
+    refLists.onSnapshot((querySnapshot) => {
+      const listItems = [];
+      querySnapshot.forEach((document) => {
+        listItems.push(document.data());
+      });
+      setLists(listItems);
+    });
+  }
+
+  function getCards() {
+    refCards.onSnapshot((querySnapshot) => {
+      const cardItems = [];
+      querySnapshot.forEach((document) => {
+        cardItems.push(document.data());
+      });
+      setCards(cardItems);
+    });
+  }
+
+  function addCard(cardID, cardTitle) {
+    const newCard = {
+      id: cardID,
+      title: cardTitle,
+      startTime: "",
+      endTime: "",
+      by: "",
+    };
+
+    refCards
+      .doc(newCard.id)
+      .set(newCard)
+      .catch((err) => {
+        console.error(err);
+      });
+  }
+
+  function onAddCard() {
+    const cardTitle = document.getElementById("cardTitleField").value;
+    const cardID = "card-" + (cards.length + 1);
+
+    addCard(cardID, cardTitle);
+    updateList(cardID);
+  }
+
+  function getCardsOfList1() {
+    let newHasCards = [];
+    lists.forEach((listele) => {
+      if (listele.id === "list-1") {
+        newHasCards = listele.hasCards;
+      }
+    });
+    return newHasCards;
+  }
+
+  function updateList(cardID) {
+    let listToUpdate = {};
+    lists.forEach((listele) => {
+      if (listele.id === "list-1") {
+        listToUpdate = listele;
+      }
+    });
+
+    listToUpdate.hasCards[listToUpdate.hasCards.length + 1] = cardID;
+
+    refLists
+      .doc(listToUpdate.id)
+      .update(listToUpdate)
+      .catch((err) => {
+        console.error(err);
+      });
+  }
+
+  useEffect(() => {
+    getCards();
+    getLists();
+  }, []);
+
   return props.show ? (
     <WrapperDiv>
-      <TitleDiv>
-        <div>Insert a title for the card you'd like to add</div>
-      </TitleDiv>
       <form>
+        <TitleDiv>
+          <div>Insert a title for the card you'd like to add</div>
+        </TitleDiv>
         <TextFieldDiv>
           <TextField
             id="cardTitleField"
@@ -58,12 +153,7 @@ export default function PopUp(props) {
               color="primary"
               size="large"
               onClick={() => {
-                const cardTitle =
-                  document.getElementById("cardTitleField").value;
-
-                console.log(
-                  "HOORAY, adaugam un card cu titlul " + cardTitle + "."
-                );
+                onAddCard();
               }}
             >
               ADD CARD
@@ -79,7 +169,7 @@ export default function PopUp(props) {
                 props.showFunction(false);
               }}
             >
-              DISCARD
+              EXIT
             </Button>
           </SubmitDiv>
         </ButtonsFlexDiv>
