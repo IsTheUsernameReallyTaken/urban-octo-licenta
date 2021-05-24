@@ -146,11 +146,12 @@ export default function Login() {
     getUsers();
   }, []);
 
-  return valid ? (
-    <App username={username} />
+  return true ? (
+    <App username={"daniel.dumitru"} />
   ) : (
-    //return true ? (
-    //  <App username={"daniel"} />
+    //return valid ? (
+    //  <App username={username} />
+    // ) : (
     <Wrapper>
       <TitleDiv>
         <div>Hello there! Welcome to our (MINE) tiny little app.</div>

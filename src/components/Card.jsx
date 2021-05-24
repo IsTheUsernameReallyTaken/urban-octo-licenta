@@ -17,9 +17,14 @@ const CardStyled = styled.div`
   font-weight: normal;
 
   transition: background 0.3s linear;
-  background: ${(props) => (props.isDragging ? "yellowgreen" : "lightcyan")};
+  background: ${(props) =>
+    props.isDragging
+      ? "yellowgreen"
+      : props.lowerOpacity
+      ? "lightgrey"
+      : "lightcyan"};
 
-  opacity: ${(props) => (props.lowerOpacity ? "0.56" : "1")};
+  //opacity: ${(props) => (props.lowerOpacity ? "0.56" : "1")};
 `;
 
 const Bubble = styled.div`

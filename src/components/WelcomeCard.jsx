@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
+import PopUp from "./PopUp";
 
 const Wrapper = styled.section`
   padding: 1em;
@@ -15,14 +16,22 @@ const Title = styled.h1`
   color: palevioletred;
 `;
 
-export default class WelcomeCard extends React.Component {
-  render() {
-    const welcome =
-      "Welcome to our humble little app, " + this.props.username + ".";
-    return (
-      <Wrapper>
-        <Title>{welcome}</Title>
-      </Wrapper>
-    );
-  }
+export default function WelcomeCard(props) {
+  const [buttonShow, setButtonShow] = useState(false);
+
+  const welcome = "Welcome to our humble little app, " + props.username + ".";
+  return (
+    <Wrapper>
+      <Title>{welcome}</Title>
+      <button
+        onClick={() => {
+          setButtonShow(true);
+          console.log("Something");
+        }}
+      >
+        Show puppy up
+      </button>
+      <PopUp show={buttonShow} showFunction={setButtonShow} />
+    </Wrapper>
+  );
 }
