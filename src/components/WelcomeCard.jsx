@@ -20,7 +20,7 @@ const Title = styled.h1`
   color: palevioletred;
 `;
 
-const ButtonDiv = styled.div`
+const ButtonDiv = styled.button`
   position: absolute;
   bottom: 0;
   right: 0;
@@ -30,6 +30,7 @@ const ButtonDiv = styled.div`
   border-width: thin;
 
   margin: 10px;
+  padding: 7px;
   background: lightgrey;
 `;
 
@@ -40,16 +41,14 @@ export default function WelcomeCard(props) {
   return (
     <Wrapper>
       <Title>{welcome}</Title>
-      <ButtonDiv>
-        <Button
-          color="default"
-          size="small"
-          onClick={() => {
-            setButtonShow(true);
-          }}
-        >
-          ADD CARDS
-        </Button>
+      <ButtonDiv
+        color="default"
+        size="small"
+        onClick={() => {
+          setButtonShow(true);
+        }}
+      >
+        Add Cards
       </ButtonDiv>
       <PopUp show={buttonShow} showFunction={setButtonShow} />
     </Wrapper>
