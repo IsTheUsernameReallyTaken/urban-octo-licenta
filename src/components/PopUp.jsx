@@ -91,40 +91,37 @@ export default function PopUp(props) {
       });
   }
 
+  function updateList(updatedList) {
+    refLists
+      .doc(updatedList.id)
+      .update(updatedList)
+      .catch((err) => {
+        console.error(err);
+      });
+  }
+
   function onAddCard() {
     const cardTitle = document.getElementById("cardTitleField").value;
+
+    if (cardTitle.length == 0) {
+      return;
+    }
+
     const cardID = "card-" + (cards.length + 1);
 
-    addCard(cardID, cardTitle);
-    updateList(cardID);
-  }
-
-  function getCardsOfList1() {
-    let newHasCards = [];
-    lists.forEach((listele) => {
-      if (listele.id === "list-1") {
-        newHasCards = listele.hasCards;
-      }
-    });
-    return newHasCards;
-  }
-
-  function updateList(cardID) {
     let listToUpdate = {};
     lists.forEach((listele) => {
       if (listele.id === "list-1") {
         listToUpdate = listele;
+        console.log(listele);
       }
     });
 
-    listToUpdate.hasCards[listToUpdate.hasCards.length + 1] = cardID;
+    listToUpdate.hasCards[listToUpdate.hasCards.length] = cardID;
+    console.log(listToUpdate);
 
-    refLists
-      .doc(listToUpdate.id)
-      .update(listToUpdate)
-      .catch((err) => {
-        console.error(err);
-      });
+    addCard(cardID, cardTitle);
+    updateList(listToUpdate);
   }
 
   useEffect(() => {
