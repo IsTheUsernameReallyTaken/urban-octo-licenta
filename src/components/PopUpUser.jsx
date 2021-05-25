@@ -14,8 +14,6 @@ import {
   FormHelperText,
 } from "@material-ui/core";
 
-import { makeStyles } from "@material-ui/core/styles";
-
 import firebase from "../firebase";
 import "firebase/firestore";
 
@@ -60,25 +58,14 @@ const SubmitDiv = styled.div`
   padding: 5px;
 `;
 
-const useStyles = makeStyles((theme) => ({
-  formControl: {
-    margin: theme.spacing(1),
-    minWidth: 120,
-  },
-  selectEmpty: {
-    marginTop: theme.spacing(2),
-  },
-}));
-
 export default function PopUpUser(props) {
-  const classes = useStyles();
   const [usernameTaken, setUsernameTaken] = useState(false);
   const [usernameEmpty, setUsernameEmpty] = useState(false);
   const [nameEmpty, setNameEmpty] = useState(false);
   const [surnameEmpty, setSurnameEmpty] = useState(false);
   const [passwordEmpty, setPasswordEmpty] = useState(false);
-  //const [deptEmpty, setDeptEmpty] = useState(false);
-  const [nonExistentDept, setNonExistentDept] = useState(false);
+  const [deptEmpty, setDeptEmpty] = useState(false);
+  const [adminRights, setAdminRights] = useState(false);
 
   const [selectedDept, setSelectedDept] = useState("");
   const [newDept, setNewDept] = useState(false);
@@ -103,7 +90,8 @@ export default function PopUpUser(props) {
     const name = document.getElementById("nameField").value;
     const surname = document.getElementById("surnameField").value;
     const password = document.getElementById("passwordField").value;
-    //const dept = document.getElementById("deptField").value;
+    let dept;
+    let id;
 
     let foundTakenUsername = false;
 
@@ -148,15 +136,33 @@ export default function PopUpUser(props) {
       setPasswordEmpty(false);
     }
 
-    {
-      /*
+    if (newDept === true) {
+      dept = document.getElementById("deptField").value;
       if (dept.length === 0) {
         setDeptEmpty(true);
         return;
       } else {
         setDeptEmpty(false);
       }
-    */
+    }
+
+    console.log("username: " + username);
+
+    if (adminRights) {
+      id = "admin-" + (users.length + 1);
+    } else {
+      id = "user-" + (users.length + 1);
+    }
+
+    console.log("id:" + id);
+
+    console.log("name: " + name);
+    console.log("surname: " + surname);
+    console.log("password: " + password);
+    if (newDept) {
+      console.log("dept: " + dept);
+    } else {
+      console.log("dept:" + selectedDept);
     }
   }
 
@@ -169,8 +175,8 @@ export default function PopUpUser(props) {
 
     departamente = Array.from(new Set(departamente));
 
-    console.log("Departamentele sunt ");
-    console.log(departamente);
+    //console.log("Departamentele sunt ");
+    //console.log(departamente);
 
     return departamente;
   }
@@ -200,7 +206,6 @@ export default function PopUpUser(props) {
             label="Username"
           />
         </TextFieldDiv>
-
         <TextFieldDiv>
           <TextField
             error={nameEmpty}
@@ -210,7 +215,6 @@ export default function PopUpUser(props) {
             label="Name"
           />
         </TextFieldDiv>
-
         <TextFieldDiv>
           <TextField
             error={surnameEmpty}
@@ -220,7 +224,6 @@ export default function PopUpUser(props) {
             label="Surname"
           />
         </TextFieldDiv>
-
         <TextFieldDiv>
           <TextField
             error={passwordEmpty}
@@ -239,28 +242,40 @@ export default function PopUpUser(props) {
           />
         </TextFieldDiv>
 
-        <TextFieldDiv>
-          <FormControl style={{ minWidth: "62%" }} variant="outlined">
-            <InputLabel id="deptSelect">Department</InputLabel>
-            <Select
-              labelId="deptSelect"
-              id="select"
-              label="Department"
-              onChange={(event) => {
-                console.log("Ati ales valoarea ");
-                console.log(event.target.value);
+        {!newDept ? (
+          <TextFieldDiv>
+            <FormControl style={{ minWidth: "62%" }} variant="outlined">
+              <InputLabel id="deptSelect">Department</InputLabel>
+              <Select
+                labelId="deptSelect"
+                id="select"
+                label="Department"
+                onChange={(event) => {
+                  //console.log("Ati ales valoarea ");
+                  //console.log(event.target.value);
+                  setSelectedDept(event.target.value);
+                }}
+              >
+                {getDepts().map((departamente) => {
+                  return (
+                    <MenuItem key={departamente} value={departamente}>
+                      {departamente}
+                    </MenuItem>
+                  );
+                })}
+              </Select>
+            </FormControl>
+            <Checkbox
+              onChange={() => {
+                setNewDept(!newDept);
               }}
-            >
-              {getDepts().map((departamente) => {
-                return (
-                  <MenuItem key={departamente} value={departamente}>
-                    {departamente}
-                  </MenuItem>
-                );
-              })}
-            </Select>
-          </FormControl>
-        </TextFieldDiv>
+              id="newDeptCheckbox1"
+              color="default"
+            />
+          </TextFieldDiv>
+        ) : (
+          <div />
+        )}
         {/*
             <FormControlLabel
               control={
@@ -269,7 +284,6 @@ export default function PopUpUser(props) {
               label="New department?"
             />
             */}
-
         {/*
           <FormControl variant="outlined" className={classes.formControl}>
             <InputLabel id="demo-simple-select-outlined-label">Age</InputLabel>
@@ -287,23 +301,33 @@ export default function PopUpUser(props) {
             </Select>
           </FormControl>
         */}
-
-        {/*
+        {newDept ? (
           <TextFieldDiv>
             <TextField
               error={deptEmpty}
               helperText={deptEmpty ? "Department ID cannot be empty" : ""}
               id="deptField"
               variant="outlined"
-              label="Department ID"
+              label="New Department"
+            />
+            <Checkbox
+              onChange={() => {
+                setNewDept(!newDept);
+              }}
+              id="newDeptCheckbox2"
+              color="default"
             />
           </TextFieldDiv>
-        */}
+        ) : (
+          <div />
+        )}
         <TextFieldDiv>
           <FormControlLabel
             control={
               <Checkbox
-                onChange={() => {}}
+                onChange={() => {
+                  setAdminRights(!adminRights);
+                }}
                 id="adminCheckbox"
                 color="default"
               />
@@ -311,7 +335,6 @@ export default function PopUpUser(props) {
             label="Administrator rights?"
           />
         </TextFieldDiv>
-
         <ButtonsFlexDiv>
           <SubmitDiv>
             <Button
