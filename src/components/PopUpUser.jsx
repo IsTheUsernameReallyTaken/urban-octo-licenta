@@ -336,10 +336,6 @@ export default function PopUpUser(props) {
             />
           </TextFieldDiv>
         ) : (
-          <div />
-        )}
-
-        {newDept ? (
           <TextFieldDiv>
             <TextField
               error={deptError}
@@ -356,9 +352,8 @@ export default function PopUpUser(props) {
               color="default"
             />
           </TextFieldDiv>
-        ) : (
-          <div />
         )}
+
         <TextFieldDiv>
           <FormControlLabel
             control={
