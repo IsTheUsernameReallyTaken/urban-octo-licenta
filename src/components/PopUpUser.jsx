@@ -7,6 +7,10 @@ import {
   Checkbox,
   FormControlLabel,
   Tooltip,
+  Select,
+  MenuItem,
+  FormControl,
+  InputLabel,
 } from "@material-ui/core";
 
 import firebase from "../firebase";
@@ -198,6 +202,16 @@ export default function PopUpUser(props) {
             id="passCheckBox"
             color="default"
           />
+        </TextFieldDiv>
+
+        <TextFieldDiv>
+          <FormControl variant="outlined">
+            <Select>
+              <MenuItem value={10}>Ten</MenuItem>
+              <MenuItem value={20}>Twenty</MenuItem>
+              <MenuItem value={30}>Thirty</MenuItem>
+            </Select>
+          </FormControl>
         </TextFieldDiv>
 
         <TextFieldDiv>
