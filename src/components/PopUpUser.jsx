@@ -59,8 +59,9 @@ const SubmitDiv = styled.div`
 `;
 
 export default function PopUpUser(props) {
-  const [usernameTaken, setUsernameTaken] = useState(false);
-  const [usernameEmpty, setUsernameEmpty] = useState(false);
+  const [usernameError, setUsernameError] = useState(false);
+  const [usernameErrorMessage, setUsernameErrorMessage] = useState("");
+
   const [nameEmpty, setNameEmpty] = useState(false);
   const [surnameEmpty, setSurnameEmpty] = useState(false);
   const [passwordEmpty, setPasswordEmpty] = useState(false);
@@ -98,10 +99,12 @@ export default function PopUpUser(props) {
     let foundTakenUsername = false;
 
     if (username.length === 0) {
-      setUsernameEmpty(true);
+      setUsernameError(true);
+      setUsernameErrorMessage("Username cannot be empty");
       return;
     } else {
-      setUsernameEmpty(false);
+      setUsernameError(false);
+      setUsernameErrorMessage("");
     }
 
     users.forEach((useri) => {
@@ -111,10 +114,12 @@ export default function PopUpUser(props) {
     });
 
     if (foundTakenUsername == true) {
-      setUsernameTaken(true);
+      setUsernameError(true);
+      setUsernameErrorMessage("Username is already taken");
       return;
     } else {
-      setUsernameTaken(false);
+      setUsernameError(false);
+      setUsernameErrorMessage("");
     }
 
     if (name.length === 0) {
@@ -169,25 +174,27 @@ export default function PopUpUser(props) {
       }
     }
 
-    console.log("username: " + username);
-
     if (adminRights) {
       id = "admin-" + (users.length + 1);
     } else {
       id = "user-" + (users.length + 1);
     }
 
-    console.log("id:" + id);
+    let finalDept = "";
 
+    if (newDept) {
+      dept = "dept-" + dept;
+      finalDept = dept;
+    } else {
+      finalDept = selectedDept;
+    }
+
+    console.log("username: " + username);
+    console.log("id:" + id);
     console.log("name: " + name);
     console.log("surname: " + surname);
     console.log("password: " + password);
-    if (newDept) {
-      dept = "dept-" + dept;
-      console.log("dept: " + dept);
-    } else {
-      console.log("dept:" + selectedDept);
-    }
+    console.log("dept: " + finalDept);
   }
 
   function getDepts() {
@@ -217,14 +224,8 @@ export default function PopUpUser(props) {
         </TitleDiv>
         <TextFieldDiv>
           <TextField
-            error={usernameEmpty || usernameTaken}
-            helperText={
-              usernameEmpty
-                ? "Username cannot be empty"
-                : usernameTaken
-                ? "Username is already taken"
-                : ""
-            }
+            error={usernameError}
+            helperText={usernameError ? usernameErrorMessage : ""}
             id="usernameField"
             variant="outlined"
             label="Username"
