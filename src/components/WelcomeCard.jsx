@@ -38,7 +38,7 @@ const ButtonDiv = styled.div`
 
 export default function WelcomeCard(props) {
   const [cardsButtonShow, setCardsButtonShow] = useState(false);
-  const [usersButtonShow, setUsersButtonShow] = useState(false);
+  const [usersButtonShow, setUsersButtonShow] = useState(true);
 
   const welcome = "Welcome to our humble little app, " + props.username + ".";
   return (

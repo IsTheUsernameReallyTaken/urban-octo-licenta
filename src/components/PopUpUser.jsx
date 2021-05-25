@@ -11,7 +11,10 @@ import {
   MenuItem,
   FormControl,
   InputLabel,
+  FormHelperText,
 } from "@material-ui/core";
+
+import { makeStyles } from "@material-ui/core/styles";
 
 import firebase from "../firebase";
 import "firebase/firestore";
@@ -57,15 +60,28 @@ const SubmitDiv = styled.div`
   padding: 5px;
 `;
 
+const useStyles = makeStyles((theme) => ({
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120,
+  },
+  selectEmpty: {
+    marginTop: theme.spacing(2),
+  },
+}));
+
 export default function PopUpUser(props) {
+  const classes = useStyles();
   const [usernameTaken, setUsernameTaken] = useState(false);
   const [usernameEmpty, setUsernameEmpty] = useState(false);
   const [nameEmpty, setNameEmpty] = useState(false);
   const [surnameEmpty, setSurnameEmpty] = useState(false);
   const [passwordEmpty, setPasswordEmpty] = useState(false);
-  const [deptEmpty, setDeptEmpty] = useState(false);
+  //const [deptEmpty, setDeptEmpty] = useState(false);
   const [nonExistentDept, setNonExistentDept] = useState(false);
 
+  const [selectedDept, setSelectedDept] = useState("");
+  const [newDept, setNewDept] = useState(false);
   const [hiddenPass, setHiddenPass] = useState(true);
 
   const [users, setUsers] = useState([]);
@@ -132,11 +148,15 @@ export default function PopUpUser(props) {
       setPasswordEmpty(false);
     }
 
-    if (dept.length === 0) {
-      setDeptEmpty(true);
-      return;
-    } else {
-      setDeptEmpty(false);
+    {
+      /*
+      if (dept.length === 0) {
+        setDeptEmpty(true);
+        return;
+      } else {
+        setDeptEmpty(false);
+      }
+    */
     }
   }
 
@@ -220,25 +240,65 @@ export default function PopUpUser(props) {
         </TextFieldDiv>
 
         <TextFieldDiv>
-          <FormControl variant="outlined">
-            <Select>
+          <FormControl style={{ minWidth: "62%" }} variant="outlined">
+            <InputLabel id="deptSelect">Department</InputLabel>
+            <Select
+              labelId="deptSelect"
+              id="select"
+              label="Department"
+              onChange={(event) => {
+                console.log("Ati ales valoarea ");
+                console.log(event.target.value);
+              }}
+            >
               {getDepts().map((departamente) => {
-                return <MenuItem key={departamente}>{departamente}</MenuItem>;
+                return (
+                  <MenuItem key={departamente} value={departamente}>
+                    {departamente}
+                  </MenuItem>
+                );
               })}
             </Select>
           </FormControl>
         </TextFieldDiv>
+        {/*
+            <FormControlLabel
+              control={
+                <Checkbox onChange={() => {}} id="newDeptID" color="default" />
+              }
+              label="New department?"
+            />
+            */}
 
-        <TextFieldDiv>
-          <TextField
-            error={deptEmpty}
-            helperText={deptEmpty ? "Department ID cannot be empty" : ""}
-            id="deptField"
-            variant="outlined"
-            label="Department ID"
-          />
-        </TextFieldDiv>
+        {/*
+          <FormControl variant="outlined" className={classes.formControl}>
+            <InputLabel id="demo-simple-select-outlined-label">Age</InputLabel>
+            <Select
+              labelId="demo-simple-select-outlined-label"
+              id="demo-simple-select-outlined"
+              label="Age"
+            >
+              <MenuItem value="">
+                <em>None</em>
+              </MenuItem>
+              <MenuItem value={10}>Ten</MenuItem>
+              <MenuItem value={20}>Twenty</MenuItem>
+              <MenuItem value={30}>Thirty</MenuItem>
+            </Select>
+          </FormControl>
+        */}
 
+        {/*
+          <TextFieldDiv>
+            <TextField
+              error={deptEmpty}
+              helperText={deptEmpty ? "Department ID cannot be empty" : ""}
+              id="deptField"
+              variant="outlined"
+              label="Department ID"
+            />
+          </TextFieldDiv>
+        */}
         <TextFieldDiv>
           <FormControlLabel
             control={
