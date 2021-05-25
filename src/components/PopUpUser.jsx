@@ -64,9 +64,11 @@ export default function PopUpUser(props) {
   const [nameEmpty, setNameEmpty] = useState(false);
   const [surnameEmpty, setSurnameEmpty] = useState(false);
   const [passwordEmpty, setPasswordEmpty] = useState(false);
-  const [deptEmpty, setDeptEmpty] = useState(false);
-  const [adminRights, setAdminRights] = useState(false);
 
+  const [deptError, setDeptError] = useState(false);
+  const [deptErrorMessage, setDeptErrorMessage] = useState("");
+
+  const [adminRights, setAdminRights] = useState(false);
   const [selectedDept, setSelectedDept] = useState("");
   const [newDept, setNewDept] = useState(false);
   const [hiddenPass, setHiddenPass] = useState(true);
@@ -139,10 +141,12 @@ export default function PopUpUser(props) {
     if (newDept === true) {
       dept = document.getElementById("deptField").value;
       if (dept.length === 0) {
-        setDeptEmpty(true);
+        setDeptError(true);
+        setDeptErrorMessage("Dept. ID cannot be empty");
         return;
       } else {
-        setDeptEmpty(false);
+        setDeptError(false);
+        setDeptErrorMessage("");
       }
     }
 
@@ -160,7 +164,24 @@ export default function PopUpUser(props) {
     console.log("surname: " + surname);
     console.log("password: " + password);
     if (newDept) {
-      console.log("dept: " + dept);
+      if (dept.replace(/[^0-9]/g, "") != dept) {
+        console.log("Va rugam alegeti doar un id.");
+
+        //aici ai ramas unde trebuie sa configurezi mesajele de eroare pentru departamente
+      } else {
+        let departamentulExistaDeja = false;
+        let sirDepartamente = getDepts();
+        sirDepartamente.forEach((toateDepartamentele) => {
+          if (toateDepartamentele === "dept-" + dept) {
+            departamentulExistaDeja = true;
+          }
+        });
+        if (departamentulExistaDeja) {
+          console.log("Exista deja departamentul ales");
+        } else {
+          console.log("dept: " + dept);
+        }
+      }
     } else {
       console.log("dept:" + selectedDept);
     }
@@ -276,36 +297,12 @@ export default function PopUpUser(props) {
         ) : (
           <div />
         )}
-        {/*
-            <FormControlLabel
-              control={
-                <Checkbox onChange={() => {}} id="newDeptID" color="default" />
-              }
-              label="New department?"
-            />
-            */}
-        {/*
-          <FormControl variant="outlined" className={classes.formControl}>
-            <InputLabel id="demo-simple-select-outlined-label">Age</InputLabel>
-            <Select
-              labelId="demo-simple-select-outlined-label"
-              id="demo-simple-select-outlined"
-              label="Age"
-            >
-              <MenuItem value="">
-                <em>None</em>
-              </MenuItem>
-              <MenuItem value={10}>Ten</MenuItem>
-              <MenuItem value={20}>Twenty</MenuItem>
-              <MenuItem value={30}>Thirty</MenuItem>
-            </Select>
-          </FormControl>
-        */}
+
         {newDept ? (
           <TextFieldDiv>
             <TextField
-              error={deptEmpty}
-              helperText={deptEmpty ? "Department ID cannot be empty" : ""}
+              error={deptError}
+              helperText={deptError ? deptErrorMessage : ""}
               id="deptField"
               variant="outlined"
               label="New Department"
