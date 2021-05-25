@@ -62,7 +62,7 @@ export default function PopUpUser(props) {
   const [deptEmpty, setDeptEmpty] = useState(false);
   const [nonExistentDept, setNonExistentDept] = useState(false);
 
-  const [hiddenPass, setHiddenPass] = useState(false);
+  const [hiddenPass, setHiddenPass] = useState(true);
 
   const [users, setUsers] = useState([]);
 
@@ -191,16 +191,13 @@ export default function PopUpUser(props) {
             label="Password"
             type={hiddenPass ? "password" : ""}
           />
-          <div>
-            <Checkbox
-              onChange={() => {
-                console.log("am apasat checkboxul");
-                setHiddenPass(!hiddenPass);
-              }}
-              id="adminCheckbox"
-              color="default"
-            />
-          </div>
+          <Checkbox
+            onChange={() => {
+              setHiddenPass(!hiddenPass);
+            }}
+            id="passCheckBox"
+            color="default"
+          />
         </TextFieldDiv>
 
         <TextFieldDiv>
