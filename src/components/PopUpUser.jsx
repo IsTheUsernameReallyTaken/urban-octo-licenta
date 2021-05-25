@@ -88,6 +88,15 @@ export default function PopUpUser(props) {
     });
   }
 
+  function addUser(userToAdd) {
+    refUsers
+      .doc(userToAdd.id)
+      .set(userToAdd)
+      .catch((err) => {
+        console.error(err);
+      });
+  }
+
   function onUserAdd() {
     const username = document.getElementById("usernameField").value;
     const name = document.getElementById("nameField").value;
@@ -222,12 +231,29 @@ export default function PopUpUser(props) {
       finalDept = selectedDept;
     }
 
-    console.log("username: " + username);
-    console.log("id:" + id);
-    console.log("name: " + name);
-    console.log("surname: " + surname);
-    console.log("password: " + password);
-    console.log("dept: " + finalDept);
+    {
+      /*
+      console.log("username: " + username);
+      console.log("id:" + id);
+      console.log("name: " + name);
+      console.log("surname: " + surname);
+      console.log("password: " + password);
+      console.log("dept: " + finalDept);
+    */
+    }
+
+    const userToAdd = {
+      department: finalDept,
+      email: "",
+      id: id,
+      name: name,
+      password: password,
+      surname: surname,
+      username: username,
+    };
+
+    //console.log(userToAdd);
+    addUser(userToAdd);
   }
 
   function getDepts() {
@@ -238,9 +264,6 @@ export default function PopUpUser(props) {
     }
 
     departamente = Array.from(new Set(departamente));
-
-    //console.log("Departamentele sunt ");
-    //console.log(departamente);
 
     return departamente;
   }
