@@ -140,6 +140,21 @@ export default function PopUpUser(props) {
     }
   }
 
+  function getDepts() {
+    let departamente = [];
+
+    for (let i = 0; i < users.length; i++) {
+      departamente[departamente.length] = users[i].department;
+    }
+
+    departamente = Array.from(new Set(departamente));
+
+    console.log("Departamentele sunt ");
+    console.log(departamente);
+
+    return departamente;
+  }
+
   useEffect(() => {
     getUsers();
   }, []);
@@ -207,9 +222,9 @@ export default function PopUpUser(props) {
         <TextFieldDiv>
           <FormControl variant="outlined">
             <Select>
-              <MenuItem value={10}>Ten</MenuItem>
-              <MenuItem value={20}>Twenty</MenuItem>
-              <MenuItem value={30}>Thirty</MenuItem>
+              {getDepts().map((departamente) => {
+                return <MenuItem key={departamente}>{departamente}</MenuItem>;
+              })}
             </Select>
           </FormControl>
         </TextFieldDiv>
