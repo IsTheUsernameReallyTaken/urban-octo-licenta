@@ -101,6 +101,12 @@ export default function PopUpUser(props) {
     if (username.length === 0) {
       setUsernameError(true);
       setUsernameErrorMessage("Username cannot be empty");
+      //
+      setNameEmpty(false);
+      setSurnameEmpty(false);
+      setPasswordEmpty(false);
+      setDeptError(false);
+      setDeptErrorMessage("");
       return;
     } else {
       setUsernameError(false);
@@ -116,6 +122,12 @@ export default function PopUpUser(props) {
     if (foundTakenUsername == true) {
       setUsernameError(true);
       setUsernameErrorMessage("Username is already taken");
+      //
+      setNameEmpty(false);
+      setSurnameEmpty(false);
+      setPasswordEmpty(false);
+      setDeptError(false);
+      setDeptErrorMessage("");
       return;
     } else {
       setUsernameError(false);
@@ -124,6 +136,11 @@ export default function PopUpUser(props) {
 
     if (name.length === 0) {
       setNameEmpty(true);
+      //
+      setSurnameEmpty(false);
+      setPasswordEmpty(false);
+      setDeptError(false);
+      setDeptErrorMessage("");
       return;
     } else {
       setNameEmpty(false);
@@ -131,6 +148,10 @@ export default function PopUpUser(props) {
 
     if (surname.length === 0) {
       setSurnameEmpty(true);
+      //
+      setPasswordEmpty(false);
+      setDeptError(false);
+      setDeptErrorMessage("");
       return;
     } else {
       setSurnameEmpty(false);
@@ -138,6 +159,9 @@ export default function PopUpUser(props) {
 
     if (password.length === 0) {
       setPasswordEmpty(true);
+      //
+      setDeptError(false);
+      setDeptErrorMessage("");
       return;
     } else {
       setPasswordEmpty(false);
@@ -171,6 +195,15 @@ export default function PopUpUser(props) {
             setDeptErrorMessage("");
           }
         }
+      }
+    } else {
+      if (selectedDept === "") {
+        setDeptError(true);
+        setDeptErrorMessage("");
+        return;
+      } else {
+        setDeptError(false);
+        setDeptErrorMessage("");
       }
     }
 
@@ -269,7 +302,11 @@ export default function PopUpUser(props) {
 
         {!newDept ? (
           <TextFieldDiv>
-            <FormControl style={{ minWidth: "62%" }} variant="outlined">
+            <FormControl
+              style={{ minWidth: "62%" }}
+              variant="outlined"
+              error={deptError}
+            >
               <InputLabel id="deptSelect">Department</InputLabel>
               <Select
                 labelId="deptSelect"
