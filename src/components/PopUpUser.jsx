@@ -145,8 +145,27 @@ export default function PopUpUser(props) {
         setDeptErrorMessage("Dept. ID cannot be empty");
         return;
       } else {
-        setDeptError(false);
-        setDeptErrorMessage("");
+        if (dept.replace(/[^0-9]/g, "") != dept) {
+          setDeptError(true);
+          setDeptErrorMessage("Please only submit the ID number");
+          return;
+        } else {
+          let departamentulExistaDeja = false;
+          let sirDepartamente = getDepts();
+          sirDepartamente.forEach((toateDepartamentele) => {
+            if (toateDepartamentele === "dept-" + dept) {
+              departamentulExistaDeja = true;
+            }
+          });
+          if (departamentulExistaDeja) {
+            setDeptError(true);
+            setDeptErrorMessage("This deparment already exists");
+            return;
+          } else {
+            setDeptError(false);
+            setDeptErrorMessage("");
+          }
+        }
       }
     }
 
@@ -164,24 +183,8 @@ export default function PopUpUser(props) {
     console.log("surname: " + surname);
     console.log("password: " + password);
     if (newDept) {
-      if (dept.replace(/[^0-9]/g, "") != dept) {
-        console.log("Va rugam alegeti doar un id.");
-
-        //aici ai ramas unde trebuie sa configurezi mesajele de eroare pentru departamente
-      } else {
-        let departamentulExistaDeja = false;
-        let sirDepartamente = getDepts();
-        sirDepartamente.forEach((toateDepartamentele) => {
-          if (toateDepartamentele === "dept-" + dept) {
-            departamentulExistaDeja = true;
-          }
-        });
-        if (departamentulExistaDeja) {
-          console.log("Exista deja departamentul ales");
-        } else {
-          console.log("dept: " + dept);
-        }
-      }
+      dept = "dept-" + dept;
+      console.log("dept: " + dept);
     } else {
       console.log("dept:" + selectedDept);
     }
