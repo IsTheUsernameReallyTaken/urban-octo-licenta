@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import PopUp from "./PopUp";
+import PopUpCard from "./PopUpCard";
+import PopUpUser from "./PopUpUser";
 
 import { Button } from "@material-ui/core";
 
@@ -20,7 +21,7 @@ const Title = styled.h1`
   color: palevioletred;
 `;
 
-const ButtonDiv = styled.button`
+const ButtonDiv = styled.div`
   position: absolute;
   bottom: 0;
   right: 0;
@@ -30,27 +31,42 @@ const ButtonDiv = styled.button`
   border-width: thin;
 
   margin: 10px;
-  padding: 7px;
-  background: lightgrey;
+
+  display: flex;
+  flex-direction: column;
 `;
 
 export default function WelcomeCard(props) {
-  const [buttonShow, setButtonShow] = useState(false);
+  const [cardsButtonShow, setCardsButtonShow] = useState(false);
+  const [usersButtonShow, setUsersButtonShow] = useState(false);
 
   const welcome = "Welcome to our humble little app, " + props.username + ".";
   return (
     <Wrapper>
       <Title>{welcome}</Title>
-      <ButtonDiv
-        color="default"
-        size="small"
-        onClick={() => {
-          setButtonShow(true);
-        }}
-      >
-        Add Cards
+      <ButtonDiv>
+        <Button
+          color="default"
+          size="small"
+          onClick={() => {
+            setCardsButtonShow(true);
+          }}
+        >
+          Add Cards
+        </Button>
+
+        <Button
+          color="default"
+          size="small"
+          onClick={() => {
+            setUsersButtonShow(true);
+          }}
+        >
+          Add Users
+        </Button>
       </ButtonDiv>
-      <PopUp show={buttonShow} showFunction={setButtonShow} />
+      <PopUpCard show={cardsButtonShow} showFunction={setCardsButtonShow} />
+      <PopUpUser show={usersButtonShow} showFunction={setUsersButtonShow} />
     </Wrapper>
   );
 }

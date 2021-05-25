@@ -47,9 +47,11 @@ const SubmitDiv = styled.div`
   padding: 5px;
 `;
 
-export default function PopUp(props) {
+export default function PopUpCard(props) {
   const [lists, setLists] = useState([]);
   const [cards, setCards] = useState([]);
+
+  const [emptyText, setEmptyText] = useState(false);
 
   const refLists = firebase.firestore().collection("lists");
   const refCards = firebase.firestore().collection("cards");
@@ -100,10 +102,11 @@ export default function PopUp(props) {
       });
   }
 
-  function onAddCard() {
+  function onCardAdd() {
     const cardTitle = document.getElementById("cardTitleField").value;
 
     if (cardTitle.length == 0) {
+      setEmptyText(true);
       return;
     }
 
@@ -122,6 +125,8 @@ export default function PopUp(props) {
 
     addCard(cardID, cardTitle);
     updateList(listToUpdate);
+
+    setEmptyText(false);
   }
 
   useEffect(() => {
@@ -137,6 +142,8 @@ export default function PopUp(props) {
         </TitleDiv>
         <TextFieldDiv>
           <TextField
+            error={emptyText}
+            helperText={emptyText ? "You need to add a title description." : ""}
             id="cardTitleField"
             variant="outlined"
             label="Card Title"
@@ -150,7 +157,7 @@ export default function PopUp(props) {
               color="primary"
               size="large"
               onClick={() => {
-                onAddCard();
+                onCardAdd();
               }}
             >
               ADD CARD
