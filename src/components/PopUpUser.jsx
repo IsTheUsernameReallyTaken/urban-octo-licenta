@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 
-import { TextField, Button } from "@material-ui/core";
-import Checkbox from "@material-ui/core/Checkbox";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Tooltip from "@material-ui/core/Tooltip";
+import {
+  TextField,
+  Button,
+  Checkbox,
+  FormControlLabel,
+  Tooltip,
+} from "@material-ui/core";
 
 import firebase from "../firebase";
 import "firebase/firestore";
@@ -50,29 +53,16 @@ const SubmitDiv = styled.div`
   padding: 5px;
 `;
 
-class TextFieldCompt extends React.Component {
-  render() {
-    return (
-      <TextFieldDiv>
-        <TextField
-          error={this.props.error}
-          helperText={this.props.error ? "No department with this ID" : ""}
-          id="deptID"
-          variant="outlined"
-          label="Department"
-        />
-      </TextFieldDiv>
-    );
-  }
-}
-
 export default function PopUpUser(props) {
   const [usernameTaken, setUsernameTaken] = useState(false);
   const [usernameEmpty, setUsernameEmpty] = useState(false);
   const [nameEmpty, setNameEmpty] = useState(false);
   const [surnameEmpty, setSurnameEmpty] = useState(false);
+  const [passwordEmpty, setPasswordEmpty] = useState(false);
   const [deptEmpty, setDeptEmpty] = useState(false);
   const [nonExistentDept, setNonExistentDept] = useState(false);
+
+  const [hiddenPass, setHiddenPass] = useState(false);
 
   const [users, setUsers] = useState([]);
 
@@ -92,41 +82,55 @@ export default function PopUpUser(props) {
     const username = document.getElementById("usernameField").value;
     const name = document.getElementById("nameField").value;
     const surname = document.getElementById("surnameField").value;
+    const password = document.getElementById("passwordField").value;
     const dept = document.getElementById("deptField").value;
 
     let foundTakenUsername = false;
 
     if (username.length === 0) {
       setUsernameEmpty(true);
+      return;
     } else {
       setUsernameEmpty(false);
     }
 
     users.forEach((useri) => {
       if (useri.username === username) {
-        setUsernameTaken(true);
         foundTakenUsername = true;
       }
     });
 
-    if (foundTakenUsername != true) {
+    if (foundTakenUsername == true) {
+      setUsernameTaken(true);
+      return;
+    } else {
       setUsernameTaken(false);
     }
 
     if (name.length === 0) {
       setNameEmpty(true);
+      return;
     } else {
       setNameEmpty(false);
     }
 
     if (surname.length === 0) {
       setSurnameEmpty(true);
+      return;
     } else {
       setSurnameEmpty(false);
     }
 
+    if (password.length === 0) {
+      setPasswordEmpty(true);
+      return;
+    } else {
+      setPasswordEmpty(false);
+    }
+
     if (dept.length === 0) {
       setDeptEmpty(true);
+      return;
     } else {
       setDeptEmpty(false);
     }
@@ -180,6 +184,27 @@ export default function PopUpUser(props) {
 
         <TextFieldDiv>
           <TextField
+            error={passwordEmpty}
+            helperText={passwordEmpty ? "Password cannot be empty" : ""}
+            id="passwordField"
+            variant="outlined"
+            label="Password"
+            type={hiddenPass ? "password" : ""}
+          />
+          <div>
+            <Checkbox
+              onChange={() => {
+                console.log("am apasat checkboxul");
+                setHiddenPass(!hiddenPass);
+              }}
+              id="adminCheckbox"
+              color="default"
+            />
+          </div>
+        </TextFieldDiv>
+
+        <TextFieldDiv>
+          <TextField
             error={deptEmpty}
             helperText={deptEmpty ? "Department ID cannot be empty" : ""}
             id="deptField"
@@ -190,7 +215,13 @@ export default function PopUpUser(props) {
 
         <TextFieldDiv>
           <FormControlLabel
-            control={<Checkbox id="adminCheckbox" color="default" />}
+            control={
+              <Checkbox
+                onChange={() => {}}
+                id="adminCheckbox"
+                color="default"
+              />
+            }
             label="Administrator rights?"
           />
         </TextFieldDiv>
