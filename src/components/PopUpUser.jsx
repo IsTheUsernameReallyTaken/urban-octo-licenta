@@ -103,7 +103,7 @@ export default function PopUpUser(props) {
     const name = document.getElementById("nameField").value;
     const surname = document.getElementById("surnameField").value;
     const password = document.getElementById("passwordField").value;
-    const dept = document.getElementById("deptField").value;
+    //const dept = document.getElementById("deptField").value;
 
     let foundTakenUsername = false;
 
