@@ -170,15 +170,12 @@ export default function Login() {
     getUsers();
   }, []);
 
-  // return true ? (
-  //   <App username={"daniel.dumitru"} isAdmin={isAdmin} />
-  // ) : (
-  // return true ? (
-  //   <App username={"andrei.nume"} />
-  // ) : (
-  return valid ? (
-    <App username={username} isAdmin={isAdmin} logout={setValidFunction} />
+  return true ? (
+    <App username={"daniel.dumitru"} isAdmin={true} logout={setValidFunction} />
   ) : (
+    // return valid ? (
+    //   <App username={username} isAdmin={isAdmin} logout={setValidFunction} />
+    // ) : (
     <Wrapper>
       <TitleDiv>
         <div>Hello there! Welcome to our (MINE) tiny little app.</div>
