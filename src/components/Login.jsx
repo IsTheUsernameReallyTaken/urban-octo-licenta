@@ -76,7 +76,8 @@ export default function Login() {
   const [passWrong, setPassWrong] = useState(false);
   const [userWrong, setUserWrong] = useState(false);
 
-  const [valid, setValid] = useState(false);
+  const [valid, setValid] = useState(true);
+
   const [username, setUsername] = useState("");
   const [isAdmin, setIsAdmin] = useState(false);
 
@@ -170,7 +171,7 @@ export default function Login() {
     getUsers();
   }, []);
 
-  return true ? (
+  return valid ? (
     <App username={"daniel.dumitru"} isAdmin={true} logout={setValidFunction} />
   ) : (
     // return valid ? (

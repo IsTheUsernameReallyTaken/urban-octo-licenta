@@ -1,7 +1,14 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 
-import { TextField, Button } from "@material-ui/core";
+import {
+  TextField,
+  Button,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+} from "@material-ui/core";
 
 import firebase from "../firebase";
 import "firebase/firestore";
@@ -50,9 +57,14 @@ const SubmitDiv = styled.div`
 export default function PopUpCard(props) {
   const [lists, setLists] = useState([]);
   const [cards, setCards] = useState([]);
+  const [users, setUsers] = useState([]);
 
-  const [emptyText, setEmptyText] = useState(false);
+  const [deptError, setDeptError] = useState(false);
+  const [selectedDept, setSelectedDept] = useState("");
 
+  const [emptyTitle, setEmptyTitle] = useState(false);
+
+  const refUsers = firebase.firestore().collection("usernames");
   const refLists = firebase.firestore().collection("lists");
   const refCards = firebase.firestore().collection("cards");
 
@@ -76,15 +88,7 @@ export default function PopUpCard(props) {
     });
   }
 
-  function addCard(cardID, cardTitle) {
-    const newCard = {
-      id: cardID,
-      title: cardTitle,
-      startTime: "",
-      endTime: "",
-      by: "",
-    };
-
+  function addCard(newCard) {
     refCards
       .doc(newCard.id)
       .set(newCard)
@@ -106,8 +110,15 @@ export default function PopUpCard(props) {
     const cardTitle = document.getElementById("cardTitleField").value;
 
     if (cardTitle.length == 0) {
-      setEmptyText(true);
+      setEmptyTitle(true);
       return;
+    }
+
+    if (selectedDept === "") {
+      setDeptError(true);
+      return;
+    } else {
+      setDeptError(false);
     }
 
     const cardID = "card-" + (cards.length + 1);
@@ -116,20 +127,60 @@ export default function PopUpCard(props) {
     lists.forEach((listele) => {
       if (listele.id === "list-1") {
         listToUpdate = listele;
-        console.log(listele);
+        // console.log(listele);
       }
     });
 
     listToUpdate.hasCards[listToUpdate.hasCards.length] = cardID;
-    console.log(listToUpdate);
 
-    addCard(cardID, cardTitle);
+    // console.log("cardul are id-ul " + cardID);
+    // console.log("cardul are titlul " + cardTitle);
+    // console.log("cardul are dept-ul " + selectedDept);
+
+    // console.log(listToUpdate);
+
+    const newCard = {
+      id: cardID,
+      title: cardTitle,
+      department: selectedDept,
+      startTime: "",
+      endTime: "",
+      by: "",
+    };
+
+    // console.log(newCard);
+
+    addCard(newCard);
     updateList(listToUpdate);
 
-    setEmptyText(false);
+    setEmptyTitle(false);
+    setDeptError(false);
+  }
+
+  function getDepts() {
+    let departamente = [];
+
+    for (let i = 0; i < users.length; i++) {
+      departamente[departamente.length] = users[i].department;
+    }
+
+    departamente = Array.from(new Set(departamente));
+
+    return departamente;
+  }
+
+  function getUsers() {
+    refUsers.onSnapshot((querySnapshot) => {
+      const userItems = [];
+      querySnapshot.forEach((document) => {
+        userItems.push(document.data());
+      });
+      setUsers(userItems);
+    });
   }
 
   useEffect(() => {
+    getUsers();
     getCards();
     getLists();
   }, []);
@@ -142,12 +193,41 @@ export default function PopUpCard(props) {
         </TitleDiv>
         <TextFieldDiv>
           <TextField
-            error={emptyText}
-            helperText={emptyText ? "You need to add a title description." : ""}
+            error={emptyTitle}
+            helperText={
+              emptyTitle ? "You need to add a title description." : ""
+            }
             id="cardTitleField"
             variant="outlined"
             label="Card Title"
           />
+        </TextFieldDiv>
+        <TextFieldDiv>
+          <FormControl
+            style={{ minWidth: "72.5%" }}
+            variant="outlined"
+            error={deptError}
+          >
+            <InputLabel id="deptSelect">Department</InputLabel>
+            <Select
+              labelId="deptSelect"
+              id="select"
+              label="Department"
+              onChange={(event) => {
+                //console.log("Ati ales valoarea ");
+                //console.log(event.target.value);
+                setSelectedDept(event.target.value);
+              }}
+            >
+              {getDepts().map((departamente) => {
+                return (
+                  <MenuItem key={departamente} value={departamente}>
+                    {departamente}
+                  </MenuItem>
+                );
+              })}
+            </Select>
+          </FormControl>
         </TextFieldDiv>
 
         <ButtonsFlexDiv>
