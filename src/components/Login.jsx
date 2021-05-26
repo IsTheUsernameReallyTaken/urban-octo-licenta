@@ -126,6 +126,10 @@ export default function Login() {
     return auxAdmin;
   }
 
+  function setValidFunction(tof) {
+    setValid(tof);
+  }
+
   function onSubmit() {
     const aux1 = document.getElementById("usernameField").value,
       aux2 = document.getElementById("passwordField").value;
@@ -173,7 +177,7 @@ export default function Login() {
   //   <App username={"andrei.nume"} />
   // ) : (
   return valid ? (
-    <App username={username} isAdmin={isAdmin} />
+    <App username={username} isAdmin={isAdmin} logout={setValidFunction} />
   ) : (
     <Wrapper>
       <TitleDiv>

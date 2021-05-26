@@ -333,7 +333,11 @@ export default function App(props) {
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <WelcomeCard username={props.username} isAdmin={props.isAdmin} />
+      <WelcomeCard
+        username={props.username}
+        isAdmin={props.isAdmin}
+        logout={props.logout}
+      />
       <AppContainer>
         {order.map((listID) => {
           let titlu;

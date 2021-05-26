@@ -66,9 +66,26 @@ export default function WelcomeCard(props) {
           >
             Add Users
           </Button>
+          <Button
+            size="small"
+            onClick={() => {
+              props.logout(false);
+            }}
+          >
+            LOGOUT
+          </Button>
         </ButtonDiv>
       ) : (
-        <div />
+        <ButtonDiv>
+          <Button
+            size="small"
+            onClick={() => {
+              props.logout(false);
+            }}
+          >
+            LOGOUT
+          </Button>
+        </ButtonDiv>
       )}
 
       <PopUpCard show={cardsButtonShow} showFunction={setCardsButtonShow} />

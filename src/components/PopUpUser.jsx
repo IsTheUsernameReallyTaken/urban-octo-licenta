@@ -252,8 +252,9 @@ export default function PopUpUser(props) {
       username: username,
     };
 
-    //console.log(userToAdd);
-    addUser(userToAdd);
+    console.log(userToAdd);
+    //addUser(userToAdd);
+    props.showFunction(false);
   }
 
   function getDepts() {
