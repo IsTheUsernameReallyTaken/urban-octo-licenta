@@ -63,12 +63,44 @@ export default class List extends React.Component {
     });
   };
 
-  getCardsOfThisList = () => {
+  getCardsOfThisListIfAdmin = () => {
     this.props.lists.forEach((liste) => {
       if (this.props.id === liste.id) {
         this.listaCarduri = liste.hasCards;
       }
     });
+  };
+
+  getCardsOfThisList = () => {
+    let lista1 = [],
+      lista2 = [];
+
+    this.props.lists.forEach((liste) => {
+      if (this.props.id === liste.id) {
+        lista1 = liste.hasCards;
+      }
+    });
+
+    this.props.cards.forEach((carduri) => {
+      if (carduri.department === this.props.dept) {
+        lista2[lista2.length] = carduri.id;
+      }
+    });
+
+    // console.log(lista1);
+    // console.log(lista2);
+
+    let intersectie = lista1.filter((card) => lista2.includes(card));
+    this.listaCarduri = intersectie;
+
+    // console.log(
+    //   "pentru lista " +
+    //     this.props.id +
+    //     " avem cardurile " +
+    //     intersectie +
+    //     " - " +
+    //     this.props.dept
+    // );
   };
 
   render() {
@@ -97,7 +129,9 @@ export default class List extends React.Component {
             isDraggingOverList={snapshot.isDraggingOver}
           >
             <CardsDiv>
-              {this.getCardsOfThisList()}
+              {this.props.isAdmin
+                ? this.getCardsOfThisListIfAdmin()
+                : this.getCardsOfThisList()}
               {this.listaCarduri.map((IDCard, index) => {
                 let ID, TITLU, INDEX;
                 this.props.cards.forEach((carduri) => {
