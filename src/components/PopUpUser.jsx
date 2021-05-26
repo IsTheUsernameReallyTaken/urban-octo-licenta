@@ -251,7 +251,7 @@ export default function PopUpUser(props) {
     };
 
     console.log(userToAdd);
-    //addUser(userToAdd);
+    addUser(userToAdd);
     props.showFunction(false);
   }
 
