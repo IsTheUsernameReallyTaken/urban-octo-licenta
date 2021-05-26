@@ -109,7 +109,7 @@ export default function PopUpCard(props) {
   function onCardAdd() {
     const cardTitle = document.getElementById("cardTitleField").value;
 
-    if (cardTitle.length == 0) {
+    if (cardTitle.length === 0) {
       setEmptyTitle(true);
       return;
     }

@@ -338,6 +338,9 @@ export default function App(props) {
         isAdmin={props.isAdmin}
         logout={props.logout}
       />
+
+      {/* {console.log(props.dept)} */}
+
       <AppContainer>
         {order.map((listID) => {
           let titlu;
@@ -355,6 +358,9 @@ export default function App(props) {
               lists={lists}
               cards={cards}
               username={props.username}
+              isAdmin={props.isAdmin}
+              dept={props.dept}
+              isAdmin={props.isAdmin}
             />
           );
         })}

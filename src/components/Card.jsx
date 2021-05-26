@@ -52,7 +52,24 @@ const ByDiv = styled.div`
 export default class Card extends React.Component {
   render() {
     let titleNumber = "";
-    const content = this.props.title;
+
+    let userDept = this.props.dept;
+    let userDeptNumber = userDept.replace(/[^0-9]/g, "");
+
+    let cardDept = "";
+    let cardDeptNumber = "";
+
+    this.props.cards.forEach((carduri) => {
+      if (carduri.id === this.props.id) {
+        cardDept = carduri.department;
+      }
+    });
+
+    cardDeptNumber = cardDept.replace(/[^0-9]/g, "");
+
+    const content = this.props.isAdmin
+      ? this.props.title + " - D" + cardDeptNumber
+      : this.props.title;
 
     this.props.cards.forEach((carduri) => {
       if (carduri.id === this.props.id) {

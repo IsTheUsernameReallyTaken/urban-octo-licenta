@@ -76,10 +76,11 @@ export default function Login() {
   const [passWrong, setPassWrong] = useState(false);
   const [userWrong, setUserWrong] = useState(false);
 
-  const [valid, setValid] = useState(true);
+  const [valid, setValid] = useState(false);
 
   const [username, setUsername] = useState("");
   const [isAdmin, setIsAdmin] = useState(false);
+  const [dept, setDept] = useState("");
 
   const [users, setUsers] = useState([]);
 
@@ -127,8 +128,15 @@ export default function Login() {
     return auxAdmin;
   }
 
-  function setValidFunction(tof) {
-    setValid(tof);
+  function getDept(username) {
+    let auxDept = "";
+    users.forEach((useri) => {
+      if (useri.username === username) {
+        auxDept = useri.department;
+      }
+    });
+
+    return auxDept;
   }
 
   function onSubmit() {
@@ -138,8 +146,10 @@ export default function Login() {
 
     const auxAdmin = isUserAdmin(aux1);
     // console.log(auxAdmin);
-
     setIsAdmin(auxAdmin);
+
+    const auxDept = getDept(aux1);
+    setDept(auxDept);
 
     if ((result.correctUsername === true) & (result.correctPassword === true)) {
       setPassWrong(false);
@@ -171,12 +181,12 @@ export default function Login() {
     getUsers();
   }, []);
 
+  // return true ? (
+  //   <App username={"daniel.dumitru"} isAdmin={true} logout={setValid} />
+  // ) : (
   return valid ? (
-    <App username={"daniel.dumitru"} isAdmin={true} logout={setValidFunction} />
+    <App username={username} isAdmin={isAdmin} dept={dept} logout={setValid} />
   ) : (
-    // return valid ? (
-    //   <App username={username} isAdmin={isAdmin} logout={setValidFunction} />
-    // ) : (
     <Wrapper>
       <TitleDiv>
         <div>Hello there! Welcome to our (MINE) tiny little app.</div>

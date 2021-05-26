@@ -128,7 +128,7 @@ export default function PopUpUser(props) {
       }
     });
 
-    if (foundTakenUsername == true) {
+    if (foundTakenUsername === true) {
       setUsernameError(true);
       setUsernameErrorMessage("Username is already taken");
       //
@@ -183,7 +183,7 @@ export default function PopUpUser(props) {
         setDeptErrorMessage("Dept. ID cannot be empty");
         return;
       } else {
-        if (dept.replace(/[^0-9]/g, "") != dept) {
+        if (dept.replace(/[^0-9]/g, "") !== dept) {
           setDeptError(true);
           setDeptErrorMessage("Please only submit the ID number");
           return;
@@ -231,8 +231,7 @@ export default function PopUpUser(props) {
       finalDept = selectedDept;
     }
 
-    {
-      /*
+    /*
       console.log("username: " + username);
       console.log("id:" + id);
       console.log("name: " + name);
@@ -240,7 +239,6 @@ export default function PopUpUser(props) {
       console.log("password: " + password);
       console.log("dept: " + finalDept);
     */
-    }
 
     const userToAdd = {
       department: finalDept,
