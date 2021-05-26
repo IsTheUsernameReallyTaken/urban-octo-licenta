@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import PopUpCard from "./PopUpCard";
 import PopUpUser from "./PopUpUser";
@@ -38,33 +38,39 @@ const ButtonDiv = styled.div`
 
 export default function WelcomeCard(props) {
   const [cardsButtonShow, setCardsButtonShow] = useState(false);
-  const [usersButtonShow, setUsersButtonShow] = useState(true);
+  const [usersButtonShow, setUsersButtonShow] = useState(false);
 
   const welcome = "Welcome to our humble little app, " + props.username + ".";
   return (
     <Wrapper>
       <Title>{welcome}</Title>
-      <ButtonDiv>
-        <Button
-          color="default"
-          size="small"
-          onClick={() => {
-            setCardsButtonShow(true);
-          }}
-        >
-          Add Cards
-        </Button>
 
-        <Button
-          color="default"
-          size="small"
-          onClick={() => {
-            setUsersButtonShow(true);
-          }}
-        >
-          Add Users
-        </Button>
-      </ButtonDiv>
+      {props.isAdmin ? (
+        <ButtonDiv>
+          <Button
+            color="default"
+            size="small"
+            onClick={() => {
+              setCardsButtonShow(true);
+            }}
+          >
+            Add Cards
+          </Button>
+
+          <Button
+            color="default"
+            size="small"
+            onClick={() => {
+              setUsersButtonShow(true);
+            }}
+          >
+            Add Users
+          </Button>
+        </ButtonDiv>
+      ) : (
+        <div />
+      )}
+
       <PopUpCard show={cardsButtonShow} showFunction={setCardsButtonShow} />
       <PopUpUser show={usersButtonShow} showFunction={setUsersButtonShow} />
     </Wrapper>

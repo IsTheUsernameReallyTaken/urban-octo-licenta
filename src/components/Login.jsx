@@ -78,6 +78,7 @@ export default function Login() {
 
   const [valid, setValid] = useState(false);
   const [username, setUsername] = useState("");
+  const [isAdmin, setIsAdmin] = useState(false);
 
   const [users, setUsers] = useState([]);
 
@@ -111,10 +112,29 @@ export default function Login() {
     return toReturn;
   }
 
+  function isUserAdmin(username) {
+    let auxAdmin = false;
+    users.forEach((useri) => {
+      if (useri.username === username) {
+        let idx = useri.id;
+        if (idx.includes("admin")) {
+          // console.log("Aici va returna true");
+          auxAdmin = true;
+        }
+      }
+    });
+    return auxAdmin;
+  }
+
   function onSubmit() {
     const aux1 = document.getElementById("usernameField").value,
       aux2 = document.getElementById("passwordField").value;
     const result = verifyLoginData(aux1, aux2);
+
+    const auxAdmin = isUserAdmin(aux1);
+    // console.log(auxAdmin);
+
+    setIsAdmin(auxAdmin);
 
     if ((result.correctUsername === true) & (result.correctPassword === true)) {
       setPassWrong(false);
@@ -146,12 +166,15 @@ export default function Login() {
     getUsers();
   }, []);
 
-  return true ? (
-    <App username={"daniel.dumitru"} />
+  // return true ? (
+  //   <App username={"daniel.dumitru"} isAdmin={isAdmin} />
+  // ) : (
+  // return true ? (
+  //   <App username={"andrei.nume"} />
+  // ) : (
+  return valid ? (
+    <App username={username} isAdmin={isAdmin} />
   ) : (
-    //return valid ? (
-    //  <App username={username} />
-    // ) : (
     <Wrapper>
       <TitleDiv>
         <div>Hello there! Welcome to our (MINE) tiny little app.</div>
