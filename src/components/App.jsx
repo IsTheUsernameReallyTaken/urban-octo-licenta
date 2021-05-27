@@ -272,7 +272,8 @@ export default function App(props) {
       updateList(firstListToUpdate);
       updateList(secondListToUpdate);
 
-      /*
+      {
+        /*
       //what to do if lists are different
       lists.forEach((listele) => {
         if (source.droppableId === listele.id) {
@@ -287,6 +288,7 @@ export default function App(props) {
       updateList(firstListToUpdate);
       updateList(secondListToUpdate);
       */
+      }
     }
   }
 

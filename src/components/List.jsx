@@ -54,6 +54,7 @@ export default class List extends React.Component {
   numberOfCards = 0;
   listaCarduri = [];
   emptyText = "";
+  cardCount = 0;
 
   getEmptyText = () => {
     this.props.lists.forEach((listele) => {
@@ -143,6 +144,7 @@ export default class List extends React.Component {
                         ID = carduri.id;
                         TITLU = carduri.title;
                         INDEX = index;
+                        this.cardCount = this.cardCount + 1;
                       }
                     });
 
@@ -169,6 +171,7 @@ export default class List extends React.Component {
                           ID = carduri.id;
                           TITLU = carduri.title;
                           INDEX = index;
+                          this.cardCount = this.cardCount + 1;
                         }
                       }
                     });
@@ -193,7 +196,7 @@ export default class List extends React.Component {
               {this.props.lists.map((listele) => {
                 let text = "";
                 if (this.props.id === listele.id) {
-                  if (listele.hasCards.length === 0) {
+                  if (this.cardCount === 0) {
                     text = listele.emptyText;
                   }
 
