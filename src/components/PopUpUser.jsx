@@ -231,6 +231,8 @@ export default function PopUpUser(props) {
       finalDept = selectedDept;
     }
 
+    const email = username + "@firma.com";
+
     /*
       console.log("username: " + username);
       console.log("id:" + id);
@@ -242,7 +244,7 @@ export default function PopUpUser(props) {
 
     const userToAdd = {
       department: finalDept,
-      email: "",
+      email: email,
       id: id,
       name: name,
       password: password,
