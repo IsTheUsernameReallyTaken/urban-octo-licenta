@@ -2,8 +2,10 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import PopUpCard from "./PopUpCard";
 import PopUpUser from "./PopUpUser";
+import getReview from "./Review";
 
 import { Button } from "@material-ui/core";
+import Review from "./Review";
 
 const Wrapper = styled.section`
   padding: 1em;
@@ -39,6 +41,7 @@ const ButtonDiv = styled.div`
 export default function WelcomeCard(props) {
   const [cardsButtonShow, setCardsButtonShow] = useState(false);
   const [usersButtonShow, setUsersButtonShow] = useState(false);
+  const [review, setReview] = useState(false);
 
   const welcome = "Welcome to our humble little app, " + props.username + ".";
   return (
@@ -46,35 +49,48 @@ export default function WelcomeCard(props) {
       <Title>{welcome}</Title>
 
       {props.isAdmin ? (
-        <ButtonDiv>
+        <div>
           <Button
-            color="default"
+            variant="contained"
+            color="primary"
             size="small"
             onClick={() => {
-              setCardsButtonShow(true);
+              setReview(true);
             }}
           >
-            Add Cards
+            GET REPORT
           </Button>
 
-          <Button
-            color="default"
-            size="small"
-            onClick={() => {
-              setUsersButtonShow(true);
-            }}
-          >
-            Add Users
-          </Button>
-          <Button
-            size="small"
-            onClick={() => {
-              props.logout(false);
-            }}
-          >
-            LOGOUT
-          </Button>
-        </ButtonDiv>
+          <ButtonDiv>
+            <Button
+              color="default"
+              size="small"
+              onClick={() => {
+                setCardsButtonShow(true);
+              }}
+            >
+              Add Cards
+            </Button>
+
+            <Button
+              color="default"
+              size="small"
+              onClick={() => {
+                setUsersButtonShow(true);
+              }}
+            >
+              Add Users
+            </Button>
+            <Button
+              size="small"
+              onClick={() => {
+                props.logout(false);
+              }}
+            >
+              LOGOUT
+            </Button>
+          </ButtonDiv>
+        </div>
       ) : (
         <ButtonDiv>
           <Button
@@ -87,7 +103,7 @@ export default function WelcomeCard(props) {
           </Button>
         </ButtonDiv>
       )}
-
+      <Review show={review} showFunction={setReview} />
       <PopUpCard show={cardsButtonShow} showFunction={setCardsButtonShow} />
       <PopUpUser show={usersButtonShow} showFunction={setUsersButtonShow} />
     </Wrapper>
