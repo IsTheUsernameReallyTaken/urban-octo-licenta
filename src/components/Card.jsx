@@ -145,7 +145,7 @@ export default class Card extends React.Component {
       }
     });
 
-    return (
+    return this.props.id ? (
       <Draggable
         draggableId={this.props.id}
         index={this.props.index}
@@ -186,6 +186,8 @@ export default class Card extends React.Component {
           </CardStyled>
         )}
       </Draggable>
+    ) : (
+      <div />
     );
   }
 }

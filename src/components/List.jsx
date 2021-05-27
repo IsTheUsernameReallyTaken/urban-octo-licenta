@@ -129,34 +129,65 @@ export default class List extends React.Component {
             isDraggingOverList={snapshot.isDraggingOver}
           >
             <CardsDiv>
-              {this.props.isAdmin
+              {/* {this.props.isAdmin
                 ? this.getCardsOfThisListIfAdmin()
-                : this.getCardsOfThisList()}
-              {this.listaCarduri.map((IDCard, index) => {
-                let ID, TITLU, INDEX;
-                this.props.cards.forEach((carduri) => {
-                  if (IDCard === carduri.id) {
-                    ID = carduri.id;
-                    TITLU = carduri.title;
-                    INDEX = index;
-                  }
-                });
+                : this.getCardsOfThisList()} */}
 
-                return (
-                  <Card
-                    key={ID}
-                    id={ID}
-                    title={TITLU}
-                    index={INDEX}
-                    cards={this.props.cards}
-                    lists={this.props.lists}
-                    username={this.props.username}
-                    isAdmin={this.props.isAdmin}
-                    dept={this.props.dept}
-                    parentList={this.props.id}
-                  />
-                );
-              })}
+              {this.getCardsOfThisListIfAdmin()}
+
+              {this.props.isAdmin
+                ? this.listaCarduri.map((IDCard, index) => {
+                    let ID, TITLU, INDEX;
+                    this.props.cards.forEach((carduri) => {
+                      if (IDCard === carduri.id) {
+                        ID = carduri.id;
+                        TITLU = carduri.title;
+                        INDEX = index;
+                      }
+                    });
+
+                    return (
+                      <Card
+                        key={ID}
+                        id={ID}
+                        title={TITLU}
+                        index={INDEX}
+                        cards={this.props.cards}
+                        lists={this.props.lists}
+                        username={this.props.username}
+                        isAdmin={this.props.isAdmin}
+                        dept={this.props.dept}
+                        parentList={this.props.id}
+                      />
+                    );
+                  })
+                : this.listaCarduri.map((IDCard, index) => {
+                    let ID, TITLU, INDEX;
+                    this.props.cards.forEach((carduri) => {
+                      if (IDCard === carduri.id) {
+                        if (carduri.department === this.props.dept) {
+                          ID = carduri.id;
+                          TITLU = carduri.title;
+                          INDEX = index;
+                        }
+                      }
+                    });
+
+                    return (
+                      <Card
+                        key={ID}
+                        id={ID}
+                        title={TITLU}
+                        index={INDEX}
+                        cards={this.props.cards}
+                        lists={this.props.lists}
+                        username={this.props.username}
+                        isAdmin={this.props.isAdmin}
+                        dept={this.props.dept}
+                        parentList={this.props.id}
+                      />
+                    );
+                  })}
 
               {this.getEmptyText()}
               {this.props.lists.map((listele) => {
