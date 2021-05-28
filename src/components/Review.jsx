@@ -11,7 +11,7 @@ import {
   MenuItem,
 } from "@material-ui/core";
 
-const Background = styled.div`
+const Wrapper = styled.div`
   position: fixed;
   width: 100%;
   height: 100vh;
@@ -20,9 +20,7 @@ const Background = styled.div`
   left: 0;
 
   background: white;
-`;
 
-const Wrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -41,6 +39,17 @@ const RowFlex = styled.div`
 const ColumnFlex = styled.div`
   display: flex;
   flex-direction: column;
+`;
+
+const HeaderDiv = styled.div`
+  position: fixed
+
+  top: 10%;
+  left: 10%;
+`;
+
+const TextDiv = styled.div`
+  font-size: 1.5em;
 `;
 
 export default function Review(props) {
@@ -84,6 +93,32 @@ export default function Review(props) {
     });
   }
 
+  function getReviewByProgress() {
+    let objDone, objInProgress, objToDo, objProblems;
+
+    lists.forEach((listele) => {
+      if (listele.id === "list-3") {
+        objDone = (
+          <MarginDiv>The completed tasks are: {listele.hasCards}</MarginDiv>
+        );
+      }
+      if (listele.id === "list-2") {
+        objInProgress = (
+          <MarginDiv>
+            The tasks in progress are: {listele.hasCards + " "}
+          </MarginDiv>
+        );
+      }
+    });
+
+    return (
+      <TextDiv>
+        {objDone}
+        {objInProgress}
+      </TextDiv>
+    );
+  }
+
   useEffect(() => {
     getUsers();
     getLists();
@@ -91,45 +126,66 @@ export default function Review(props) {
   }, []);
 
   return props.show ? (
-    <Background>
-      <MarginDiv>
-        <FormControl style={{ minWidth: "200px" }} variant="outlined">
-          <InputLabel>Review Type</InputLabel>
-          <Select
-            label="Review Type"
-            value={selectValue}
-            onChange={(event) => {
-              //console.log("Ati ales valoarea ");
-              //console.log(event.target.value);
-              setSelectValue(event.target.value);
-            }}
-          >
-            <MenuItem value={"by-progress"}>By progress</MenuItem>
-            <MenuItem value={"by-dept"}>By department</MenuItem>
-          </Select>
-        </FormControl>
-      </MarginDiv>
-      <MarginDiv>
-        <Button
-          variant="outlined"
-          color="primary"
-          onClick={() => {
-            props.showFunction(false);
-          }}
-        >
-          CLOSE ME
-        </Button>
-      </MarginDiv>
-      <Wrapper>
+    <Wrapper>
+      <ColumnFlex>
+        <RowFlex>
+          <MarginDiv>
+            <FormControl style={{ minWidth: "200px" }} variant="outlined">
+              <InputLabel>Review Type</InputLabel>
+              <Select
+                label="Review Type"
+                value={selectValue}
+                onChange={(event) => {
+                  //console.log("Ati ales valoarea ");
+                  //console.log(event.target.value);
+                  setSelectValue(event.target.value);
+                  if (event.target.value === "by-progress") {
+                    getReviewByProgress();
+                  }
+                }}
+              >
+                <MenuItem value={"by-progress"}>By progress</MenuItem>
+                <MenuItem value={"by-dept"}>By department</MenuItem>
+              </Select>
+            </FormControl>
+          </MarginDiv>
+          <MarginDiv>
+            <Button
+              style={{ minHeight: "55px", minWidth: "55px" }}
+              variant="contained"
+              color="primary"
+              onClick={() => {
+                props.showFunction(false);
+              }}
+            >
+              X
+            </Button>
+          </MarginDiv>
+        </RowFlex>
+
         {selectValue === "by-progress" ? (
-          <h1>This is a review by progress.</h1>
+          <div>{getReviewByProgress()}</div>
         ) : selectValue === "by-dept" ? (
-          <h1>This is a review by department</h1>
+          <div>
+            <h1>This is a review by department</h1>
+            <h1>This is a review by department</h1>
+            <h1>This is a review by department</h1>
+            <h1>This is a review by department</h1>
+            <h1>This is a review by department</h1>
+            <h1>This is a review by department</h1>
+            <h1>This is a review by department</h1>
+            <h1>This is a review by department</h1>
+            <h1>This is a review by department</h1>
+            <h1>This is a review by department</h1>
+            <h1>This is a review by department</h1>
+            <h1>This is a review by department</h1>
+            <h1>This is a review by department</h1>
+          </div>
         ) : (
           <div />
         )}
-      </Wrapper>
-    </Background>
+      </ColumnFlex>
+    </Wrapper>
   ) : (
     <div />
   );
