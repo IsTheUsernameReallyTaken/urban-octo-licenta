@@ -96,16 +96,29 @@ export default function Review(props) {
   function getReviewByProgress() {
     let objDone, objInProgress, objToDo, objProblems;
 
-    console.log(lists);
+    console.log(lists[2].hasCards);
 
-    // if (listele.id === "list-2") {
-    //   objInProgress = (
-    //     <MarginDiv>
-    //       The tasks in progress are: {listele.hasCards + " "}
-    //     </MarginDiv>
-    //   );
-    // }
-    // });
+    objDone = (
+      <div>
+        Completed cards are: <br></br>
+        {lists[2].hasCards.map((cardID) => {
+          let idNumber, deptNumber, title;
+          cards.forEach((carduri) => {
+            if (carduri.id === cardID) {
+              console.log(carduri.title);
+              idNumber = carduri.id.replace(/[^0-9]/g, "");
+              deptNumber = carduri.department;
+              title = carduri.title;
+            }
+          });
+          return (
+            <div>
+              card {idNumber}: {title} ({deptNumber})
+            </div>
+          );
+        })}
+      </div>
+    );
 
     return (
       <TextDiv>
