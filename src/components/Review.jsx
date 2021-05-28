@@ -89,7 +89,7 @@ export default function Review(props) {
   function getReviewByProgress() {
     let objDone, objInProgress, objToDo, objProblems;
 
-    console.log(lists[2].hasCards);
+    // console.log(lists[2].hasCards);
 
     objDone = (
       <MarginDiv>
@@ -105,7 +105,7 @@ export default function Review(props) {
             durationString;
           cards.forEach((carduri) => {
             if (carduri.id === cardID) {
-              console.log(carduri.title);
+              // console.log(carduri.title);
               idNumber = carduri.id.replace(/[^0-9]/g, "");
               deptNumber = carduri.department;
               title = carduri.title;
@@ -137,8 +137,38 @@ export default function Review(props) {
             <ul key={idNumber}>
               <li>
                 <b>card {idNumber}</b> ({deptNumber}): {title}, by <b>{by}</b> -
-                from
-                {startDate}, <b>took {durationString}</b>
+                from {startDate}, <b>took {durationString}</b>
+              </li>
+            </ul>
+          );
+        })}
+      </MarginDiv>
+    );
+
+    objInProgress = (
+      <MarginDiv>
+        In-progress cards are: <br></br>
+        {lists[1].hasCards.map((cardID) => {
+          let idNumber, deptNumber, title, by, startDate;
+
+          cards.forEach((carduri) => {
+            if (carduri.id === cardID) {
+              // console.log(carduri.title);
+              idNumber = carduri.id.replace(/[^0-9]/g, "");
+              deptNumber = carduri.department;
+              title = carduri.title;
+              by = carduri.by;
+              startDate = new Date(
+                carduri.startTime.seconds * 1000
+              ).toLocaleString("en-GB");
+            }
+          });
+
+          return (
+            <ul key={idNumber}>
+              <li>
+                <b>card {idNumber}</b> ({deptNumber}): {title}, by <b>{by}</b> -
+                from {startDate}
               </li>
             </ul>
           );
