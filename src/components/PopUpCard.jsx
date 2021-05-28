@@ -8,6 +8,7 @@ import {
   InputLabel,
   MenuItem,
   Select,
+  FormHelperText,
 } from "@material-ui/core";
 
 import firebase from "../firebase";
@@ -227,6 +228,9 @@ export default function PopUpCard(props) {
                 );
               })}
             </Select>
+            <FormHelperText>
+              {deptError ? "Please select a department" : ""}
+            </FormHelperText>
           </FormControl>
         </TextFieldDiv>
 

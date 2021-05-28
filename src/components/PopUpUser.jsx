@@ -350,6 +350,9 @@ export default function PopUpUser(props) {
                   );
                 })}
               </Select>
+              <FormHelperText>
+                {deptError ? "Please select a department" : ""}
+              </FormHelperText>
             </FormControl>
             <Checkbox
               onChange={() => {
