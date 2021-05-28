@@ -41,15 +41,8 @@ const ColumnFlex = styled.div`
   flex-direction: column;
 `;
 
-const HeaderDiv = styled.div`
-  position: fixed
-
-  top: 10%;
-  left: 10%;
-`;
-
 const TextDiv = styled.div`
-  font-size: 1.5em;
+  font-size: 1.2em;
 `;
 
 export default function Review(props) {
@@ -99,25 +92,27 @@ export default function Review(props) {
     console.log(lists[2].hasCards);
 
     objDone = (
-      <div>
+      <MarginDiv>
         Completed cards are: <br></br>
         {lists[2].hasCards.map((cardID) => {
-          let idNumber, deptNumber, title;
+          let idNumber, deptNumber, title, by;
           cards.forEach((carduri) => {
             if (carduri.id === cardID) {
               console.log(carduri.title);
               idNumber = carduri.id.replace(/[^0-9]/g, "");
               deptNumber = carduri.department;
               title = carduri.title;
+              by = carduri.by;
             }
           });
           return (
             <div>
-              card {idNumber}: {title} ({deptNumber})
+              &nbsp;&nbsp;&nbsp;&nbsp; card {idNumber} ({deptNumber}): {title},
+              by {by}
             </div>
           );
         })}
-      </div>
+      </MarginDiv>
     );
 
     return (
