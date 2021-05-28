@@ -96,20 +96,16 @@ export default function Review(props) {
   function getReviewByProgress() {
     let objDone, objInProgress, objToDo, objProblems;
 
-    lists.forEach((listele) => {
-      if (listele.id === "list-3") {
-        objDone = (
-          <MarginDiv>The completed tasks are: {listele.hasCards}</MarginDiv>
-        );
-      }
-      if (listele.id === "list-2") {
-        objInProgress = (
-          <MarginDiv>
-            The tasks in progress are: {listele.hasCards + " "}
-          </MarginDiv>
-        );
-      }
-    });
+    console.log(lists);
+
+    // if (listele.id === "list-2") {
+    //   objInProgress = (
+    //     <MarginDiv>
+    //       The tasks in progress are: {listele.hasCards + " "}
+    //     </MarginDiv>
+    //   );
+    // }
+    // });
 
     return (
       <TextDiv>

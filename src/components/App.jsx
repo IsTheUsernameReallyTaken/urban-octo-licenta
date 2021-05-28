@@ -19,7 +19,7 @@ export default function App(props) {
   const refLists = firebase.firestore().collection("lists");
   const refCards = firebase.firestore().collection("cards");
 
-  const order = ["list-1", "list-2", "list-3", "em-list-4"];
+  const order = ["list-1", "list-2", "list-3", "list-4m"];
 
   function getLists() {
     refLists.onSnapshot((querySnapshot) => {

@@ -105,13 +105,16 @@ export default class List extends React.Component {
   };
 
   render() {
-    let numarOite = this.props.id.replace(/^\D+/g, "");
+    let numarOite = this.props.id.replace(/[^0-9]/g, "");
+    console.log(this.props.id + numarOite);
     let titluLista = "#" + numarOite + ": " + this.props.title + " ";
 
-    let cond1EM = this.props.id[0] === "e";
-    let cond2EM = this.props.id[1] === "m";
+    // let cond1EM = this.props.id[0] === "e";
+    // let cond2EM = this.props.id[1] === "m";
 
-    let condEM = cond1EM && cond2EM;
+    // let condEM = cond1EM && cond2EM;
+
+    let condEM = this.props.id[this.props.id.length - 1] === "m";
 
     if (condEM) {
       titluLista = titluLista + "👷🏻‍♀️⛔️";
