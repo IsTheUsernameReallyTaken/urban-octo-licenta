@@ -95,7 +95,14 @@ export default function Review(props) {
       <MarginDiv>
         Completed cards are: <br></br>
         {lists[2].hasCards.map((cardID) => {
-          let idNumber, deptNumber, title, by;
+          let idNumber,
+            deptNumber,
+            title,
+            by,
+            startDate,
+            duration,
+            durationUnit,
+            durationString;
           cards.forEach((carduri) => {
             if (carduri.id === cardID) {
               console.log(carduri.title);
@@ -103,13 +110,37 @@ export default function Review(props) {
               deptNumber = carduri.department;
               title = carduri.title;
               by = carduri.by;
+              startDate = new Date(
+                carduri.startTime.seconds * 1000
+              ).toLocaleString("en-GB");
+              duration = Math.floor(carduri.endTime - carduri.startTime);
+              durationUnit = "seconds";
+
+              if (duration > 60) {
+                duration = duration / 60;
+                durationUnit = "minutes";
+                if (duration > 60) {
+                  duration = duration / 60;
+                  durationUnit = "hours";
+                  if (duration > 24) {
+                    duration = duration / 24;
+                    durationUnit = "days";
+                  }
+                }
+              }
+
+              durationString = duration.toFixed(2) + " " + durationUnit;
             }
           });
+
           return (
-            <div key={idNumber}>
-              &nbsp;&nbsp;&nbsp;&nbsp; card {idNumber} ({deptNumber}): {title},
-              by {by}
-            </div>
+            <ul key={idNumber}>
+              <li>
+                <b>card {idNumber}</b> ({deptNumber}): {title}, by <b>{by}</b> -
+                from
+                {startDate}, <b>took {durationString}</b>
+              </li>
+            </ul>
           );
         })}
       </MarginDiv>
