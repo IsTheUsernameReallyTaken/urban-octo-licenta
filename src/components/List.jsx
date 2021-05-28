@@ -104,6 +104,10 @@ export default class List extends React.Component {
     // );
   };
 
+  getNumberOfRenderedCards = () => {
+    //TO DO HERE
+  };
+
   render() {
     let numarOite = this.props.id.replace(/[^0-9]/g, "");
     let titluLista = "#" + numarOite + ": " + this.props.title + " ";
