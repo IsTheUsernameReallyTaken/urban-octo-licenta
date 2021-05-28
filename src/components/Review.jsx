@@ -188,7 +188,7 @@ export default function Review(props) {
     objToDo = (
       <MarginDiv>
         Available cards are: <br></br>
-        {lists[1].hasCards.map((cardID) => {
+        {lists[0].hasCards.map((cardID) => {
           let idNumber, deptNumber, title;
 
           cards.forEach((carduri) => {
@@ -211,11 +211,40 @@ export default function Review(props) {
       </MarginDiv>
     );
 
+    objProblems = (
+      <MarginDiv>
+        Problems were encountered regarding these cards: <br></br>
+        {lists[3].hasCards.map((cardID) => {
+          let idNumber, deptNumber, title, by;
+
+          cards.forEach((carduri) => {
+            if (carduri.id === cardID) {
+              // console.log(carduri.title);
+              idNumber = carduri.id.replace(/[^0-9]/g, "");
+              deptNumber = carduri.department;
+              title = carduri.title;
+              by = carduri.by;
+            }
+          });
+
+          return (
+            <ul key={idNumber}>
+              <li>
+                <b>card {idNumber}</b> ({deptNumber}): {title}, encoutered by{" "}
+                <b>{by}</b>
+              </li>
+            </ul>
+          );
+        })}
+      </MarginDiv>
+    );
+
     return (
       <TextDiv>
         {objDone}
         {objInProgress}
         {objToDo}
+        {objProblems}
       </TextDiv>
     );
   }
