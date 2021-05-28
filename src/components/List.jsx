@@ -106,11 +106,27 @@ export default class List extends React.Component {
 
   getNumberOfRenderedCards = () => {
     //TO DO HERE
-    let listHasCards = [];
+    let listHasCards = [],
+      number = 0;
     this.props.lists.forEach((listele) => {
       if (listele.id === this.props.id) {
+        listHasCards = listele.hasCards;
       }
     });
+
+    this.props.cards.forEach((carduri) => {
+      if (listHasCards.includes(carduri.id)) {
+        if (this.props.isAdmin) {
+          number = number + 1;
+        } else {
+          if (carduri.department === this.props.dept) {
+            number = number + 1;
+          }
+        }
+      }
+    });
+
+    return number;
   };
 
   render() {
@@ -206,7 +222,7 @@ export default class List extends React.Component {
               {this.props.lists.map((listele) => {
                 let text = "";
                 if (this.props.id === listele.id) {
-                  if (this.cardCount === 0) {
+                  if (this.getNumberOfRenderedCards() === 0) {
                     text = listele.emptyText;
                   }
 
