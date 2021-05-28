@@ -106,7 +106,7 @@ export default function Review(props) {
             }
           });
           return (
-            <div>
+            <div key={idNumber}>
               &nbsp;&nbsp;&nbsp;&nbsp; card {idNumber} ({deptNumber}): {title},
               by {by}
             </div>
