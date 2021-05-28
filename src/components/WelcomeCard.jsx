@@ -2,10 +2,9 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import PopUpCard from "./PopUpCard";
 import PopUpUser from "./PopUpUser";
-import getReview from "./Review";
+import Review from "./Review";
 
 import { Button } from "@material-ui/core";
-import Review from "./Review";
 
 const Wrapper = styled.section`
   padding: 1em;
@@ -18,14 +17,14 @@ const Wrapper = styled.section`
 `;
 
 const Title = styled.h1`
-  font-size: 1.7em;
+  font-size: 2em;
   text-align: center;
   color: palevioletred;
 `;
 
 const ButtonDiv = styled.div`
   position: absolute;
-  bottom: 0;
+  top: 0;
   right: 0;
 
   border-radius: 7px;
@@ -36,6 +35,18 @@ const ButtonDiv = styled.div`
 
   display: flex;
   flex-direction: column;
+`;
+
+const MarginDiv = styled.div`
+  margin: 10px;
+`;
+
+const RowFlex = styled.div`
+  display: flex;
+  flex-direction: row;
+
+  justify-content: center;
+  align-items: center;
 `;
 
 export default function WelcomeCard(props) {
@@ -49,21 +60,24 @@ export default function WelcomeCard(props) {
       <Title>{welcome}</Title>
 
       {props.isAdmin ? (
-        <div>
-          <Button
-            variant="contained"
-            color="primary"
-            size="small"
-            onClick={() => {
-              setReview(true);
-            }}
-          >
-            GET REPORT
-          </Button>
-
-          <ButtonDiv>
+        <RowFlex>
+          <MarginDiv>
             <Button
-              color="default"
+              variant="contained"
+              color="primary"
+              size="small"
+              onClick={() => {
+                setReview(true);
+              }}
+            >
+              GET REPORT
+            </Button>
+          </MarginDiv>
+
+          <MarginDiv>
+            <Button
+              variant="contained"
+              color="primary"
               size="small"
               onClick={() => {
                 setCardsButtonShow(true);
@@ -71,9 +85,12 @@ export default function WelcomeCard(props) {
             >
               Add Cards
             </Button>
+          </MarginDiv>
 
+          <MarginDiv>
             <Button
-              color="default"
+              variant="contained"
+              color="primary"
               size="small"
               onClick={() => {
                 setUsersButtonShow(true);
@@ -81,7 +98,12 @@ export default function WelcomeCard(props) {
             >
               Add Users
             </Button>
+          </MarginDiv>
+
+          <MarginDiv>
             <Button
+              variant="contained"
+              color="primary"
               size="small"
               onClick={() => {
                 props.logout(false);
@@ -89,8 +111,8 @@ export default function WelcomeCard(props) {
             >
               LOGOUT
             </Button>
-          </ButtonDiv>
-        </div>
+          </MarginDiv>
+        </RowFlex>
       ) : (
         <ButtonDiv>
           <Button
