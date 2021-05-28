@@ -45,6 +45,15 @@ const TextDiv = styled.div`
   font-size: 1.2em;
 `;
 
+const ScrollableParent = styled.div``;
+
+const ScrollableDiv = styled.div`
+  margin: 10px;
+  height: 80vh;
+  overflow: auto;
+  scrollbar-color: transparent transparent;
+`;
+
 export default function Review(props) {
   const [users, setUsers] = useState([]);
   const [lists, setLists] = useState([]);
@@ -176,10 +185,37 @@ export default function Review(props) {
       </MarginDiv>
     );
 
+    objToDo = (
+      <MarginDiv>
+        Available cards are: <br></br>
+        {lists[1].hasCards.map((cardID) => {
+          let idNumber, deptNumber, title;
+
+          cards.forEach((carduri) => {
+            if (carduri.id === cardID) {
+              // console.log(carduri.title);
+              idNumber = carduri.id.replace(/[^0-9]/g, "");
+              deptNumber = carduri.department;
+              title = carduri.title;
+            }
+          });
+
+          return (
+            <ul key={idNumber}>
+              <li>
+                <b>card {idNumber}</b> ({deptNumber}): {title}
+              </li>
+            </ul>
+          );
+        })}
+      </MarginDiv>
+    );
+
     return (
       <TextDiv>
         {objDone}
         {objInProgress}
+        {objToDo}
       </TextDiv>
     );
   }
@@ -229,22 +265,10 @@ export default function Review(props) {
         </RowFlex>
 
         {selectValue === "by-progress" ? (
-          <div>{getReviewByProgress()}</div>
+          <ScrollableDiv>{getReviewByProgress()}</ScrollableDiv>
         ) : selectValue === "by-dept" ? (
           <div>
-            <h1>This is a review by department</h1>
-            <h1>This is a review by department</h1>
-            <h1>This is a review by department</h1>
-            <h1>This is a review by department</h1>
-            <h1>This is a review by department</h1>
-            <h1>This is a review by department</h1>
-            <h1>This is a review by department</h1>
-            <h1>This is a review by department</h1>
-            <h1>This is a review by department</h1>
-            <h1>This is a review by department</h1>
-            <h1>This is a review by department</h1>
-            <h1>This is a review by department</h1>
-            <h1>This is a review by department</h1>
+            <ScrollableDiv>This is a review by department</ScrollableDiv>
           </div>
         ) : (
           <div />
