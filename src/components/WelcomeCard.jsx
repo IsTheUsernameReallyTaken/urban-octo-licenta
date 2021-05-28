@@ -63,6 +63,7 @@ export default function WelcomeCard(props) {
         <RowFlex>
           <MarginDiv>
             <Button
+              style={{ background: "Gainsboro", color: "black" }}
               variant="contained"
               color="primary"
               size="small"
@@ -76,6 +77,7 @@ export default function WelcomeCard(props) {
 
           <MarginDiv>
             <Button
+              style={{ background: "Gainsboro", color: "black" }}
               variant="contained"
               color="primary"
               size="small"
@@ -89,6 +91,7 @@ export default function WelcomeCard(props) {
 
           <MarginDiv>
             <Button
+              style={{ background: "Gainsboro", color: "black" }}
               variant="contained"
               color="primary"
               size="small"
@@ -102,6 +105,7 @@ export default function WelcomeCard(props) {
 
           <MarginDiv>
             <Button
+              style={{ background: "Gainsboro", color: "black" }}
               variant="contained"
               color="primary"
               size="small"
