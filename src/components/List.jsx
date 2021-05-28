@@ -64,7 +64,7 @@ export default class List extends React.Component {
     });
   };
 
-  getCardsOfThisListIfAdmin = () => {
+  getCardsOfThisListFinal = () => {
     this.props.lists.forEach((liste) => {
       if (this.props.id === liste.id) {
         this.listaCarduri = liste.hasCards;
@@ -106,6 +106,11 @@ export default class List extends React.Component {
 
   getNumberOfRenderedCards = () => {
     //TO DO HERE
+    let listHasCards = [];
+    this.props.lists.forEach((listele) => {
+      if (listele.id === this.props.id) {
+      }
+    });
   };
 
   render() {
@@ -114,7 +119,6 @@ export default class List extends React.Component {
 
     // let cond1EM = this.props.id[0] === "e";
     // let cond2EM = this.props.id[1] === "m";
-
     // let condEM = cond1EM && cond2EM;
 
     let condEM = this.props.id[this.props.id.length - 1] === "m";
@@ -140,7 +144,7 @@ export default class List extends React.Component {
                 ? this.getCardsOfThisListIfAdmin()
                 : this.getCardsOfThisList()} */}
 
-              {this.getCardsOfThisListIfAdmin()}
+              {this.getCardsOfThisListFinal()}
 
               {this.props.isAdmin
                 ? this.listaCarduri.map((IDCard, index) => {
