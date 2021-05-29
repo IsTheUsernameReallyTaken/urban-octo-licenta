@@ -100,7 +100,7 @@ export default function Review(props) {
 
     // console.log(lists[2].hasCards);
 
-    objDone = (
+    objDone = lists[2].hasCards.length ? (
       <MarginDiv>
         Completed cards are: <br></br>
         {lists[2].hasCards.map((cardID) => {
@@ -152,9 +152,16 @@ export default function Review(props) {
           );
         })}
       </MarginDiv>
+    ) : (
+      <MarginDiv>
+        Completed cards are:
+        <em>
+          <b>&nbsp;no cards here</b>
+        </em>
+      </MarginDiv>
     );
 
-    objInProgress = (
+    objInProgress = lists[1].hasCards.length ? (
       <MarginDiv>
         In-progress cards are: <br></br>
         {lists[1].hasCards.map((cardID) => {
@@ -183,9 +190,16 @@ export default function Review(props) {
           );
         })}
       </MarginDiv>
+    ) : (
+      <MarginDiv>
+        In-progress cards are:
+        <em>
+          <b>&nbsp;no cards here</b>
+        </em>
+      </MarginDiv>
     );
 
-    objToDo = (
+    objToDo = lists[0].hasCards.length ? (
       <MarginDiv>
         Available cards are: <br></br>
         {lists[0].hasCards.map((cardID) => {
@@ -209,9 +223,16 @@ export default function Review(props) {
           );
         })}
       </MarginDiv>
+    ) : (
+      <MarginDiv>
+        Available cards are:
+        <em>
+          <b>&nbsp;no cards here</b>
+        </em>
+      </MarginDiv>
     );
 
-    objProblems = (
+    objProblems = lists[3].hasCards.length ? (
       <MarginDiv>
         Problems were encountered regarding these cards: <br></br>
         {lists[3].hasCards.map((cardID) => {
@@ -230,12 +251,19 @@ export default function Review(props) {
           return (
             <ul key={idNumber}>
               <li>
-                <b>card {idNumber}</b> ({deptNumber}): {title}, encoutered by{" "}
+                <b>card {idNumber}</b> ({deptNumber}): {title}, encoutered by
                 <b>{by}</b>
               </li>
             </ul>
           );
         })}
+      </MarginDiv>
+    ) : (
+      <MarginDiv>
+        Problems were encountered regarding these cards:
+        <em>
+          <b>&nbsp;no cards here</b>
+        </em>
       </MarginDiv>
     );
 
