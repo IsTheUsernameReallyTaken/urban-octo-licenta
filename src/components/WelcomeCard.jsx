@@ -21,8 +21,6 @@ const Title = styled.h1`
   font-family: Courier, sans-serif;
 
   text-align: center;
-  // color: #303f9f;
-  // color: palevioletred;
 `;
 
 const ButtonDiv = styled.div`
@@ -121,16 +119,21 @@ export default function WelcomeCard(props) {
           </MarginDiv>
         </RowFlex>
       ) : (
-        <ButtonDiv>
-          <Button
-            size="small"
-            onClick={() => {
-              props.logout(false);
-            }}
-          >
-            LOGOUT
-          </Button>
-        </ButtonDiv>
+        <RowFlex>
+          <MarginDiv>
+            <Button
+              style={{ background: "black", color: "white" }}
+              variant="contained"
+              color="primary"
+              size="small"
+              onClick={() => {
+                props.logout(false);
+              }}
+            >
+              LOGOUT
+            </Button>
+          </MarginDiv>
+        </RowFlex>
       )}
       <Review show={review} showFunction={setReview} />
       <PopUpCard show={cardsButtonShow} showFunction={setCardsButtonShow} />

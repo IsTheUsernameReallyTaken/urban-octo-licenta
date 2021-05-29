@@ -398,6 +398,7 @@ export default function PopUpUser(props) {
         <ButtonsFlexDiv>
           <SubmitDiv>
             <Button
+              style={{ background: "black", color: "white" }}
               variant="contained"
               color="primary"
               size="large"
@@ -411,6 +412,7 @@ export default function PopUpUser(props) {
 
           <SubmitDiv>
             <Button
+              style={{ background: "black", color: "white" }}
               variant="contained"
               color="primary"
               size="large"

@@ -16,15 +16,15 @@ import "firebase/firestore";
 
 const WrapperDiv = styled.div`
   position: fixed;
-  top: 30%;
-  left: 30%;
+  top: 20%;
+  left: 20%;
 
   border-radius: 7px;
   border-style: solid;
   border-width: thin;
 
-  width: 40%;
-  height: 40vh;
+  width: 60%;
+  height: 60vh;
 
   background: white;
 
@@ -156,6 +156,8 @@ export default function PopUpCard(props) {
 
     setEmptyTitle(false);
     setDeptError(false);
+
+    props.showFunction(false);
   }
 
   function getDepts() {
@@ -190,7 +192,7 @@ export default function PopUpCard(props) {
     <WrapperDiv>
       <form>
         <TitleDiv>
-          <div>Insert a title for the card you'd like to add</div>
+          <div>Insert the title and dept. for the card you'd like to add</div>
         </TitleDiv>
         <TextFieldDiv>
           <TextField
@@ -237,6 +239,7 @@ export default function PopUpCard(props) {
         <ButtonsFlexDiv>
           <SubmitDiv>
             <Button
+              style={{ background: "black", color: "white" }}
               variant="contained"
               color="primary"
               size="large"
@@ -250,6 +253,7 @@ export default function PopUpCard(props) {
 
           <SubmitDiv>
             <Button
+              style={{ background: "black", color: "white" }}
               variant="contained"
               color="primary"
               size="large"

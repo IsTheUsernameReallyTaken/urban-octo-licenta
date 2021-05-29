@@ -427,7 +427,12 @@ export default function Review(props) {
           </MarginDiv>
           <MarginDiv>
             <Button
-              style={{ minHeight: "55px", minWidth: "55px" }}
+              style={{
+                minHeight: "55px",
+                minWidth: "55px",
+                background: "black",
+                color: "white",
+              }}
               variant="contained"
               color="primary"
               onClick={() => {

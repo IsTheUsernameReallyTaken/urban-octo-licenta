@@ -181,17 +181,17 @@ export default function Login() {
     getUsers();
   }, []);
 
-  return true ? (
-    <App
-      username={"daniel.dumitru"}
-      isAdmin={true}
-      dept={"dept-1"}
-      logout={setValid}
-    />
+  // return true ? (
+  //   <App
+  //     username={"daniel.dumitru"}
+  //     isAdmin={true}
+  //     dept={"dept-1"}
+  //     logout={setValid}
+  //   />
+  // ) : (
+  return valid ? (
+    <App username={username} isAdmin={isAdmin} dept={dept} logout={setValid} />
   ) : (
-    // return valid ? (
-    //   <App username={username} isAdmin={isAdmin} dept={dept} logout={setValid} />
-    // ) : (
     <Wrapper>
       <TitleDiv>
         <div>Hello there! Welcome to our (MINE) tiny little app.</div>
@@ -202,6 +202,7 @@ export default function Login() {
 
         <SubmitDiv>
           <Button
+            style={{ background: "black", color: "white" }}
             variant="contained"
             color="primary"
             size="large"
