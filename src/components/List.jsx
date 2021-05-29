@@ -22,7 +22,7 @@ const ListStyled = styled.div`
 
   transition: background 0.3s linear;
   background: ${(props) =>
-    props.isDraggingOverList ? "lightsalmon" : "lightgrey"};
+    props.isDraggingOverList ? "ghostwhite" : "lightgrey"};
 
   display: grid;
 `;
@@ -41,7 +41,7 @@ const EmptyDiv = styled.div`
   margin: 10px;
   text-align: center;
   transition: color 0.3s linear;
-  color: ${(props) => (props.isDraggingOverEmptyList ? "lightsalmon" : "grey")};
+  color: ${(props) => (props.isDraggingOverEmptyList ? "ghostwhite" : "grey")};
 
   /*
   border-radius: 7px;

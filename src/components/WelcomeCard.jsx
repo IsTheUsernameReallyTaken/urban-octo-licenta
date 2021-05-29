@@ -8,7 +8,7 @@ import { Button } from "@material-ui/core";
 
 const Wrapper = styled.section`
   padding: 1em;
-  background: papayawhip;
+  background: white;
   border-radius: 10px;
   border-style: solid;
   border-width: thin;
