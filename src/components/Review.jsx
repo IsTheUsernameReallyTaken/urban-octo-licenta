@@ -95,6 +95,43 @@ export default function Review(props) {
     });
   }
 
+  function getDepts() {
+    let departamente = [];
+
+    for (let i = 0; i < users.length; i++) {
+      departamente[departamente.length] = users[i].department;
+    }
+
+    departamente = Array.from(new Set(departamente));
+
+    return departamente;
+  }
+
+  function getDuration(endTime, startTime) {
+    let duration = "",
+      durationUnit = "",
+      durationString = "";
+
+    duration = Math.floor(endTime - startTime);
+    durationUnit = "seconds";
+
+    if (duration > 60) {
+      duration = duration / 60;
+      durationUnit = "minutes";
+      if (duration > 60) {
+        duration = duration / 60;
+        durationUnit = "hours";
+        if (duration > 24) {
+          duration = duration / 24;
+          durationUnit = "days";
+        }
+      }
+    }
+
+    durationString = duration.toFixed(2) + " " + durationUnit;
+    return durationString;
+  }
+
   function getReviewByProgress() {
     let objDone, objInProgress, objToDo, objProblems;
 
@@ -277,6 +314,73 @@ export default function Review(props) {
     );
   }
 
+  function getReviewByDept() {
+    let obj;
+
+    const depts = getDepts();
+
+    obj = (
+      <MarginDiv>
+        {depts.map((departamente) => {
+          return (
+            <div>
+              <div key={departamente}>
+                Department {departamente.replace(/[^0-9]/g, "")}:
+              </div>
+              <ul>
+                {cards.map((carduri) => {
+                  if (carduri.department === departamente) {
+                    return (
+                      <MarginDiv>
+                        <li key={carduri.id}>
+                          <div>
+                            <b>Card #{carduri.id.replace(/[^0-9]/g, "")}</b> -{" "}
+                            {carduri.title}
+                            {lists[2].hasCards.includes(carduri.id) ? (
+                              <div>
+                                <b>COMPLETED</b>&nbsp;by <b>{carduri.by}</b>,
+                                started at{" "}
+                                {new Date(
+                                  carduri.startTime.seconds * 1000
+                                ).toLocaleString("en-GB")}
+                                , done in{" "}
+                                <b>
+                                  {getDuration(
+                                    carduri.endTime,
+                                    carduri.startTime
+                                  )}
+                                </b>
+                              </div>
+                            ) : (
+                              <div />
+                            )}
+                            {lists[1].hasCards.includes(carduri.id) ? (
+                              <div>
+                                <b>IN PROGRESS</b>&nbsp;by <b>{carduri.by}</b>,
+                                since{" "}
+                                {new Date(
+                                  carduri.startTime.seconds * 1000
+                                ).toLocaleString("en-GB")}
+                              </div>
+                            ) : (
+                              <div />
+                            )}
+                          </div>
+                        </li>
+                      </MarginDiv>
+                    );
+                  }
+                })}
+              </ul>
+            </div>
+          );
+        })}
+      </MarginDiv>
+    );
+
+    return <TextDiv>{obj}</TextDiv>;
+  }
+
   useEffect(() => {
     getUsers();
     getLists();
@@ -325,7 +429,7 @@ export default function Review(props) {
           <ScrollableDiv>{getReviewByProgress()}</ScrollableDiv>
         ) : selectValue === "by-dept" ? (
           <div>
-            <ScrollableDiv>This is a review by department</ScrollableDiv>
+            <ScrollableDiv>{getReviewByDept()}</ScrollableDiv>
           </div>
         ) : (
           <div />
