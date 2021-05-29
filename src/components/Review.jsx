@@ -365,6 +365,20 @@ export default function Review(props) {
                             ) : (
                               <div />
                             )}
+                            {lists[0].hasCards.includes(carduri.id) ? (
+                              <div>
+                                <b>AVAILABLE</b>
+                              </div>
+                            ) : (
+                              <div />
+                            )}
+                            {lists[3].hasCards.includes(carduri.id) ? (
+                              <div>
+                                <b>PROBLEM ENCOUNTERED</b> by {carduri.by}
+                              </div>
+                            ) : (
+                              <div />
+                            )}
                           </div>
                         </li>
                       </MarginDiv>
