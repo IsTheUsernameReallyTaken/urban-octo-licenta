@@ -18,8 +18,11 @@ const Wrapper = styled.section`
 
 const Title = styled.h1`
   font-size: 2em;
+  font-family: Courier, sans-serif;
+
   text-align: center;
-  color: palevioletred;
+  // color: #303f9f;
+  // color: palevioletred;
 `;
 
 const ButtonDiv = styled.div`
@@ -63,7 +66,7 @@ export default function WelcomeCard(props) {
         <RowFlex>
           <MarginDiv>
             <Button
-              style={{ background: "Gainsboro", color: "black" }}
+              style={{ background: "black", color: "white" }}
               variant="contained"
               color="primary"
               size="small"
@@ -77,7 +80,7 @@ export default function WelcomeCard(props) {
 
           <MarginDiv>
             <Button
-              style={{ background: "Gainsboro", color: "black" }}
+              style={{ background: "black", color: "white" }}
               variant="contained"
               color="primary"
               size="small"
@@ -91,7 +94,7 @@ export default function WelcomeCard(props) {
 
           <MarginDiv>
             <Button
-              style={{ background: "Gainsboro", color: "black" }}
+              style={{ background: "black", color: "white" }}
               variant="contained"
               color="primary"
               size="small"
@@ -105,7 +108,7 @@ export default function WelcomeCard(props) {
 
           <MarginDiv>
             <Button
-              style={{ background: "Gainsboro", color: "black" }}
+              style={{ background: "black", color: "white" }}
               variant="contained"
               color="primary"
               size="small"
