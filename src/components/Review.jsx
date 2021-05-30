@@ -411,9 +411,15 @@ export default function Review(props) {
       }
     });
 
+    let secunde, minute, ore;
+    secunde = Math.floor(maxDuration % 60);
+    minute = Math.floor((maxDuration / 60) % 60);
+    ore = Math.floor(maxDuration / 60 / 60);
+
     obj = (
       <div>
-        Cardul {maxID} ({maxTitle}) are durata cea mai mare: {maxDuration}.
+        Cardul {maxID} ({maxTitle}) are durata cea mai mare: {maxDuration}{" "}
+        secunde, adica {ore}h {minute}m {secunde}s.
       </div>
     );
 
