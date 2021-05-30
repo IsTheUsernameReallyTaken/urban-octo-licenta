@@ -105,20 +105,12 @@ export default class Card extends React.Component {
           duration = Math.floor(carduri.endTime - carduri.startTime);
           durationUnit = "seconds";
 
-          if (duration > 60) {
-            duration = duration / 60;
-            durationUnit = "minutes";
-            if (duration > 60) {
-              duration = duration / 60;
-              durationUnit = "hours";
-              if (duration > 24) {
-                duration = duration / 24;
-                durationUnit = "days";
-              }
-            }
-          }
+          let secunde, minute, ore;
+          secunde = Math.floor(duration % 60);
+          minute = Math.floor((duration / 60) % 60);
+          ore = Math.floor(duration / 60 / 60);
 
-          durationString = duration.toFixed(2) + " " + durationUnit;
+          durationString = ore + "h " + minute + "m " + secunde + "s";
         }
       });
     };
