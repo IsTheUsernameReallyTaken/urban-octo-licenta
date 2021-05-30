@@ -380,11 +380,17 @@ export default function Review(props) {
   }
 
   function getStatistics() {
-    let obj,
+    let objMax,
+      objMin,
       duration,
       maxDuration = 0,
+      minDuration = 1000 * 24 * 60 * 60,
+      minTitle,
+      minID,
+      minBy,
       maxTitle,
-      maxID;
+      maxID,
+      maxBy;
 
     cards.forEach((carduri) => {
       duration = Math.floor(carduri.endTime - carduri.startTime);
@@ -392,6 +398,14 @@ export default function Review(props) {
         maxDuration = duration;
         maxTitle = carduri.title;
         maxID = carduri.id;
+        maxBy = carduri.by;
+      }
+
+      if (duration < minDuration) {
+        minDuration = duration;
+        minTitle = carduri.title;
+        minID = carduri.id;
+        minBy = carduri.by;
       }
     });
 
@@ -400,14 +414,30 @@ export default function Review(props) {
     minute = Math.floor((maxDuration / 60) % 60);
     ore = Math.floor(maxDuration / 60 / 60);
 
-    obj = (
-      <div>
-        Cardul {maxID} ({maxTitle}) are durata cea mai mare: {maxDuration}{" "}
-        secunde, adica {ore}h {minute}m {secunde}s.
-      </div>
+    objMax = (
+      <MarginDiv>
+        <b>Card #{maxID.replace(/[^0-9]/g, "")}</b> ({maxTitle}), by {maxBy}{" "}
+        took <b>the most time</b>: {ore}h {minute}m {secunde}s.
+      </MarginDiv>
     );
 
-    return obj;
+    secunde = Math.floor(minDuration % 60);
+    minute = Math.floor((minDuration / 60) % 60);
+    ore = Math.floor(minDuration / 60 / 60);
+
+    objMin = (
+      <MarginDiv>
+        <b>Card #{minID.replace(/[^0-9]/g, "")}</b> ({minTitle}), by {minBy}{" "}
+        took <b>the least time</b>: {ore}h {minute}m {secunde}s.
+      </MarginDiv>
+    );
+
+    return (
+      <TextDiv>
+        {objMax}
+        {objMin}
+      </TextDiv>
+    );
   }
 
   useEffect(() => {
