@@ -396,9 +396,26 @@ export default function Review(props) {
   }
 
   function getStatistics() {
-    let obj;
+    let obj,
+      duration,
+      maxDuration = 0,
+      maxTitle,
+      maxID;
 
-    obj = <div>Test</div>;
+    cards.forEach((carduri) => {
+      duration = Math.floor(carduri.endTime - carduri.startTime);
+      if (duration > maxDuration) {
+        maxDuration = duration;
+        maxTitle = carduri.title;
+        maxID = carduri.id;
+      }
+    });
+
+    obj = (
+      <div>
+        Cardul {maxID} ({maxTitle}) are durata cea mai mare: {maxDuration}.
+      </div>
+    );
 
     return obj;
   }
