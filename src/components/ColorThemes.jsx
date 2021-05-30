@@ -1,7 +1,7 @@
 import React from "react";
 
 export const LightTheme = {
-  welcomeBackground: "white",
+  welcomeBackground: "lightgrey",
   welcomeColor: "black",
   buttonsBackground: "black",
   buttonColor: "white",

@@ -395,6 +395,14 @@ export default function Review(props) {
     return <TextDiv>{obj}</TextDiv>;
   }
 
+  function getStatistics() {
+    let obj;
+
+    obj = <div>Test</div>;
+
+    return obj;
+  }
+
   useEffect(() => {
     getUsers();
     getLists();
@@ -414,14 +422,22 @@ export default function Review(props) {
                 onChange={(event) => {
                   //console.log("Ati ales valoarea ");
                   //console.log(event.target.value);
+
+                  // if (event.target.value === "by-progress") {
+                  //   getReviewByProgress();
+                  // }
+
                   setSelectValue(event.target.value);
-                  if (event.target.value === "by-progress") {
-                    getReviewByProgress();
-                  }
                 }}
               >
                 <MenuItem value={"by-progress"}>By progress</MenuItem>
                 <MenuItem value={"by-dept"}>By department</MenuItem>
+                <MenuItem
+                  disabled={lists[2].hasCards.length !== cards.length}
+                  value={"stats"}
+                >
+                  Statistics
+                </MenuItem>
               </Select>
             </FormControl>
           </MarginDiv>
@@ -437,6 +453,7 @@ export default function Review(props) {
               color="primary"
               onClick={() => {
                 props.showFunction(false);
+                setSelectValue("by-progress");
               }}
             >
               X
@@ -451,7 +468,9 @@ export default function Review(props) {
             <ScrollableDiv>{getReviewByDept()}</ScrollableDiv>
           </div>
         ) : (
-          <div />
+          <div>
+            <ScrollableDiv>{getStatistics()}</ScrollableDiv>
+          </div>
         )}
       </ColumnFlex>
     </Wrapper>
