@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import PopUpCard from "./PopUpCard";
 import PopUpUser from "./PopUpUser";
+import PopUpCardDelete from "./PopUpCardDelete";
+
 import Review from "./Review";
 
 import { Button } from "@material-ui/core";
@@ -53,6 +55,7 @@ const RowFlex = styled.div`
 export default function WelcomeCard(props) {
   const [cardsButtonShow, setCardsButtonShow] = useState(false);
   const [usersButtonShow, setUsersButtonShow] = useState(false);
+  const [deleteCardsButtonShow, setDeleteCardsButtonShow] = useState(false);
   const [review, setReview] = useState(false);
 
   const welcome = "Welcome to our humble little app, " + props.username + ".";
@@ -111,6 +114,20 @@ export default function WelcomeCard(props) {
               color="primary"
               size="small"
               onClick={() => {
+                setDeleteCardsButtonShow(true);
+              }}
+            >
+              Delete Cards
+            </Button>
+          </MarginDiv>
+
+          <MarginDiv>
+            <Button
+              style={{ background: "black", color: "white" }}
+              variant="contained"
+              color="primary"
+              size="small"
+              onClick={() => {
                 props.logout(false);
               }}
             >
@@ -138,6 +155,10 @@ export default function WelcomeCard(props) {
       <Review show={review} showFunction={setReview} />
       <PopUpCard show={cardsButtonShow} showFunction={setCardsButtonShow} />
       <PopUpUser show={usersButtonShow} showFunction={setUsersButtonShow} />
+      <PopUpCardDelete
+        show={deleteCardsButtonShow}
+        showFunction={setDeleteCardsButtonShow}
+      />
     </Wrapper>
   );
 }
