@@ -176,9 +176,7 @@ export default function Review(props) {
     ) : (
       <MarginDiv>
         Completed cards are:
-        <em>
-          <b>&nbsp;no cards here</b>
-        </em>
+        <b>&nbsp;no cards here</b>
       </MarginDiv>
     );
 
@@ -214,9 +212,7 @@ export default function Review(props) {
     ) : (
       <MarginDiv>
         In-progress cards are:
-        <em>
-          <b>&nbsp;no cards here</b>
-        </em>
+        <b>&nbsp;no cards here</b>
       </MarginDiv>
     );
 
@@ -247,9 +243,7 @@ export default function Review(props) {
     ) : (
       <MarginDiv>
         Available cards are:
-        <em>
-          <b>&nbsp;no cards here</b>
-        </em>
+        <b>&nbsp;no cards here</b>
       </MarginDiv>
     );
 
@@ -282,9 +276,7 @@ export default function Review(props) {
     ) : (
       <MarginDiv>
         Problems were encountered regarding these cards:
-        <em>
-          <b>&nbsp;no cards here</b>
-        </em>
+        <b>&nbsp;no cards here</b>
       </MarginDiv>
     );
 
