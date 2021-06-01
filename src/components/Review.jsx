@@ -299,7 +299,7 @@ export default function Review(props) {
       depts.length !== 0 ? (
         <MarginDiv>
           {depts.map((departamente) => {
-            let found = false;
+            // let found = false;
             return (
               <div>
                 <div key={departamente}>
@@ -308,7 +308,7 @@ export default function Review(props) {
                 <ul>
                   {cards.map((carduri) => {
                     if (carduri.department === departamente) {
-                      found = true;
+                      // found = true;
                       return (
                         <MarginDiv>
                           <li key={carduri.id}>
@@ -365,13 +365,13 @@ export default function Review(props) {
                     }
                   })}
 
-                  {found === false ? (
+                  {/* {found === false ? (
                     <MarginDiv>
                       <li>no cards here yet</li>
                     </MarginDiv>
                   ) : (
                     <div />
-                  )}
+                  )} */}
                 </ul>
               </div>
             );

@@ -3,6 +3,7 @@ import styled from "styled-components";
 import PopUpCard from "./PopUpCard";
 import PopUpUser from "./PopUpUser";
 import PopUpCardDelete from "./PopUpCardDelete";
+import PopUpUserDelete from "./PopUpUserDelete";
 
 import Review from "./Review";
 
@@ -56,6 +57,8 @@ export default function WelcomeCard(props) {
   const [cardsButtonShow, setCardsButtonShow] = useState(false);
   const [usersButtonShow, setUsersButtonShow] = useState(false);
   const [deleteCardsButtonShow, setDeleteCardsButtonShow] = useState(false);
+  const [deleteUsersButtonShow, setDeleteUsersButtonShow] = useState(false);
+
   const [review, setReview] = useState(false);
 
   const welcome = "Welcome to our humble little app, " + props.username + ".";
@@ -128,6 +131,20 @@ export default function WelcomeCard(props) {
               color="primary"
               size="small"
               onClick={() => {
+                setDeleteUsersButtonShow(true);
+              }}
+            >
+              Delete Users
+            </Button>
+          </MarginDiv>
+
+          <MarginDiv>
+            <Button
+              style={{ background: "black", color: "white" }}
+              variant="contained"
+              color="primary"
+              size="small"
+              onClick={() => {
                 props.logout(false);
               }}
             >
@@ -158,6 +175,10 @@ export default function WelcomeCard(props) {
       <PopUpCardDelete
         show={deleteCardsButtonShow}
         showFunction={setDeleteCardsButtonShow}
+      />
+      <PopUpUserDelete
+        show={deleteUsersButtonShow}
+        showFunction={setDeleteUsersButtonShow}
       />
     </Wrapper>
   );
