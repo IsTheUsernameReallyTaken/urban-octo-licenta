@@ -216,10 +216,18 @@ export default function PopUpUser(props) {
       }
     }
 
+    let maxID = 0;
+
+    users.forEach((useri) => {
+      if (useri.id.replace(/[^0-9]/g, "") > maxID) {
+        maxID = parseInt(useri.id.replace(/[^0-9]/g, ""));
+      }
+    });
+
     if (adminRights) {
-      id = "admin-" + (users.length + 1);
+      id = "admin-" + (maxID + 1);
     } else {
-      id = "user-" + (users.length + 1);
+      id = "user-" + (maxID + 1);
     }
 
     let finalDept = "";

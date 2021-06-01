@@ -93,6 +93,7 @@ export default function PopUpUserDelete(props) {
     }
 
     deleteUser(selectedUser);
+    props.showFunction(false);
   }
 
   return props.show ? (
