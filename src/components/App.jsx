@@ -220,8 +220,10 @@ export default function App(props) {
       }
 
       if (
-        source.droppableId === "list-2" &&
-        destination.droppableId === "list-4m"
+        (source.droppableId === "list-2" &&
+          destination.droppableId === "list-4m") ||
+        (source.droppableId === "list-2" &&
+          destination.droppableId === "list-4m")
       ) {
         let cardTitle = "";
 
@@ -236,6 +238,7 @@ export default function App(props) {
           title: cardTitle,
           by: props.username,
           problemStart: new Date(),
+          problemEnd: "",
         };
         lists.forEach((listele) => {
           if (source.droppableId === listele.id) {
