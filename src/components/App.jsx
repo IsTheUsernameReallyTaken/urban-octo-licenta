@@ -118,6 +118,8 @@ export default function App(props) {
           by: "",
           startTime: "",
           endTime: "",
+          problemStart: "",
+          problemEnd: "",
         };
 
         lists.forEach((listele) => {
