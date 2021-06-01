@@ -501,7 +501,10 @@ export default function Review(props) {
                 <MenuItem value={"by-progress"}>By progress</MenuItem>
                 <MenuItem value={"by-dept"}>By department</MenuItem>
                 <MenuItem
-                  disabled={lists[2].hasCards.length !== cards.length}
+                  disabled={
+                    lists[2].hasCards.length !== cards.length ||
+                    cards.length === 0
+                  }
                   value={"stats"}
                 >
                   Statistics
