@@ -112,7 +112,10 @@ export default function PopUpCard(props) {
 
     if (cardTitle.length === 0) {
       setEmptyTitle(true);
+      setDeptError(false);
       return;
+    } else {
+      setEmptyTitle(false);
     }
 
     if (selectedDept === "") {
@@ -205,9 +208,10 @@ export default function PopUpCard(props) {
             label="Card Title"
           />
         </TextFieldDiv>
+
         <TextFieldDiv>
           <FormControl
-            style={{ minWidth: "72.5%" }}
+            style={{ minWidth: "56%" }}
             variant="outlined"
             error={deptError}
           >
