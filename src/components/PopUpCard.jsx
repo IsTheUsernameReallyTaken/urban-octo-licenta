@@ -159,6 +159,8 @@ export default function PopUpCard(props) {
       department: selectedDept,
       startTime: "",
       endTime: "",
+      problemStart: "",
+      problemEnd: "",
       by: "",
     };
 
@@ -234,6 +236,7 @@ export default function PopUpCard(props) {
                 //console.log("Ati ales valoarea ");
                 //console.log(event.target.value);
                 setSelectedDept(event.target.value);
+                setDeptError(false);
               }}
             >
               {getDepts().map((departamente) => {

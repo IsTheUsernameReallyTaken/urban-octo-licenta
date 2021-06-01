@@ -222,7 +222,7 @@ export default function App(props) {
       if (
         (source.droppableId === "list-2" &&
           destination.droppableId === "list-4m") ||
-        (source.droppableId === "list-2" &&
+        (source.droppableId === "list-3" &&
           destination.droppableId === "list-4m")
       ) {
         let cardTitle = "";
