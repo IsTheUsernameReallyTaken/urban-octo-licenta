@@ -423,29 +423,44 @@ export default function Review(props) {
       </MarginDiv>
     );
 
-    objProblems = (
-      <MarginDiv>
-        Cards which encoutered problems were:
-        <ul>
-          {cards.map((carduri) => {
-            if (carduri.problemStart) {
-              let time1, durata1;
+    let numberOfProblems = 0;
+    cards.forEach((carduri) => {
+      if (carduri.problemStart) {
+        numberOfProblems++;
+      }
+    });
 
-              time1 = new Date(
-                carduri.problemStart.seconds * 1000
-              ).toLocaleString("en-GB");
+    objProblems =
+      numberOfProblems !== 0 ? (
+        <MarginDiv>
+          Cards which encoutered problems were:
+          <ul>
+            {cards.map((carduri) => {
+              if (carduri.problemStart) {
+                let time1, durata1;
 
-              return (
-                <li>
-                  <b>Card #{carduri.id.replace(/[^0-9]/g, "")}</b>, encountered
-                  at {time1} by <b>{carduri.by}</b>
-                </li>
-              );
-            }
-          })}
-        </ul>
-      </MarginDiv>
-    );
+                time1 = new Date(
+                  carduri.problemStart.seconds * 1000
+                ).toLocaleString("en-GB");
+
+                durata1 = getDuration(carduri.problemEnd, carduri.problemStart);
+
+                return (
+                  <li>
+                    <b>Card #{carduri.id.replace(/[^0-9]/g, "")}</b>,
+                    encountered at {time1} by <b>{carduri.by}</b>, solved in{" "}
+                    {durata1}
+                  </li>
+                );
+              }
+            })}
+          </ul>
+        </MarginDiv>
+      ) : (
+        <MarginDiv>
+          Cards which encoutered problems were: <b>no cards here</b>
+        </MarginDiv>
+      );
 
     return (
       <TextDiv>
