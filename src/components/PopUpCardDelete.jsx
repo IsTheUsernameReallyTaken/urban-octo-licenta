@@ -141,7 +141,13 @@ export default function PopUpCardDelete(props) {
 
   function onDeleteAllCards() {
     setSelectError(false);
-    console.log("Delete all cards!");
+
+    cards.forEach((carduri) => {
+      deleteCard(carduri.id);
+    });
+    lists.forEach((liste) => {
+      updateList({ id: liste.id, hasCards: [] });
+    });
   }
 
   useEffect(() => {

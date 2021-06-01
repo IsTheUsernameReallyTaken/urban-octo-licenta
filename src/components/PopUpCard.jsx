@@ -125,7 +125,17 @@ export default function PopUpCard(props) {
       setDeptError(false);
     }
 
-    const cardID = "card-" + (cards.length + 1);
+    let maxID = 0;
+
+    cards.forEach((carduri) => {
+      if (carduri.id.replace(/[^0-9]/g, "") > maxID) {
+        maxID = parseInt(carduri.id.replace(/[^0-9]/g, ""));
+      }
+    });
+
+    const cardID = "card-" + (maxID + 1);
+
+    // console.log(cardID);
 
     let listToUpdate = {};
     lists.forEach((listele) => {
