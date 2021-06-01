@@ -249,7 +249,7 @@ export default function Review(props) {
 
     objProblems = lists[3].hasCards.length ? (
       <MarginDiv>
-        Problems were encountered regarding these cards: <br></br>
+        There are problems regarding these cards: <br></br>
         {lists[3].hasCards.map((cardID) => {
           let idNumber, deptNumber, title, by;
 
@@ -267,7 +267,7 @@ export default function Review(props) {
             <ul key={idNumber}>
               <li>
                 <b>card {idNumber}</b> ({deptNumber}): {title}, encoutered by
-                <b>{by}</b>
+                <b>&nbsp;{by}</b>
               </li>
             </ul>
           );
@@ -275,7 +275,7 @@ export default function Review(props) {
       </MarginDiv>
     ) : (
       <MarginDiv>
-        Problems were encountered regarding these cards:
+        There are problems regarding these cards:
         <b>&nbsp;no cards here</b>
       </MarginDiv>
     );
@@ -372,9 +372,8 @@ export default function Review(props) {
   }
 
   function getStatistics() {
-    let objMax,
-      objMin,
-      duration,
+    let objMax, objMin, objProblems;
+    let duration,
       maxDuration = 0,
       minDuration = 1000 * 24 * 60 * 60,
       minTitle,
@@ -424,10 +423,35 @@ export default function Review(props) {
       </MarginDiv>
     );
 
+    objProblems = (
+      <MarginDiv>
+        Cards which encoutered problems were:
+        <ul>
+          {cards.map((carduri) => {
+            if (carduri.problemStart) {
+              let time1, durata1;
+
+              time1 = new Date(
+                carduri.problemStart.seconds * 1000
+              ).toLocaleString("en-GB");
+
+              return (
+                <li>
+                  <b>Card #{carduri.id.replace(/[^0-9]/g, "")}</b>, encountered
+                  at {time1} by <b>{carduri.by}</b>
+                </li>
+              );
+            }
+          })}
+        </ul>
+      </MarginDiv>
+    );
+
     return (
       <TextDiv>
         {objMax}
         {objMin}
+        {objProblems}
       </TextDiv>
     );
   }
