@@ -180,10 +180,8 @@ export default function App(props) {
       }
 
       if (
-        (source.droppableId === "list-2" &&
-          destination.droppableId === "list-3") ||
-        (source.droppableId === "list-4m" &&
-          destination.droppableId === "list-3")
+        source.droppableId === "list-2" &&
+        destination.droppableId === "list-3"
       ) {
         let cardTitle = "";
 
@@ -197,6 +195,121 @@ export default function App(props) {
           id: draggableId,
           title: cardTitle,
           by: props.username,
+          endTime: new Date(),
+        };
+        lists.forEach((listele) => {
+          if (source.droppableId === listele.id) {
+            firstListToUpdate = listele;
+            firstListToUpdate.hasCards.splice(source.index, 1);
+          }
+          if (destination.droppableId === listele.id) {
+            secondListToUpdate = listele;
+            secondListToUpdate.hasCards.splice(
+              destination.index,
+              0,
+              draggableId
+            );
+          }
+        });
+        updateList(firstListToUpdate);
+        updateList(secondListToUpdate);
+        updateCard(cardToUpdate);
+        return;
+      }
+
+      if (
+        source.droppableId === "list-2" &&
+        destination.droppableId === "list-4m"
+      ) {
+        let cardTitle = "";
+
+        cards.forEach((carduri) => {
+          if (carduri.id === draggableId) {
+            cardTitle = carduri.title;
+          }
+        });
+
+        let cardToUpdate = {
+          id: draggableId,
+          title: cardTitle,
+          by: props.username,
+          problemStart: new Date(),
+        };
+        lists.forEach((listele) => {
+          if (source.droppableId === listele.id) {
+            firstListToUpdate = listele;
+            firstListToUpdate.hasCards.splice(source.index, 1);
+          }
+          if (destination.droppableId === listele.id) {
+            secondListToUpdate = listele;
+            secondListToUpdate.hasCards.splice(
+              destination.index,
+              0,
+              draggableId
+            );
+          }
+        });
+        updateList(firstListToUpdate);
+        updateList(secondListToUpdate);
+        updateCard(cardToUpdate);
+        return;
+      }
+
+      if (
+        source.droppableId === "list-4m" &&
+        destination.droppableId === "list-2"
+      ) {
+        let cardTitle = "";
+
+        cards.forEach((carduri) => {
+          if (carduri.id === draggableId) {
+            cardTitle = carduri.title;
+          }
+        });
+
+        let cardToUpdate = {
+          id: draggableId,
+          title: cardTitle,
+          by: props.username,
+          problemEnd: new Date(),
+        };
+        lists.forEach((listele) => {
+          if (source.droppableId === listele.id) {
+            firstListToUpdate = listele;
+            firstListToUpdate.hasCards.splice(source.index, 1);
+          }
+          if (destination.droppableId === listele.id) {
+            secondListToUpdate = listele;
+            secondListToUpdate.hasCards.splice(
+              destination.index,
+              0,
+              draggableId
+            );
+          }
+        });
+        updateList(firstListToUpdate);
+        updateList(secondListToUpdate);
+        updateCard(cardToUpdate);
+        return;
+      }
+
+      if (
+        source.droppableId === "list-4m" &&
+        destination.droppableId === "list-3"
+      ) {
+        let cardTitle = "";
+
+        cards.forEach((carduri) => {
+          if (carduri.id === draggableId) {
+            cardTitle = carduri.title;
+          }
+        });
+
+        let cardToUpdate = {
+          id: draggableId,
+          title: cardTitle,
+          by: props.username,
+          problemEnd: new Date(),
           endTime: new Date(),
         };
         lists.forEach((listele) => {
