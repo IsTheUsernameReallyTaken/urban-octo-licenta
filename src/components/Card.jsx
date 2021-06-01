@@ -78,7 +78,8 @@ export default class Card extends React.Component {
     let time1 = "",
       time2 = "",
       durationUnit = "",
-      durationString = "";
+      durationString = "",
+      problemTime = "";
 
     const whyTF = 60 * 60 * 24 * (3990 - 2021);
 
@@ -112,6 +113,17 @@ export default class Card extends React.Component {
 
           durationString = ore + "h " + minute + "m " + secunde + "s";
         }
+      });
+    };
+
+    const getProblemTime = () => {
+      this.props.cards.map((carduri) => {
+        if (carduri.id === this.props.id) {
+          problemTime = new Date(
+            carduri.problemStart.seconds * 1000
+          ).toLocaleString("en-GB");
+        }
+        return problemTime;
       });
     };
 
@@ -161,6 +173,15 @@ export default class Card extends React.Component {
               <div>
                 {/*<ByDiv>done at: {time2} secs</ByDiv>*/}
                 <ByDiv>duration: {durationString}</ByDiv>
+              </div>
+            ) : (
+              <div />
+            )}
+
+            {this.props.parentList === "list-4m" ? (
+              <div>
+                {getProblemTime()}
+                <ByDiv>encountered at: {problemTime}</ByDiv>
               </div>
             ) : (
               <div />
