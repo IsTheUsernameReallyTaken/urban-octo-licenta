@@ -171,6 +171,7 @@ export default function PopUpCardDelete(props) {
             <InputLabel>Cards</InputLabel>
             <Select
               label="Cards"
+              disabled={cards.length === 0}
               onChange={(event) => {
                 setSelectedCard(event.target.value);
                 setSelectError(false);
