@@ -148,6 +148,8 @@ export default function PopUpCardDelete(props) {
     lists.forEach((liste) => {
       updateList({ id: liste.id, hasCards: [] });
     });
+
+    props.showFunction(false);
   }
 
   useEffect(() => {
