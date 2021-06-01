@@ -98,8 +98,8 @@ export default function Review(props) {
   function getDepts() {
     let departamente = [];
 
-    for (let i = 0; i < users.length; i++) {
-      departamente[departamente.length] = users[i].department;
+    for (let i = 0; i < cards.length; i++) {
+      departamente[departamente.length] = cards[i].department;
     }
 
     departamente = Array.from(new Set(departamente));
@@ -295,88 +295,91 @@ export default function Review(props) {
 
     const depts = getDepts();
 
-    obj = (
-      <MarginDiv>
-        {depts.map((departamente) => {
-          let found = false;
-          return (
-            <div>
-              <div key={departamente}>
-                Department {departamente.replace(/[^0-9]/g, "")}:
-              </div>
-              <ul>
-                {cards.map((carduri) => {
-                  if (carduri.department === departamente) {
-                    found = true;
-                    return (
-                      <MarginDiv>
-                        <li key={carduri.id}>
-                          <div>
-                            <b>Card #{carduri.id.replace(/[^0-9]/g, "")}</b> -{" "}
-                            {carduri.title}
-                            {lists[2].hasCards.includes(carduri.id) ? (
-                              <div>
-                                <b>COMPLETED</b>&nbsp;by <b>{carduri.by}</b>,
-                                started at{" "}
-                                {new Date(
-                                  carduri.startTime.seconds * 1000
-                                ).toLocaleString("en-GB")}
-                                , done in{" "}
-                                <b>
-                                  {getDuration(
-                                    carduri.endTime,
-                                    carduri.startTime
-                                  )}
-                                </b>
-                              </div>
-                            ) : (
-                              <div />
-                            )}
-                            {lists[1].hasCards.includes(carduri.id) ? (
-                              <div>
-                                <b>IN PROGRESS</b>&nbsp;by <b>{carduri.by}</b>,
-                                since{" "}
-                                {new Date(
-                                  carduri.startTime.seconds * 1000
-                                ).toLocaleString("en-GB")}
-                              </div>
-                            ) : (
-                              <div />
-                            )}
-                            {lists[0].hasCards.includes(carduri.id) ? (
-                              <div>
-                                <b>AVAILABLE</b>
-                              </div>
-                            ) : (
-                              <div />
-                            )}
-                            {lists[3].hasCards.includes(carduri.id) ? (
-                              <div>
-                                <b>PROBLEM ENCOUNTERED</b> by {carduri.by}
-                              </div>
-                            ) : (
-                              <div />
-                            )}
-                          </div>
-                        </li>
-                      </MarginDiv>
-                    );
-                  }
-                })}
+    obj =
+      depts.length !== 0 ? (
+        <MarginDiv>
+          {depts.map((departamente) => {
+            let found = false;
+            return (
+              <div>
+                <div key={departamente}>
+                  Department {departamente.replace(/[^0-9]/g, "")}:
+                </div>
+                <ul>
+                  {cards.map((carduri) => {
+                    if (carduri.department === departamente) {
+                      found = true;
+                      return (
+                        <MarginDiv>
+                          <li key={carduri.id}>
+                            <div>
+                              <b>Card #{carduri.id.replace(/[^0-9]/g, "")}</b> -{" "}
+                              {carduri.title}
+                              {lists[2].hasCards.includes(carduri.id) ? (
+                                <div>
+                                  <b>COMPLETED</b>&nbsp;by <b>{carduri.by}</b>,
+                                  started at{" "}
+                                  {new Date(
+                                    carduri.startTime.seconds * 1000
+                                  ).toLocaleString("en-GB")}
+                                  , done in{" "}
+                                  <b>
+                                    {getDuration(
+                                      carduri.endTime,
+                                      carduri.startTime
+                                    )}
+                                  </b>
+                                </div>
+                              ) : (
+                                <div />
+                              )}
+                              {lists[1].hasCards.includes(carduri.id) ? (
+                                <div>
+                                  <b>IN PROGRESS</b>&nbsp;by <b>{carduri.by}</b>
+                                  , since{" "}
+                                  {new Date(
+                                    carduri.startTime.seconds * 1000
+                                  ).toLocaleString("en-GB")}
+                                </div>
+                              ) : (
+                                <div />
+                              )}
+                              {lists[0].hasCards.includes(carduri.id) ? (
+                                <div>
+                                  <b>AVAILABLE</b>
+                                </div>
+                              ) : (
+                                <div />
+                              )}
+                              {lists[3].hasCards.includes(carduri.id) ? (
+                                <div>
+                                  <b>PROBLEM ENCOUNTERED</b> by {carduri.by}
+                                </div>
+                              ) : (
+                                <div />
+                              )}
+                            </div>
+                          </li>
+                        </MarginDiv>
+                      );
+                    }
+                  })}
 
-                {found === false ? (
-                  <MarginDiv>
-                    <li>no cards here yet</li>
-                  </MarginDiv>
-                ) : (
-                  <div />
-                )}
-              </ul>
-            </div>
-          );
-        })}
-      </MarginDiv>
-    );
+                  {found === false ? (
+                    <MarginDiv>
+                      <li>no cards here yet</li>
+                    </MarginDiv>
+                  ) : (
+                    <div />
+                  )}
+                </ul>
+              </div>
+            );
+          })}
+        </MarginDiv>
+      ) : (
+        <MarginDiv>There are no cards at the moment.</MarginDiv>
+      );
 
     return <TextDiv>{obj}</TextDiv>;
   }
