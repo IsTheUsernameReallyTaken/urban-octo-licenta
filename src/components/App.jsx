@@ -239,6 +239,7 @@ export default function App(props) {
           by: props.username,
           problemStart: new Date(),
           problemEnd: "",
+          endTime: "",
         };
         lists.forEach((listele) => {
           if (source.droppableId === listele.id) {
