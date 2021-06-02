@@ -488,64 +488,77 @@ export default function Review(props) {
     let obj = (
       <MarginDiv>
         {users.map((useri) => {
+          let count = 0;
           return (
             <MarginDiv key={useri.id}>
               <b>User #{useri.id.replace(/[^0-9]/g, "")}</b> -{" "}
               <b>
                 {useri.name} {useri.surname}
               </b>{" "}
-              interacted with these cards:
+              {cards.forEach((carduri) => {
+                if (carduri.by === useri.username) {
+                  count = count + 1;
+                }
+              })}
+              interacted with {count} cards.
               <ul>
-                {cards.map((carduri) => {
-                  if (carduri.by === useri.username) {
-                    return (
-                      <MarginDiv>
-                        <li>
-                          <b>Card #{carduri.id.replace(/[^0-9]/g, "")}</b> -{" "}
-                          {carduri.title}{" "}
-                          {lists[1].hasCards.includes(carduri.id) ? (
-                            <div>
-                              <b>IN PROGRESS</b> - since{" "}
-                              <b>
-                                {new Date(
-                                  carduri.startTime.seconds * 1000
-                                ).toLocaleString("en-GB")}
-                              </b>
-                            </div>
-                          ) : (
-                            <div />
-                          )}
-                          {lists[2].hasCards.includes(carduri.id) ? (
-                            <div>
-                              <b>FINISHED</b> - started at{" "}
-                              <b>
-                                {new Date(
-                                  carduri.startTime.seconds * 1000
-                                ).toLocaleString("en-GB")}
-                              </b>
-                              , took{" "}
-                              {getDuration(carduri.endTime, carduri.startTime)}
-                            </div>
-                          ) : (
-                            <div />
-                          )}
-                          {lists[3].hasCards.includes(carduri.id) ? (
-                            <div>
-                              <b>PROBLEM</b> - encountered at{" "}
-                              <b>
-                                {new Date(
-                                  carduri.problemStart.seconds * 1000
-                                ).toLocaleString("en-GB")}
-                              </b>
-                            </div>
-                          ) : (
-                            <div />
-                          )}
-                        </li>
-                      </MarginDiv>
-                    );
-                  }
-                })}
+                {count !== 0 ? (
+                  cards.map((carduri) => {
+                    if (carduri.by === useri.username) {
+                      return (
+                        <MarginDiv>
+                          <li>
+                            <b>Card #{carduri.id.replace(/[^0-9]/g, "")}</b> -{" "}
+                            {carduri.title}{" "}
+                            {lists[1].hasCards.includes(carduri.id) ? (
+                              <div>
+                                <b>IN PROGRESS</b> - since{" "}
+                                <b>
+                                  {new Date(
+                                    carduri.startTime.seconds * 1000
+                                  ).toLocaleString("en-GB")}
+                                </b>
+                              </div>
+                            ) : (
+                              <div />
+                            )}
+                            {lists[2].hasCards.includes(carduri.id) ? (
+                              <div>
+                                <b>FINISHED</b> - started at{" "}
+                                <b>
+                                  {new Date(
+                                    carduri.startTime.seconds * 1000
+                                  ).toLocaleString("en-GB")}
+                                </b>
+                                , took{" "}
+                                {getDuration(
+                                  carduri.endTime,
+                                  carduri.startTime
+                                )}
+                              </div>
+                            ) : (
+                              <div />
+                            )}
+                            {lists[3].hasCards.includes(carduri.id) ? (
+                              <div>
+                                <b>PROBLEM</b> - encountered at{" "}
+                                <b>
+                                  {new Date(
+                                    carduri.problemStart.seconds * 1000
+                                  ).toLocaleString("en-GB")}
+                                </b>
+                              </div>
+                            ) : (
+                              <div />
+                            )}
+                          </li>
+                        </MarginDiv>
+                      );
+                    }
+                  })
+                ) : (
+                  <div />
+                )}
               </ul>
             </MarginDiv>
           );
