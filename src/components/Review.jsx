@@ -484,6 +484,37 @@ export default function Review(props) {
     );
   }
 
+  function getReviewByUser() {
+    let obj = (
+      <MarginDiv>
+        {users.map((useri) => {
+          return (
+            <MarginDiv key={useri.id}>
+              <b>User #{useri.id.replace(/[^0-9]/g, "")}</b> -{" "}
+              <b>
+                {useri.name} {useri.surname}
+              </b>{" "}
+              interacted with these cards:
+              <ul>
+                {cards.map((carduri) => {
+                  if (carduri.by === useri.username) {
+                    return (
+                      <li>
+                        <b>Card #{carduri.id.replace(/[^0-9]/g, "")}</b> -{" "}
+                        {carduri.title}
+                      </li>
+                    );
+                  }
+                })}
+              </ul>
+            </MarginDiv>
+          );
+        })}
+      </MarginDiv>
+    );
+    return <TextDiv>{obj}</TextDiv>;
+  }
+
   useEffect(() => {
     getUsers();
     getLists();
@@ -513,12 +544,13 @@ export default function Review(props) {
               >
                 <MenuItem value={"by-progress"}>By progress</MenuItem>
                 <MenuItem value={"by-dept"}>By department</MenuItem>
+                <MenuItem value={"by-user"}>By user</MenuItem>
                 <MenuItem
                   disabled={
                     lists[2].hasCards.length !== cards.length ||
                     cards.length === 0
                   }
-                  value={"stats"}
+                  value={"by-stats"}
                 >
                   Statistics
                 </MenuItem>
@@ -545,16 +577,27 @@ export default function Review(props) {
           </MarginDiv>
         </RowFlex>
 
+        {/* {
+          {
+            "by-progress": (
+              <ScrollableDiv>{getReviewByProgress()}</ScrollableDiv>
+            ),
+            "by-dept": <ScrollableDiv>{getReviewByDept()}</ScrollableDiv>,
+            "by-user": <ScrollableDiv>{getReviewByUser()}</ScrollableDiv>,
+            "by-stats": <ScrollableDiv>{getStatistics()}</ScrollableDiv>,
+          }[selectValue]
+        } */}
+
         {selectValue === "by-progress" ? (
           <ScrollableDiv>{getReviewByProgress()}</ScrollableDiv>
         ) : selectValue === "by-dept" ? (
-          <div>
-            <ScrollableDiv>{getReviewByDept()}</ScrollableDiv>
-          </div>
+          <ScrollableDiv>{getReviewByDept()}</ScrollableDiv>
+        ) : selectValue === "by-user" ? (
+          <ScrollableDiv>{getReviewByUser()}</ScrollableDiv>
+        ) : selectValue === "by-stats" ? (
+          <ScrollableDiv>{getStatistics()}</ScrollableDiv>
         ) : (
-          <div>
-            <ScrollableDiv>{getStatistics()}</ScrollableDiv>
-          </div>
+          <div />
         )}
       </ColumnFlex>
     </Wrapper>
