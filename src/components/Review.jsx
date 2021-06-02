@@ -421,7 +421,11 @@ export default function Review(props) {
     objMax = (
       <MarginDiv>
         <b>Card #{maxID.replace(/[^0-9]/g, "")}</b> ({maxTitle}), by {maxBy}{" "}
-        took <b>the most time</b>: {ore}h {minute}m {secunde}s.
+        took <b>the most time</b>:{" "}
+        <b>
+          {ore}h {minute}m {secunde}s
+        </b>
+        .
       </MarginDiv>
     );
 
@@ -432,7 +436,11 @@ export default function Review(props) {
     objMin = (
       <MarginDiv>
         <b>Card #{minID.replace(/[^0-9]/g, "")}</b> ({minTitle}), by {minBy}{" "}
-        took <b>the least time</b>: {ore}h {minute}m {secunde}s.
+        took <b>the least time</b>:{" "}
+        <b>
+          {ore}h {minute}m {secunde}s
+        </b>
+        .
       </MarginDiv>
     );
 
@@ -462,7 +470,7 @@ export default function Review(props) {
                   <li>
                     <b>Card #{carduri.id.replace(/[^0-9]/g, "")}</b>,
                     encountered at {time1} by <b>{carduri.by}</b>, solved in{" "}
-                    {durata1}
+                    <b>{durata1}</b>
                   </li>
                 );
               }
@@ -531,10 +539,12 @@ export default function Review(props) {
                                   ).toLocaleString("en-GB")}
                                 </b>
                                 , took{" "}
-                                {getDuration(
-                                  carduri.endTime,
-                                  carduri.startTime
-                                )}
+                                <b>
+                                  {getDuration(
+                                    carduri.endTime,
+                                    carduri.startTime
+                                  )}
+                                </b>
                               </div>
                             ) : (
                               <div />
