@@ -500,7 +500,7 @@ export default function Review(props) {
                   count = count + 1;
                 }
               })}
-              interacted with {count} cards.
+              interacted <b>with {count} cards</b>.
               <ul>
                 {count !== 0 ? (
                   cards.map((carduri) => {
