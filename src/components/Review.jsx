@@ -444,39 +444,76 @@ export default function Review(props) {
       </MarginDiv>
     );
 
-    let numberOfProblems = 0;
+    let numberOfProblems = 0,
+      maxProblem = 0,
+      minProblem = 1000 * 24 * 60 * 60,
+      durationProblem = 0;
     cards.forEach((carduri) => {
       if (carduri.problemStart) {
         numberOfProblems++;
+        if (
+          Math.floor(carduri.problemEnd - carduri.problemStart) > maxProblem
+        ) {
+          maxProblem = Math.floor(carduri.problemEnd - carduri.problemStart);
+        }
+        if (
+          Math.floor(carduri.problemEnd - carduri.problemStart) < minProblem
+        ) {
+          minProblem = Math.floor(carduri.problemEnd - carduri.problemStart);
+        }
       }
     });
 
     objProblems =
       numberOfProblems !== 0 ? (
-        <MarginDiv>
-          Cards which encoutered problems were:
-          <ul>
-            {cards.map((carduri) => {
-              if (carduri.problemStart) {
-                let time1, durata1;
+        <div>
+          {cards.map((carduri) => {})}
+          <MarginDiv>
+            Cards which encoutered problems were:
+            <ul>
+              {cards.map((carduri) => {
+                if (carduri.problemStart) {
+                  let time1, durata1;
 
-                time1 = new Date(
-                  carduri.problemStart.seconds * 1000
-                ).toLocaleString("en-GB");
+                  time1 = new Date(
+                    carduri.problemStart.seconds * 1000
+                  ).toLocaleString("en-GB");
 
-                durata1 = getDuration(carduri.problemEnd, carduri.problemStart);
+                  durata1 = getDuration(
+                    carduri.problemEnd,
+                    carduri.problemStart
+                  );
 
-                return (
-                  <li>
-                    <b>Card #{carduri.id.replace(/[^0-9]/g, "")}</b>,
-                    encountered at {time1} by <b>{carduri.by}</b>, solved in{" "}
-                    <b>{durata1}</b>
-                  </li>
-                );
-              }
-            })}
-          </ul>
-        </MarginDiv>
+                  return (
+                    <li>
+                      <b>Card #{carduri.id.replace(/[^0-9]/g, "")}</b>,
+                      encountered at {time1} by <b>{carduri.by}</b>, solved in{" "}
+                      <b>{durata1}</b>
+                      {maxProblem ===
+                        Math.floor(carduri.problemEnd - carduri.problemStart) &&
+                      numberOfProblems !== 1 ? (
+                        <span>
+                          {" "}
+                          (<b>the most time</b> for a problem)
+                        </span>
+                      ) : minProblem ===
+                          Math.floor(
+                            carduri.problemEnd - carduri.problemStart
+                          ) && numberOfProblems !== 1 ? (
+                        <span>
+                          {" "}
+                          (<b>the least time</b> for a problem)
+                        </span>
+                      ) : (
+                        <div />
+                      )}
+                    </li>
+                  );
+                }
+              })}
+            </ul>
+          </MarginDiv>
+        </div>
       ) : (
         <MarginDiv>
           Cards which encoutered problems were: <b>no cards here</b>
