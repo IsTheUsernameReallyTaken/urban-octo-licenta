@@ -388,7 +388,7 @@ export default function Review(props) {
     let objMax, objMin, objProblems;
     let duration,
       maxDuration = 0,
-      minDuration = 1000 * 24 * 60 * 60,
+      minDuration = 100000 * 24 * 60 * 60,
       minTitle,
       minID,
       minBy,
@@ -446,7 +446,7 @@ export default function Review(props) {
 
     let numberOfProblems = 0,
       maxProblem = 0,
-      minProblem = 1000 * 24 * 60 * 60,
+      minProblem = 100000 * 24 * 60 * 60,
       durationProblem = 0;
     cards.forEach((carduri) => {
       if (carduri.problemStart) {
@@ -485,29 +485,32 @@ export default function Review(props) {
                   );
 
                   return (
-                    <li>
-                      <b>Card #{carduri.id.replace(/[^0-9]/g, "")}</b>,
-                      encountered at {time1} by <b>{carduri.by}</b>, solved in{" "}
-                      <b>{durata1}</b>
-                      {maxProblem ===
-                        Math.floor(carduri.problemEnd - carduri.problemStart) &&
-                      numberOfProblems !== 1 ? (
-                        <span>
-                          {" "}
-                          (<b>the most time</b> for a problem)
-                        </span>
-                      ) : minProblem ===
+                    <MarginDiv>
+                      <li>
+                        <b>Card #{carduri.id.replace(/[^0-9]/g, "")}</b>,
+                        encountered at {time1} by <b>{carduri.by}</b>, solved in{" "}
+                        <b>{durata1}</b>
+                        {maxProblem ===
                           Math.floor(
                             carduri.problemEnd - carduri.problemStart
                           ) && numberOfProblems !== 1 ? (
-                        <span>
-                          {" "}
-                          (<b>the least time</b> for a problem)
-                        </span>
-                      ) : (
-                        <div />
-                      )}
-                    </li>
+                          <span>
+                            {" "}
+                            (<b>the most time</b> for a problem)
+                          </span>
+                        ) : minProblem ===
+                            Math.floor(
+                              carduri.problemEnd - carduri.problemStart
+                            ) && numberOfProblems !== 1 ? (
+                          <span>
+                            {" "}
+                            (<b>the least time</b> for a problem)
+                          </span>
+                        ) : (
+                          <div />
+                        )}
+                      </li>
+                    </MarginDiv>
                   );
                 }
               })}
@@ -520,11 +523,77 @@ export default function Review(props) {
         </MarginDiv>
       );
 
+    let maxUserID = 0;
+
+    users.forEach((useri) => {
+      if (useri.id.replace(/[^0-9]/g, "") > maxUserID) {
+        maxUserID = parseInt(useri.id.replace(/[^0-9]/g, ""));
+      }
+    });
+
+    let userCards = new Array(maxUserID).fill(0);
+
+    users.forEach((useri) => {
+      cards.forEach((carduri) => {
+        if (carduri.by === useri.username) {
+          userCards[parseInt(useri.id.replace(/[^0-9]/g, "") - 1)]++;
+        }
+      });
+    });
+
+    let maxUserCards = 0,
+      minUser = 100000;
+    let username1 = "",
+      usernameIndex;
+
+    userCards.forEach((cardsNo, index) => {
+      if (cardsNo > maxUserCards) {
+        maxUserCards = cardsNo;
+        usernameIndex = index + 1;
+      }
+    });
+
+    // console.log(usernameIndex + " a lucrat cel mai mult: " + maxUserCards);
+
+    users.forEach((useri) => {
+      if (parseInt(useri.id.replace(/[^0-9]/g, "")) === usernameIndex) {
+        username1 = useri.username;
+      }
+    });
+
+    let totalTime = 0;
+
+    cards.forEach((carduri) => {
+      if (carduri.by === username1) {
+        totalTime = totalTime + Math.floor(carduri.endTime - carduri.startTime);
+      }
+    });
+
+    // secunde = Math.floor(totalTime % 60);
+    // minute = Math.floor((totalTime / 60) % 60);
+    // ore = Math.floor(totalTime / 60 / 60);
+
+    let objUser = (
+      <MarginDiv>
+        User #{usernameIndex}&nbsp;
+        <b>{username1}</b> worked <b>the most</b>, on{" "}
+        <b>{maxUserCards} cards</b>, totalling up{" "}
+        <b>
+          {Math.floor(totalTime / 60 / 60)}h {Math.floor((totalTime / 60) % 60)}
+          m {Math.floor(totalTime % 60)}s
+        </b>{" "}
+        of work time.
+      </MarginDiv>
+    );
+
     return (
       <TextDiv>
-        {objMax}
-        {objMin}
-        {objProblems}
+        <ul>
+          <li>{objMax}</li>
+          <li>{objMin}</li>
+          <li>{objProblems}</li>
+          <li>{objUser}</li>
+        </ul>
       </TextDiv>
     );
   }
