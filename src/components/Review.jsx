@@ -586,6 +586,56 @@ export default function Review(props) {
       </MarginDiv>
     );
 
+    let usersWhoDidntWork = [];
+
+    userCards.forEach((cardsNo, index) => {
+      if (cardsNo === 0) {
+        users.forEach((useri) => {
+          if (useri.id.replace(/[^0-9]/g, "") === String(index + 1)) {
+            // console.log("userul " + useri.id + " nu a lucrat");
+            usersWhoDidntWork[usersWhoDidntWork.length] = useri.id;
+          }
+        });
+      }
+    });
+
+    console.log(usersWhoDidntWork);
+
+    let objNoWorkUsers = (
+      <MarginDiv>
+        {usersWhoDidntWork.length === 0 ? (
+          <span>
+            There were <b>no users</b> who did not work.
+          </span>
+        ) : (
+          <span>
+            There were <b>{usersWhoDidntWork.length} user(s)</b> who did not
+            work at all:
+            <ul>
+              {usersWhoDidntWork.map((userIDs) => {
+                let ID, USERNAME, DEPT;
+                users.forEach((useri) => {
+                  if (String(userIDs) === useri.id) {
+                    ID = useri.id;
+                    USERNAME = useri.username;
+                    DEPT = useri.department;
+                  }
+                });
+                return (
+                  <MarginDiv>
+                    <li>
+                      <b>user #{ID.replace(/[^0-9]/g, "")}</b> -{" "}
+                      <b>{USERNAME}</b> ({DEPT})
+                    </li>
+                  </MarginDiv>
+                );
+              })}
+            </ul>
+          </span>
+        )}
+      </MarginDiv>
+    );
+
     return (
       <TextDiv>
         <ul>
@@ -593,6 +643,7 @@ export default function Review(props) {
           <li>{objMin}</li>
           <li>{objProblems}</li>
           <li>{objUser}</li>
+          <li>{objNoWorkUsers}</li>
         </ul>
       </TextDiv>
     );
