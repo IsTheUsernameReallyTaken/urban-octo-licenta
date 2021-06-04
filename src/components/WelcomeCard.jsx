@@ -190,12 +190,21 @@ export default function WelcomeCard(props) {
         <RowFlex>
           <MarginDiv>
             <Button
-              style={{ background: "black", color: "white" }}
+              style={{
+                background: hover1 === false ? "black" : "orange",
+                color: hover1 === false ? "white" : "black",
+              }}
               variant="contained"
               color="primary"
               size="small"
               onClick={() => {
                 props.logout(false);
+              }}
+              onMouseEnter={() => {
+                setHover1(true);
+              }}
+              onMouseLeave={() => {
+                setHover1(false);
               }}
             >
               LOGOUT
