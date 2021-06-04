@@ -102,10 +102,12 @@ export default function Login() {
       correctPassword: false,
     };
 
+    let hash = require("password-hash");
+
     users.forEach((useri) => {
       if (useri.username === username1) {
         toReturn.correctUsername = true;
-        if (useri.password === password1) {
+        if (hash.verify(password1, useri.password)) {
           toReturn.correctPassword = true;
         }
       }
@@ -148,6 +150,14 @@ export default function Login() {
     // console.log(auxAdmin);
     setIsAdmin(auxAdmin);
 
+    // let string = "1234";
+
+    // let hash = require("password-hash");
+    // let passhash = hash.generate(string);
+
+    // console.log("pentru " + string + ":");
+    // console.log(passhash);
+
     const auxDept = getDept(aux1);
     setDept(auxDept);
 
@@ -181,17 +191,17 @@ export default function Login() {
     getUsers();
   }, []);
 
-  return true ? (
-    <App
-      username={"daniel.dumitru"}
-      isAdmin={true}
-      dept={"dept-1"}
-      logout={setValid}
-    />
+  // return true ? (
+  //   <App
+  //     username={"daniel.dumitru"}
+  //     isAdmin={true}
+  //     dept={"dept-1"}
+  //     logout={setValid}
+  //   />
+  // ) : (
+  return valid ? (
+    <App username={username} isAdmin={isAdmin} dept={dept} logout={setValid} />
   ) : (
-    // return valid ? (
-    //   <App username={username} isAdmin={isAdmin} dept={dept} logout={setValid} />
-    // ) : (
     <Wrapper>
       <TitleDiv>
         <div>Hello there! Welcome to our (MINE) tiny little app.</div>

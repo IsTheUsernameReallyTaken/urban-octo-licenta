@@ -250,12 +250,16 @@ export default function PopUpUser(props) {
       console.log("dept: " + finalDept);
     */
 
+    let hash = require("password-hash");
+
+    let passhash = hash.generate(password);
+
     const userToAdd = {
       department: finalDept,
       email: email,
       id: id,
       name: name,
-      password: password,
+      password: passhash,
       surname: surname,
       username: username,
     };
