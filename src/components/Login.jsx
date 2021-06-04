@@ -45,7 +45,7 @@ class UsernameField extends React.Component {
       <TextFieldDiv>
         <TextField
           error={this.props.error}
-          helperText={this.props.error ? "Username does not exist" : ""}
+          helperText={this.props.error ? this.props.message : ""}
           id="usernameField"
           variant="outlined"
           label="Username"
@@ -61,7 +61,7 @@ class PasswordField extends React.Component {
       <TextFieldDiv>
         <TextField
           error={this.props.error}
-          helperText={this.props.error ? "Incorrect Password" : ""}
+          helperText={this.props.error ? this.props.message : ""}
           id="passwordField"
           variant="outlined"
           label="Password"
@@ -75,6 +75,9 @@ class PasswordField extends React.Component {
 export default function Login() {
   const [passWrong, setPassWrong] = useState(false);
   const [userWrong, setUserWrong] = useState(false);
+
+  const [passMessage, setPassMessage] = useState("");
+  const [userMessage, setUserMessage] = useState("");
 
   const [valid, setValid] = useState(false);
 
@@ -144,6 +147,24 @@ export default function Login() {
   function onSubmit() {
     const aux1 = document.getElementById("usernameField").value,
       aux2 = document.getElementById("passwordField").value;
+
+    if (aux1.length === 0) {
+      setUserWrong(true);
+      setUserMessage("Username cannot be empty");
+      setPassWrong(false);
+      setPassMessage("");
+      return;
+    } else {
+      setUserWrong(false);
+      setUserMessage("");
+    }
+
+    if (aux2.length === 0) {
+      setPassWrong(true);
+      setPassMessage("Password cannot be empty");
+      return;
+    }
+
     const result = verifyLoginData(aux1, aux2);
 
     const auxAdmin = isUserAdmin(aux1);
@@ -173,7 +194,9 @@ export default function Login() {
         (result.correctPassword === false)
       ) {
         setUserWrong(false);
+        setUserMessage("");
         setPassWrong(true);
+        setPassMessage("Password is incorrect");
         console.log("The password for " + aux1 + " is incorrect.");
       }
       if (
@@ -181,7 +204,9 @@ export default function Login() {
         (result.correctPassword === false)
       ) {
         setUserWrong(true);
+        setUserMessage("Username does not exist");
         setPassWrong(false);
+        setPassMessage("");
         console.log("There is nobody called " + aux1 + " in our DB.");
       }
     }
@@ -207,8 +232,8 @@ export default function Login() {
         <div>Hello there! Welcome to our (MINE) tiny little app.</div>
       </TitleDiv>
       <form>
-        <UsernameField error={userWrong} />
-        <PasswordField error={passWrong} />
+        <UsernameField error={userWrong} message={userMessage} />
+        <PasswordField error={passWrong} message={passMessage} />
 
         <SubmitDiv>
           <Button
