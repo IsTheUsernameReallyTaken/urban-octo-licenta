@@ -7,7 +7,7 @@ import PopUpUserDelete from "./PopUpUserDelete";
 
 import Review from "./Review";
 
-import { Button } from "@material-ui/core";
+import { Button, Tooltip } from "@material-ui/core";
 
 const Wrapper = styled.section`
   padding: 1em;
@@ -137,6 +137,29 @@ export default function WelcomeCard(props) {
               Delete Users
             </Button>
           </MarginDiv>
+
+          <Tooltip
+            title={
+              props.emergencies === 0
+                ? "There is nobody in need of assistance"
+                : "There are users who need help"
+            }
+          >
+            <MarginDiv>
+              <Button
+                style={{
+                  background: props.emergencies === 0 ? "black" : "firebrick",
+                  color: "white",
+                }}
+                variant="contained"
+                color="primary"
+                size="small"
+                disabled
+              >
+                Emergencies: {props.emergencies}
+              </Button>
+            </MarginDiv>
+          </Tooltip>
 
           <MarginDiv>
             <Button

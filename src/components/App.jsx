@@ -449,6 +449,15 @@ export default function App(props) {
     */
   }
 
+  let emergencies = 0;
+  lists.forEach((listele) => {
+    if (listele.id === "list-4m") {
+      if (listele.hasCards.length !== 0) {
+        emergencies = listele.hasCards.length;
+      }
+    }
+  });
+
   useEffect(() => {
     getLists();
     getCards();
@@ -460,6 +469,7 @@ export default function App(props) {
         username={props.username}
         isAdmin={props.isAdmin}
         logout={props.logout}
+        emergencies={emergencies}
       />
 
       {/* {console.log(props.dept)} */}
