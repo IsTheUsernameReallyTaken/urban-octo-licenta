@@ -61,6 +61,8 @@ export default function WelcomeCard(props) {
 
   const [review, setReview] = useState(false);
 
+  const [hover1, setHover1] = useState(false);
+
   const welcome = "Welcome to our humble little app, " + props.username + ".";
   return (
     <Wrapper>
@@ -156,19 +158,28 @@ export default function WelcomeCard(props) {
                 size="small"
                 disabled
               >
-                Emergencies: {props.emergencies}
+                Emergencies - {props.emergencies}
               </Button>
             </MarginDiv>
           </Tooltip>
 
           <MarginDiv>
             <Button
-              style={{ background: "black", color: "white" }}
+              style={{
+                background: hover1 === false ? "black" : "orange",
+                color: hover1 === false ? "white" : "black",
+              }}
               variant="contained"
               color="primary"
               size="small"
               onClick={() => {
                 props.logout(false);
+              }}
+              onMouseEnter={() => {
+                setHover1(true);
+              }}
+              onMouseLeave={() => {
+                setHover1(false);
               }}
             >
               LOGOUT
