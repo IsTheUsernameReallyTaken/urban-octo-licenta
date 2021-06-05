@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import PopUpCard from "./PopUpCard";
 import PopUpUser from "./PopUpUser";
+
+import PopUpCardEdit from "./PopUpCardEdit";
+
 import PopUpCardDelete from "./PopUpCardDelete";
 import PopUpUserDelete from "./PopUpUserDelete";
 
@@ -58,6 +61,9 @@ const RowFlex = styled.div`
 export default function WelcomeCard(props) {
   const [cardsButtonShow, setCardsButtonShow] = useState(false);
   const [usersButtonShow, setUsersButtonShow] = useState(false);
+
+  const [editCardsButtonShow, setEditCardsButtonShow] = useState(false);
+
   const [deleteCardsButtonShow, setDeleteCardsButtonShow] = useState(false);
   const [deleteUsersButtonShow, setDeleteUsersButtonShow] = useState(false);
 
@@ -69,7 +75,6 @@ export default function WelcomeCard(props) {
   return (
     <Wrapper>
       <Title>{welcome}</Title>
-
       {props.isAdmin ? (
         <RowFlex>
           <MarginDiv>
@@ -111,6 +116,20 @@ export default function WelcomeCard(props) {
               }}
             >
               Add Users
+            </Button>
+          </MarginDiv>
+
+          <MarginDiv>
+            <Button
+              style={{ background: "black", color: "white" }}
+              variant="contained"
+              color="primary"
+              size="small"
+              onClick={() => {
+                setEditCardsButtonShow(true);
+              }}
+            >
+              Edit Cards
             </Button>
           </MarginDiv>
 
@@ -215,8 +234,15 @@ export default function WelcomeCard(props) {
         </RowFlex>
       )}
       <Review show={review} showFunction={setReview} />
+
       <PopUpCard show={cardsButtonShow} showFunction={setCardsButtonShow} />
       <PopUpUser show={usersButtonShow} showFunction={setUsersButtonShow} />
+
+      <PopUpCardEdit
+        show={editCardsButtonShow}
+        showFunction={setEditCardsButtonShow}
+      />
+
       <PopUpCardDelete
         show={deleteCardsButtonShow}
         showFunction={setDeleteCardsButtonShow}
