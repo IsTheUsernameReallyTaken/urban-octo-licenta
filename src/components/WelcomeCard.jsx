@@ -4,6 +4,7 @@ import PopUpCard from "./PopUpCard";
 import PopUpUser from "./PopUpUser";
 
 import PopUpCardEdit from "./PopUpCardEdit";
+import PopUpUserEdit from "./PopUpUserEdit";
 
 import PopUpCardDelete from "./PopUpCardDelete";
 import PopUpUserDelete from "./PopUpUserDelete";
@@ -63,6 +64,7 @@ export default function WelcomeCard(props) {
   const [usersButtonShow, setUsersButtonShow] = useState(false);
 
   const [editCardsButtonShow, setEditCardsButtonShow] = useState(false);
+  const [editUsersButtonShow, setEditUsersButtonShow] = useState(false);
 
   const [deleteCardsButtonShow, setDeleteCardsButtonShow] = useState(false);
   const [deleteUsersButtonShow, setDeleteUsersButtonShow] = useState(false);
@@ -130,6 +132,20 @@ export default function WelcomeCard(props) {
               }}
             >
               Edit Cards
+            </Button>
+          </MarginDiv>
+
+          <MarginDiv>
+            <Button
+              style={{ background: "black", color: "white" }}
+              variant="contained"
+              color="primary"
+              size="small"
+              onClick={() => {
+                setEditUsersButtonShow(true);
+              }}
+            >
+              Edit Users
             </Button>
           </MarginDiv>
 
@@ -241,6 +257,10 @@ export default function WelcomeCard(props) {
       <PopUpCardEdit
         show={editCardsButtonShow}
         showFunction={setEditCardsButtonShow}
+      />
+      <PopUpUserEdit
+        show={editUsersButtonShow}
+        showFunction={setEditUsersButtonShow}
       />
 
       <PopUpCardDelete
