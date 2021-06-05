@@ -97,6 +97,7 @@ export default function PopUpUserEdit(props) {
   const [nameEmpty, setNameEmpty] = useState(false);
   const [surnameEmpty, setSurnameEmpty] = useState(false);
   const [passwordEmpty, setPasswordEmpty] = useState(false);
+  const [emailEmpty, setEmailEmpty] = useState(false);
 
   const [deptError, setDeptError] = useState(false);
   const [deptErrorMessage, setDeptErrorMessage] = useState("");
@@ -192,7 +193,7 @@ export default function PopUpUserEdit(props) {
                 })}
               </Select>
               <FormHelperText>
-                {selectedUserError ? "Please select an user" : ""}
+                {selectedUserError ? "Please select a user" : ""}
               </FormHelperText>
             </FormControl>
           </TextFieldDiv>
@@ -242,7 +243,10 @@ export default function PopUpUserEdit(props) {
       <WrapperDiv>
         <form>
           <TitleDiv>
-            <div>Insert the details of the person you'd like to add.</div>
+            <div>
+              Edit the details of user #{selectedUserID.replace(/[^0-9]/g, "")}{" "}
+              - {selectedUserUsername}
+            </div>
           </TitleDiv>
           <TextFieldDiv>
             <TextField
@@ -251,6 +255,10 @@ export default function PopUpUserEdit(props) {
               id="usernameField"
               variant="outlined"
               label="Username"
+              value={selectedUserUsername}
+              onChange={(event) => {
+                setSelectedUserUsername(event.target.value);
+              }}
             />
           </TextFieldDiv>
           <TextFieldDiv>
@@ -273,26 +281,26 @@ export default function PopUpUserEdit(props) {
           </TextFieldDiv>
           <TextFieldDiv>
             <TextField
-              error={passwordEmpty}
-              helperText={passwordEmpty ? "Password cannot be empty" : ""}
-              id="passwordField"
+              error={emailEmpty}
+              helperText={emailEmpty ? "Email cannot be empty" : ""}
+              id="emailField"
               variant="outlined"
-              label="Password"
-              type={hiddenPass ? "password" : ""}
+              label="Email"
+              //   type={hiddenPass ? "password" : ""}
             />
-            <Checkbox
+            {/* <Checkbox
               onChange={() => {
                 setHiddenPass(!hiddenPass);
               }}
               id="passCheckBox"
               color="default"
-            />
+            /> */}
           </TextFieldDiv>
 
           {!newDept ? (
             <TextFieldDiv>
               <FormControl
-                style={{ minWidth: "62%" }}
+                style={{ minWidth: "70.5%" }}
                 variant="outlined"
                 error={deptError}
               >

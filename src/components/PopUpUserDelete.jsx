@@ -133,7 +133,7 @@ export default function PopUpUserDelete(props) {
               })}
             </Select>
             <FormHelperText>
-              {selectError ? "Please select an user" : ""}
+              {selectError ? "Please select a user" : ""}
             </FormHelperText>
           </FormControl>
         </TextFieldDiv>
