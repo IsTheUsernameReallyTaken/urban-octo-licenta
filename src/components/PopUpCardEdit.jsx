@@ -90,6 +90,8 @@ export default function PopUpCardEdit(props) {
 
   const [identicalError, setIdenticalError] = useState(false);
 
+  const [disabledDept, setDisabledDept] = useState(false);
+
   function getLists() {
     refLists.onSnapshot((querySnapshot) => {
       const listItems = [];
@@ -244,10 +246,14 @@ export default function PopUpCardEdit(props) {
       setIdenticalError(false);
     }
 
-    // setEmptyTitle(false);
-    // setDeptError(false);
+    updateCard(newCard);
 
-    // props.showFunction(false);
+    setEmptyTitle(false);
+    setSelectedCardError(false);
+    setIdenticalError(false);
+    setDeptError(false);
+
+    props.showFunction(false);
   }
 
   function getDepts() {
@@ -270,6 +276,30 @@ export default function PopUpCardEdit(props) {
       });
       setUsers(userItems);
     });
+  }
+
+  function getIsDeptDisabled(id) {
+    cards.forEach((carduri) => {
+      if (carduri.id === id) {
+        if (lists[0].hasCards.includes(id)) {
+          setDisabledDept(false);
+        } else {
+          //   console.log(carduri.id);
+          let username = carduri.by;
+          users.forEach((useri) => {
+            if (useri.username === username) {
+              if (useri.id.includes("admin")) {
+                setDisabledDept(false);
+              } else {
+                setDisabledDept(true);
+              }
+            }
+          });
+        }
+      }
+    });
+
+    // console.log("disabled dept: " + disabledDept);
   }
 
   useEffect(() => {
@@ -346,6 +376,7 @@ export default function PopUpCardEdit(props) {
                   setEditMode(true);
                   getCardTitleAndDept(selectedCard);
                   setSelectedCardID(selectedCard);
+                  getIsDeptDisabled(selectedCard);
                 }}
               >
                 EDIT CARD
@@ -411,6 +442,7 @@ export default function PopUpCardEdit(props) {
                   id="select"
                   label="Department"
                   defaultValue={newCardDept}
+                  disabled={disabledDept}
                   onChange={(event) => {
                     //console.log("Ati ales valoarea ");
                     //console.log(event.target.value);
