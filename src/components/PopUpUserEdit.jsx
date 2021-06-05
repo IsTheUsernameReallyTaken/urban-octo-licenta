@@ -105,7 +105,9 @@ export default function PopUpUserEdit(props) {
   const [nameEmpty, setNameEmpty] = useState(false);
   const [surnameEmpty, setSurnameEmpty] = useState(false);
   const [passwordEmpty, setPasswordEmpty] = useState(false);
+
   const [emailEmpty, setEmailEmpty] = useState(false);
+  const [emailInvalid, setEmailInvalid] = useState(false);
 
   const [deptError, setDeptError] = useState(false);
   const [deptErrorMessage, setDeptErrorMessage] = useState("");
@@ -127,6 +129,15 @@ export default function PopUpUserEdit(props) {
     departamente = Array.from(new Set(departamente));
 
     return departamente;
+  }
+
+  function addUser(userToAdd) {
+    refUsers
+      .doc(userToAdd.id)
+      .set(userToAdd)
+      .catch((err) => {
+        console.error(err);
+      });
   }
 
   function deleteUser(id) {
@@ -168,6 +179,10 @@ export default function PopUpUserEdit(props) {
 
     let foundTakenUsername = false;
 
+    // let exemplu = "exemplu@gmail.com";
+    // console.log(exemplu);
+    // console.log(exemplu.endsWith("@gmail.com"));
+
     if (username.length === 0) {
       setUsernameError(true);
       setUsernameErrorMessage("Username cannot be empty");
@@ -196,6 +211,8 @@ export default function PopUpUserEdit(props) {
       setNameEmpty(false);
       setSurnameEmpty(false);
       setPasswordEmpty(false);
+      setEmailEmpty(false);
+      setEmailInvalid(false);
       setDeptError(false);
       setDeptErrorMessage("");
       return;
@@ -209,6 +226,8 @@ export default function PopUpUserEdit(props) {
       //
       setSurnameEmpty(false);
       setPasswordEmpty(false);
+      setEmailEmpty(false);
+      setEmailInvalid(false);
       setDeptError(false);
       setDeptErrorMessage("");
       return;
@@ -220,6 +239,8 @@ export default function PopUpUserEdit(props) {
       setSurnameEmpty(true);
       //
       setPasswordEmpty(false);
+      setEmailEmpty(false);
+      setEmailInvalid(false);
       setDeptError(false);
       setDeptErrorMessage("");
       return;
@@ -230,6 +251,7 @@ export default function PopUpUserEdit(props) {
     if (email.length === 0) {
       setEmailEmpty(true);
       //
+      setEmailInvalid(false);
       setDeptError(false);
       setDeptErrorMessage("");
       return;
@@ -237,6 +259,21 @@ export default function PopUpUserEdit(props) {
       setEmailEmpty(false);
     }
 
+    console.log(email);
+
+    if (
+      email.endsWith("@firma.com") === false &&
+      email.endsWith("@gmail.com") === false &&
+      email.endsWith("@yahoo.com") === false
+    ) {
+      setEmailInvalid(true);
+      //
+      setDeptError(false);
+      setDeptErrorMessage("");
+      return;
+    } else {
+      setEmailInvalid(false);
+    }
     if (newDept === true) {
       dept = document.getElementById("deptField").value;
       if (dept.length === 0) {
@@ -333,7 +370,17 @@ export default function PopUpUserEdit(props) {
       console.log("Au avut loc modificari");
     }
 
-    // updateUser(newUser);
+    if (!selectedUserID.includes("admin") && finalID.includes("admin")) {
+      deleteUser(selectedUserID);
+      addUser(newUser);
+    } else {
+      updateUser(newUser);
+    }
+
+    setEditMode(false);
+    setNewDept(false);
+    setSelectedUser("");
+    props.showFunction(false);
   }
 
   function getUserInfo(id) {
@@ -492,8 +539,14 @@ export default function PopUpUserEdit(props) {
           </TextFieldDiv>
           <TextFieldDiv>
             <TextField
-              error={emailEmpty}
-              helperText={emailEmpty ? "Email cannot be empty" : ""}
+              error={emailEmpty || emailInvalid}
+              helperText={
+                emailEmpty
+                  ? "Email cannot be empty"
+                  : emailInvalid
+                  ? "Mail is invalid"
+                  : ""
+              }
               id="emailField"
               variant="outlined"
               label="Email"
@@ -612,6 +665,7 @@ export default function PopUpUserEdit(props) {
                 size="large"
                 onClick={() => {
                   setSelectedUser("");
+                  setNewDept(false);
                   setEditMode(false);
                 }}
               >
@@ -627,6 +681,7 @@ export default function PopUpUserEdit(props) {
                 size="large"
                 onClick={() => {
                   setSelectedUser("");
+                  setNewDept(false);
                   setEditMode(false);
                   props.showFunction(false);
                 }}
