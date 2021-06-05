@@ -89,6 +89,14 @@ export default function PopUpUserEdit(props) {
   const [selectedUserEmail, setSelectedUserEmail] = useState("");
   const [selectedUserDept, setSelectedUserDept] = useState("");
 
+  const [newUserID, setNewUserID] = useState("");
+  const [newUserUsername, setNewUserUsername] = useState("");
+  const [newUserPassword, setNewUserPassword] = useState("");
+  const [newUserName, setNewUserName] = useState("");
+  const [newUserSurname, setNewUserSurname] = useState("");
+  const [newUserEmail, setNewUserEmail] = useState("");
+  const [newUserDept, setNewUserDept] = useState("");
+
   //edit mode stuff that I took from PopUpUser.jsx
 
   const [usernameError, setUsernameError] = useState(false);
@@ -139,7 +147,16 @@ export default function PopUpUserEdit(props) {
   }
 
   function onUserEdit() {
-    console.log("Edit");
+    const oldUser = {
+      id: selectedUserID,
+      username: selectedUserUsername,
+      name: selectedUserName,
+      surname: selectedUserSurname,
+      department: selectedUserDept,
+      email: selectedUserEmail,
+    };
+
+    console.log(oldUser);
   }
 
   function getUserInfo(id) {
@@ -149,8 +166,15 @@ export default function PopUpUserEdit(props) {
         setSelectedUserUsername(useri.username);
         setSelectedUserName(useri.name);
         setSelectedUserSurname(useri.surname);
-        setSelectedUserDept(useri.dept);
+        setSelectedUserDept(useri.department);
         setSelectedUserEmail(useri.email);
+
+        setNewUserID(id);
+        setNewUserUsername(useri.username);
+        setNewUserName(useri.name);
+        setNewUserSurname(useri.surname);
+        setNewUserDept(useri.department);
+        setNewUserEmail(useri.email);
       }
     });
   }
@@ -255,9 +279,9 @@ export default function PopUpUserEdit(props) {
               id="usernameField"
               variant="outlined"
               label="Username"
-              value={selectedUserUsername}
+              value={newUserUsername}
               onChange={(event) => {
-                setSelectedUserUsername(event.target.value);
+                setNewUserUsername(event.target.value);
               }}
             />
           </TextFieldDiv>
@@ -268,6 +292,10 @@ export default function PopUpUserEdit(props) {
               id="nameField"
               variant="outlined"
               label="Name"
+              value={newUserName}
+              onChange={(event) => {
+                setNewUserName(event.target.value);
+              }}
             />
           </TextFieldDiv>
           <TextFieldDiv>
@@ -277,6 +305,10 @@ export default function PopUpUserEdit(props) {
               id="surnameField"
               variant="outlined"
               label="Surname"
+              value={newUserSurname}
+              onChange={(event) => {
+                setNewUserSurname(event.target.value);
+              }}
             />
           </TextFieldDiv>
           <TextFieldDiv>
@@ -286,6 +318,10 @@ export default function PopUpUserEdit(props) {
               id="emailField"
               variant="outlined"
               label="Email"
+              value={newUserEmail}
+              onChange={(event) => {
+                setNewUserEmail(event.target.value);
+              }}
               //   type={hiddenPass ? "password" : ""}
             />
             {/* <Checkbox
@@ -309,10 +345,11 @@ export default function PopUpUserEdit(props) {
                   labelId="deptSelect"
                   id="select"
                   label="Department"
+                  defaultValue={newUserDept}
                   onChange={(event) => {
                     //console.log("Ati ales valoarea ");
                     //console.log(event.target.value);
-                    setSelectedDept(event.target.value);
+                    setNewUserDept(event.target.value);
                   }}
                 >
                   {getDepts().map((departamente) => {
@@ -358,6 +395,8 @@ export default function PopUpUserEdit(props) {
             <FormControlLabel
               control={
                 <Checkbox
+                  checked={selectedUserID.includes("admin")}
+                  disabled={selectedUserID.includes("admin")}
                   onChange={() => {
                     setAdminRights(!adminRights);
                   }}
@@ -377,6 +416,9 @@ export default function PopUpUserEdit(props) {
                 size="large"
                 onClick={() => {
                   //   onUserAdd();
+
+                  console.clear();
+                  onUserEdit();
                 }}
               >
                 EDIT USER
