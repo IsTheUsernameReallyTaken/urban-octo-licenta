@@ -230,18 +230,17 @@ export default function PopUpCardEdit(props) {
       department: newCardDept,
     };
 
-    console.log("old card: ");
-    console.log(oldCard);
-    console.log("new card: ");
-    console.log(newCard);
+    // console.log("old card: ");
+    // console.log(oldCard);
+    // console.log("new card: ");
+    // console.log(newCard);
 
-    if (newCard.title === oldCard.title) {
-      if (newCard.dept === oldCard.dept) {
-        setIdenticalError(true);
-        return;
-      } else {
-        setIdenticalError(false);
-      }
+    if (
+      newCard.title === oldCard.title &&
+      newCard.department === oldCard.department
+    ) {
+      setIdenticalError(true);
+      return;
     } else {
       setIdenticalError(false);
     }
@@ -253,6 +252,7 @@ export default function PopUpCardEdit(props) {
     setIdenticalError(false);
     setDeptError(false);
 
+    setEditMode(false);
     props.showFunction(false);
   }
 
