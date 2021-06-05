@@ -115,6 +115,8 @@ export default function PopUpUserEdit(props) {
   const [newDept, setNewDept] = useState(false);
   const [hiddenPass, setHiddenPass] = useState(true);
 
+  const [checkboxValue, setCheckboxValue] = useState(false);
+
   function getDepts() {
     let departamente = [];
 
@@ -146,7 +148,135 @@ export default function PopUpUserEdit(props) {
     props.showFunction(false);
   }
 
+  function updateUser(updatedUser) {
+    refUsers
+      .doc(updatedUser.id)
+      .update(updatedUser)
+      .catch((err) => {
+        console.error(err);
+      });
+  }
+
   function onUserEdit() {
+    const username = document.getElementById("usernameField").value;
+    const name = document.getElementById("nameField").value;
+    const surname = document.getElementById("surnameField").value;
+    // const password = document.getElementById("passwordField").value;
+    const email = document.getElementById("emailField").value;
+    let dept;
+    let id = selectedUserID;
+
+    let foundTakenUsername = false;
+
+    if (username.length === 0) {
+      setUsernameError(true);
+      setUsernameErrorMessage("Username cannot be empty");
+      //
+      setNameEmpty(false);
+      setSurnameEmpty(false);
+      setPasswordEmpty(false);
+      setDeptError(false);
+      setDeptErrorMessage("");
+      return;
+    } else {
+      setUsernameError(false);
+      setUsernameErrorMessage("");
+    }
+
+    users.forEach((useri) => {
+      if (useri.username === username && username !== selectedUserUsername) {
+        foundTakenUsername = true;
+      }
+    });
+
+    if (foundTakenUsername === true) {
+      setUsernameError(true);
+      setUsernameErrorMessage("Username is already taken");
+      //
+      setNameEmpty(false);
+      setSurnameEmpty(false);
+      setPasswordEmpty(false);
+      setDeptError(false);
+      setDeptErrorMessage("");
+      return;
+    } else {
+      setUsernameError(false);
+      setUsernameErrorMessage("");
+    }
+
+    if (name.length === 0) {
+      setNameEmpty(true);
+      //
+      setSurnameEmpty(false);
+      setPasswordEmpty(false);
+      setDeptError(false);
+      setDeptErrorMessage("");
+      return;
+    } else {
+      setNameEmpty(false);
+    }
+
+    if (surname.length === 0) {
+      setSurnameEmpty(true);
+      //
+      setPasswordEmpty(false);
+      setDeptError(false);
+      setDeptErrorMessage("");
+      return;
+    } else {
+      setSurnameEmpty(false);
+    }
+
+    if (email.length === 0) {
+      setEmailEmpty(true);
+      //
+      setDeptError(false);
+      setDeptErrorMessage("");
+      return;
+    } else {
+      setEmailEmpty(false);
+    }
+
+    if (newDept === true) {
+      dept = document.getElementById("deptField").value;
+      if (dept.length === 0) {
+        setDeptError(true);
+        setDeptErrorMessage("Dept. ID cannot be empty");
+        return;
+      } else {
+        if (dept.replace(/[^0-9]/g, "") !== dept) {
+          setDeptError(true);
+          setDeptErrorMessage("Please only submit the ID number");
+          return;
+        } else {
+          let departamentulExistaDeja = false;
+          let sirDepartamente = getDepts();
+          sirDepartamente.forEach((toateDepartamentele) => {
+            if (toateDepartamentele === "dept-" + dept) {
+              departamentulExistaDeja = true;
+            }
+          });
+          if (departamentulExistaDeja) {
+            setDeptError(true);
+            setDeptErrorMessage("This deparment already exists");
+            return;
+          } else {
+            setDeptError(false);
+            setDeptErrorMessage("");
+          }
+        }
+      }
+    } else {
+      if (newUserDept === "") {
+        setDeptError(true);
+        setDeptErrorMessage("");
+        return;
+      } else {
+        setDeptError(false);
+        setDeptErrorMessage("");
+      }
+    }
+
     const oldUser = {
       id: selectedUserID,
       username: selectedUserUsername,
@@ -156,7 +286,54 @@ export default function PopUpUserEdit(props) {
       email: selectedUserEmail,
     };
 
+    let finalID = "";
+
+    if (!selectedUserID.includes("admin") && checkboxValue === true) {
+      finalID = "admin-" + selectedUserID.replace(/[^0-9]/g, "");
+    } else {
+      finalID = selectedUserID;
+    }
+
+    let finalDept = "";
+
+    if (newDept) {
+      dept = "dept-" + dept;
+      finalDept = dept;
+    } else {
+      finalDept = newUserDept;
+    }
+
+    const newUser = {
+      id: finalID,
+      username: username,
+      name: name,
+      surname: surname,
+      email: email,
+      department: finalDept,
+    };
+
     console.log(oldUser);
+    console.log(newUser);
+
+    if (
+      oldUser.id === newUser.id &&
+      oldUser.username === newUser.username &&
+      oldUser.name === newUser.name &&
+      oldUser.surname === newUser.surname &&
+      oldUser.department === newUser.department &&
+      oldUser.email === newUser.email
+    ) {
+      console.log("Nu s-a modificat nimic");
+      setUsernameError(true);
+      setUsernameErrorMessage("No changes have been made");
+      return;
+    } else {
+      setUsernameError(false);
+      setUsernameErrorMessage("");
+      console.log("Au avut loc modificari");
+    }
+
+    // updateUser(newUser);
   }
 
   function getUserInfo(id) {
@@ -175,6 +352,8 @@ export default function PopUpUserEdit(props) {
         setNewUserSurname(useri.surname);
         setNewUserDept(useri.department);
         setNewUserEmail(useri.email);
+
+        setCheckboxValue(useri.id.includes("admin"));
       }
     });
   }
@@ -395,10 +574,10 @@ export default function PopUpUserEdit(props) {
             <FormControlLabel
               control={
                 <Checkbox
-                  checked={selectedUserID.includes("admin")}
+                  checked={checkboxValue}
                   disabled={selectedUserID.includes("admin")}
                   onChange={() => {
-                    setAdminRights(!adminRights);
+                    setCheckboxValue(!checkboxValue);
                   }}
                   id="adminCheckbox"
                   color="default"
