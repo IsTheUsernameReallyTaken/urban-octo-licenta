@@ -9,7 +9,10 @@ import {
   MenuItem,
   Select,
   FormHelperText,
+  Tooltip,
 } from "@material-ui/core";
+
+import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
 
 import firebase from "../firebase";
 import "firebase/firestore";
@@ -55,6 +58,10 @@ const SubmitDiv = styled.div`
   padding: 5px;
 `;
 
+const HelpIconDiv = styled.div`
+  margin: 10px;
+`;
+
 export default function PopUpCardEdit(props) {
   const [lists, setLists] = useState([]);
   const [cards, setCards] = useState([]);
@@ -64,7 +71,7 @@ export default function PopUpCardEdit(props) {
   const [selectedDept, setSelectedDept] = useState("");
 
   const [selectedCard, setSelectedCard] = useState("");
-  const [selectError, setSelectError] = useState(false);
+  const [selectedCardError, setSelectedCardError] = useState(false);
 
   const [emptyTitle, setEmptyTitle] = useState(false);
 
@@ -72,10 +79,16 @@ export default function PopUpCardEdit(props) {
   const refLists = firebase.firestore().collection("lists");
   const refCards = firebase.firestore().collection("cards");
 
+  const [selectedCardID, setSelectedCardID] = useState("");
   const [selectedCardTitle, setSelectedCardTitle] = useState("");
   const [selectedCardDept, setSelectedCardDept] = useState("");
 
+  const [newCardTitle, setNewCardTitle] = useState("");
+  const [newCardDept, setNewCardDept] = useState("");
+
   const [editMode, setEditMode] = useState(false);
+
+  const [identicalError, setIdenticalError] = useState(false);
 
   function getLists() {
     refLists.onSnapshot((querySnapshot) => {
@@ -110,6 +123,15 @@ export default function PopUpCardEdit(props) {
     refLists
       .doc(updatedList.id)
       .update(updatedList)
+      .catch((err) => {
+        console.error(err);
+      });
+  }
+
+  function updateCard(updatedCard) {
+    refCards
+      .doc(updatedCard.id)
+      .update(updatedCard)
       .catch((err) => {
         console.error(err);
       });
@@ -183,6 +205,51 @@ export default function PopUpCardEdit(props) {
     props.showFunction(false);
   }
 
+  function onCardEdit() {
+    const oldCard = {
+      id: selectedCardID,
+      title: selectedCardTitle,
+      department: selectedCardDept,
+    };
+
+    const cardTitle = document.getElementById("editCardTitleField").value;
+
+    if (cardTitle.length === 0) {
+      setEmptyTitle(true);
+      setDeptError(false);
+      return;
+    } else {
+      setEmptyTitle(false);
+    }
+
+    const newCard = {
+      id: selectedCardID,
+      title: newCardTitle,
+      department: newCardDept,
+    };
+
+    console.log("old card: ");
+    console.log(oldCard);
+    console.log("new card: ");
+    console.log(newCard);
+
+    if (newCard.title === oldCard.title) {
+      if (newCard.dept === oldCard.dept) {
+        setIdenticalError(true);
+        return;
+      } else {
+        setIdenticalError(false);
+      }
+    } else {
+      setIdenticalError(false);
+    }
+
+    // setEmptyTitle(false);
+    // setDeptError(false);
+
+    // props.showFunction(false);
+  }
+
   function getDepts() {
     let departamente = [];
 
@@ -216,6 +283,9 @@ export default function PopUpCardEdit(props) {
       if (carduri.id === id) {
         setSelectedCardTitle(carduri.title);
         setSelectedCardDept(carduri.department);
+
+        setNewCardTitle(carduri.title);
+        setNewCardDept(carduri.department);
       }
     });
   }
@@ -232,7 +302,7 @@ export default function PopUpCardEdit(props) {
             <FormControl
               style={{ minWidth: "72.5%" }}
               variant="outlined"
-              error={selectError}
+              error={selectedCardError}
             >
               <InputLabel>Cards</InputLabel>
               <Select
@@ -240,7 +310,7 @@ export default function PopUpCardEdit(props) {
                 disabled={cards.length === 0}
                 onChange={(event) => {
                   setSelectedCard(event.target.value);
-                  setSelectError(false);
+                  setSelectedCardError(false);
                 }}
               >
                 {cards.map((carduri) => {
@@ -254,7 +324,7 @@ export default function PopUpCardEdit(props) {
                 })}
               </Select>
               <FormHelperText>
-                {selectError ? "Please select a card" : ""}
+                {selectedCardError ? "Please select a card" : ""}
               </FormHelperText>
             </FormControl>
           </TextFieldDiv>
@@ -268,16 +338,14 @@ export default function PopUpCardEdit(props) {
                 size="large"
                 onClick={() => {
                   if (selectedCard === "") {
-                    setSelectError(true);
-
+                    setSelectedCardError(true);
                     return;
                   } else {
-                    setSelectError(false);
+                    setSelectedCardError(false);
                   }
                   setEditMode(true);
                   getCardTitleAndDept(selectedCard);
-                  console.log(selectedCardTitle);
-                  console.log(selectedCardDept);
+                  setSelectedCardID(selectedCard);
                 }}
               >
                 EDIT CARD
@@ -292,7 +360,7 @@ export default function PopUpCardEdit(props) {
                 size="large"
                 onClick={() => {
                   setSelectedCard("");
-                  setSelectError(false);
+                  setSelectedCardError(false);
                   props.showFunction(false);
                 }}
               >
@@ -306,55 +374,72 @@ export default function PopUpCardEdit(props) {
       <WrapperDiv>
         <form>
           <TitleDiv>
-            <div>Edit the chosen card</div>
+            <div>
+              Edit the chosen card (card #{selectedCard.replace(/[^0-9]/g, "")})
+            </div>
           </TitleDiv>
           <TextFieldDiv>
             <TextField
-              error={emptyTitle}
+              error={emptyTitle || identicalError}
               helperText={
-                emptyTitle ? "You need to add a title description." : ""
+                emptyTitle
+                  ? "You need to add a title description."
+                  : identicalError
+                  ? "No changes were made"
+                  : ""
               }
-              id="cardTitleField"
+              id="editCardTitleField"
               variant="outlined"
               label="Card Title"
-              value={selectedCardTitle}
+              value={newCardTitle}
               onChange={(event) => {
-                setSelectedCardTitle(event.target.value);
+                setNewCardTitle(event.target.value);
               }}
             />
           </TextFieldDiv>
 
           <TextFieldDiv>
-            <FormControl
-              style={{ minWidth: "56%" }}
-              variant="outlined"
-              error={deptError}
-            >
-              <InputLabel id="deptSelect">Department</InputLabel>
-              <Select
-                labelId="deptSelect"
-                id="select"
-                label="Department"
-                defaultValue={selectedCardDept}
-                onChange={(event) => {
-                  //console.log("Ati ales valoarea ");
-                  //console.log(event.target.value);
-                  setSelectedDept(event.target.value);
-                  setDeptError(false);
-                }}
+            <ButtonsFlexDiv>
+              <FormControl
+                style={{ minWidth: "82.5%" }}
+                variant="outlined"
+                error={deptError}
               >
-                {getDepts().map((departamente) => {
-                  return (
-                    <MenuItem key={departamente} value={departamente}>
-                      {departamente}
-                    </MenuItem>
-                  );
-                })}
-              </Select>
-              <FormHelperText>
-                {deptError ? "Please select a department" : ""}
-              </FormHelperText>
-            </FormControl>
+                <InputLabel id="deptSelect">Department</InputLabel>
+                <Select
+                  labelId="deptSelect"
+                  id="select"
+                  label="Department"
+                  defaultValue={newCardDept}
+                  onChange={(event) => {
+                    //console.log("Ati ales valoarea ");
+                    //console.log(event.target.value);
+                    setNewCardDept(event.target.value);
+                    setDeptError(false);
+                  }}
+                >
+                  {getDepts().map((departamente) => {
+                    return (
+                      <MenuItem key={departamente} value={departamente}>
+                        {departamente}
+                      </MenuItem>
+                    );
+                  })}
+                </Select>
+                <FormHelperText>
+                  {deptError ? "Please select a department" : ""}
+                </FormHelperText>
+              </FormControl>
+
+              <HelpIconDiv>
+                <Tooltip
+                  title="If a non-admin user has already started working, there is no way to change the department"
+                  placement="right"
+                >
+                  <HelpOutlineIcon />
+                </Tooltip>
+              </HelpIconDiv>
+            </ButtonsFlexDiv>
           </TextFieldDiv>
 
           <ButtonsFlexDiv>
@@ -365,7 +450,7 @@ export default function PopUpCardEdit(props) {
                 color="primary"
                 size="large"
                 onClick={() => {
-                  onCardAdd();
+                  onCardEdit();
                 }}
               >
                 Save
@@ -379,6 +464,14 @@ export default function PopUpCardEdit(props) {
                 color="primary"
                 size="large"
                 onClick={() => {
+                  setSelectedCardTitle("");
+                  setSelectedDept("");
+                  setSelectedCard("");
+
+                  setDeptError(false);
+                  setSelectedCardError(false);
+                  setEmptyTitle(false);
+
                   setEditMode(false);
                 }}
               >
@@ -394,7 +487,7 @@ export default function PopUpCardEdit(props) {
                 size="large"
                 onClick={() => {
                   setSelectedCard("");
-                  setSelectError(false);
+                  setSelectedCardError(false);
                   setEditMode(false);
                   props.showFunction(false);
                 }}
