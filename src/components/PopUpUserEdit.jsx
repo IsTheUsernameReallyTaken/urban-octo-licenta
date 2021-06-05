@@ -371,7 +371,7 @@ export default function PopUpUserEdit(props) {
                   //   onUserAdd();
                 }}
               >
-                ADD USER
+                EDIT USER
               </Button>
             </SubmitDiv>
 
@@ -382,6 +382,23 @@ export default function PopUpUserEdit(props) {
                 color="primary"
                 size="large"
                 onClick={() => {
+                  setSelectedUser("");
+                  setEditMode(false);
+                }}
+              >
+                BACK
+              </Button>
+            </SubmitDiv>
+
+            <SubmitDiv>
+              <Button
+                style={{ background: "black", color: "white" }}
+                variant="contained"
+                color="primary"
+                size="large"
+                onClick={() => {
+                  setSelectedUser("");
+                  setEditMode(false);
                   props.showFunction(false);
                 }}
               >
