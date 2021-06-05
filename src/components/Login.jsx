@@ -159,12 +159,6 @@ export default function Login() {
       setUserMessage("");
     }
 
-    if (aux2.length === 0) {
-      setPassWrong(true);
-      setPassMessage("Password cannot be empty");
-      return;
-    }
-
     const result = verifyLoginData(aux1, aux2);
 
     const auxAdmin = isUserAdmin(aux1);
@@ -190,16 +184,6 @@ export default function Login() {
       console.log("Welcome, " + aux1 + "!");
     } else {
       if (
-        (result.correctUsername === true) &
-        (result.correctPassword === false)
-      ) {
-        setUserWrong(false);
-        setUserMessage("");
-        setPassWrong(true);
-        setPassMessage("Password is incorrect");
-        console.log("The password for " + aux1 + " is incorrect.");
-      }
-      if (
         (result.correctUsername === false) &
         (result.correctPassword === false)
       ) {
@@ -208,6 +192,25 @@ export default function Login() {
         setPassWrong(false);
         setPassMessage("");
         console.log("There is nobody called " + aux1 + " in our DB.");
+        return;
+      }
+
+      if (aux2.length === 0) {
+        setPassWrong(true);
+        setPassMessage("Password cannot be empty");
+        return;
+      }
+
+      if (
+        (result.correctUsername === true) &
+        (result.correctPassword === false)
+      ) {
+        setUserWrong(false);
+        setUserMessage("");
+        setPassWrong(true);
+        setPassMessage("Password is incorrect");
+        console.log("The password for " + aux1 + " is incorrect.");
+        return;
       }
     }
   }
