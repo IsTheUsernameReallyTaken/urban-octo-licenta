@@ -42,7 +42,9 @@ const ButtonDiv = styled.div`
 `;
 
 const MarginDiv = styled.div`
-  margin: 10px;
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-bottom: 10px;
 `;
 
 const RowFlex = styled.div`
