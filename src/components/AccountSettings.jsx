@@ -56,6 +56,37 @@ const MarginDiv = styled.div`
   padding: 5px;
 `;
 
+const SmallWrapper = styled.div`
+  position: fixed;
+  width: 40%;
+  height: 40vh;
+
+  top: 30%;
+  left: 30%;
+
+  border-radius: 7px;
+  border-style: solid;
+  border-width: thin;
+
+  background: white;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const SmallTitleDiv = styled.div`
+  margin-bottom: 7px;
+  font-size: 1.2em;
+  padding: 40px;
+`;
+
+const CenterDiv = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
 export default function AccountSettings(props) {
   const [username, setUsername] = useState("");
   const [name, setName] = useState("");
@@ -80,6 +111,10 @@ export default function AccountSettings(props) {
 
   const [users, setUsers] = useState([]);
   const [cards, setCards] = useState([]);
+
+  const [warningShow, setWarningShow] = useState(false);
+  const [oldUser1, setOldUser1] = useState();
+  const [newUser1, setNewUser1] = useState();
 
   const refUsers = firebase.firestore().collection("usernames");
   const refCards = firebase.firestore().collection("cards");
@@ -234,21 +269,37 @@ export default function AccountSettings(props) {
     setSurnameError(false);
     setEmailError(false);
 
+    if (oldUser.username === newUser.username) {
+      updateUser(newUser);
+      props.showFunction(false);
+      return;
+    } else {
+      setOldUser1(oldUser);
+      setNewUser1(newUser);
+      setWarningShow(true);
+    }
+  }
+
+  function onSaveChangesAgain() {
+    // console.log("haha ok");
+    // console.log(oldUser1);
+    // console.log(newUser1);
+
     cards.forEach((carduri) => {
       let newCard = {};
-      if (carduri.by === oldUser.username) {
+      if (carduri.by === oldUser1.username) {
         newCard = {
           id: carduri.id,
-          by: newUser.username,
+          by: newUser1.username,
         };
-        console.log(
-          newCard.id + " " + oldUser.username + " -> " + newUser.username
-        );
+        // console.log(
+        //   newCard.id + " " + oldUser.username + " -> " + newUser.username
+        // );
         updateCard(newCard);
       }
     });
 
-    updateUser(newUser);
+    updateUser(newUser1);
     props.logout(false);
     props.showFunction(false);
   }
@@ -282,7 +333,7 @@ export default function AccountSettings(props) {
               helperText={usernameError ? usernameErrorMessage : ""}
               id="usernameField"
               variant="outlined"
-              label="Username"
+              label={warningShow === false ? "Username" : ""}
               value={newUsername}
               disabled={!editable}
               onChange={(event) => {
@@ -306,7 +357,7 @@ export default function AccountSettings(props) {
             helperText={nameError ? "Name cannot be empty" : ""}
             id="nameField"
             variant="outlined"
-            label="Name"
+            label={warningShow === false ? "Name" : ""}
             value={newName}
             disabled={!editable}
             onChange={(event) => {
@@ -321,7 +372,7 @@ export default function AccountSettings(props) {
             helperText={surnameError ? "Surname cannot be empty" : ""}
             id="surnameField"
             variant="outlined"
-            label="Surname"
+            label={warningShow === false ? "Surname" : ""}
             value={newSurname}
             disabled={!editable}
             onChange={(event) => {
@@ -336,7 +387,7 @@ export default function AccountSettings(props) {
             helperText={emailError ? emailErrorMessage : ""}
             id="emailField"
             variant="outlined"
-            label="Email"
+            label={warningShow === false ? "Email" : ""}
             value={newEmail}
             disabled={!editable}
             onChange={(event) => {
@@ -375,6 +426,50 @@ export default function AccountSettings(props) {
           </SubmitDiv>
         </RowFlex>
       </ColumnFlex>
+
+      {warningShow ? (
+        <SmallWrapper>
+          <ColumnFlex>
+            <SmallTitleDiv>
+              Changing the username will log you out, in order for the changes
+              to take effect. Are you sure you want to continue?
+            </SmallTitleDiv>
+            <CenterDiv>
+              <RowFlex>
+                <SubmitDiv>
+                  <Button
+                    style={{ background: "black", color: "white" }}
+                    variant="contained"
+                    color="primary"
+                    size="large"
+                    onClick={() => {
+                      onSaveChangesAgain();
+                    }}
+                  >
+                    Yes
+                  </Button>
+                </SubmitDiv>
+
+                <SubmitDiv>
+                  <Button
+                    style={{ background: "black", color: "white" }}
+                    variant="contained"
+                    color="primary"
+                    size="large"
+                    onClick={() => {
+                      setWarningShow(false);
+                    }}
+                  >
+                    No
+                  </Button>
+                </SubmitDiv>
+              </RowFlex>
+            </CenterDiv>
+          </ColumnFlex>
+        </SmallWrapper>
+      ) : (
+        <div />
+      )}
     </Wrapper>
   ) : (
     <div />
