@@ -295,6 +295,7 @@ export default function WelcomeCard(props) {
         username={props.username}
         show={accountSettingsShow}
         showFunction={setAccountSettingsShow}
+        logout={props.logout}
       />
 
       <PopUpCard show={cardsButtonShow} showFunction={setCardsButtonShow} />

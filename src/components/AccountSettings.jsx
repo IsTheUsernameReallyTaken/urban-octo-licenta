@@ -71,7 +71,7 @@ export default function AccountSettings(props) {
   const [usernameErrorMessage, setUsernameErrorMessage] = useState("");
 
   const [nameError, setNameError] = useState(false);
-  const [surnameError, setSurrnameError] = useState(false);
+  const [surnameError, setSurnameError] = useState(false);
 
   const [emailError, setEmailError] = useState(false);
   const [emailErrorMessage, setEmailErrorMessage] = useState("");
@@ -79,8 +79,10 @@ export default function AccountSettings(props) {
   const [editable, setEditable] = useState(false);
 
   const [users, setUsers] = useState([]);
+  const [cards, setCards] = useState([]);
 
   const refUsers = firebase.firestore().collection("usernames");
+  const refCards = firebase.firestore().collection("cards");
 
   function getUsers() {
     refUsers.onSnapshot((querySnapshot) => {
@@ -92,8 +94,19 @@ export default function AccountSettings(props) {
     });
   }
 
+  function getCards() {
+    refCards.onSnapshot((querySnapshot) => {
+      const cardItems = [];
+      querySnapshot.forEach((document) => {
+        cardItems.push(document.data());
+      });
+      setCards(cardItems);
+    });
+  }
+
   useEffect(() => {
     getUsers();
+    getCards();
     getInfo(props.username);
   }, [props.show]);
 
@@ -106,7 +119,20 @@ export default function AccountSettings(props) {
       });
   }
 
+  function updateCard(updatedCard) {
+    refCards
+      .doc(updatedCard.id)
+      .update(updatedCard)
+      .catch((err) => {
+        console.error(err);
+      });
+  }
+
   function onSaveChanges() {
+    if (editable === false) {
+      return;
+    }
+
     let id;
     users.forEach((useri) => {
       if (useri.username === props.username) {
@@ -122,8 +148,6 @@ export default function AccountSettings(props) {
       email: email,
     };
 
-    let newUsername = document.getElementById("usernameField").value;
-
     const newUser = {
       id: id,
       username: newUsername,
@@ -134,6 +158,99 @@ export default function AccountSettings(props) {
 
     // console.log(oldUser);
     // console.log(newUser);
+
+    if (newUsername.length === 0) {
+      setUsernameError(true);
+      setUsernameErrorMessage("New username cannot be empty");
+
+      setNameError(false);
+      setSurnameError(false);
+      setEmailError(false);
+      return;
+    } else {
+      setUsernameError(false);
+    }
+
+    if (newName.length === 0) {
+      setNameError(true);
+      setSurnameError(false);
+      setEmailError(false);
+      return;
+    } else {
+      setNameError(false);
+    }
+
+    if (newSurname.length === 0) {
+      setSurnameError(true);
+      setEmailError(false);
+      return;
+    } else {
+      setSurnameError(false);
+    }
+
+    if (newEmail.length === 0) {
+      setEmailError(true);
+      setEmailErrorMessage("Email cannot be empty");
+      return;
+    } else {
+      setNameError(false);
+    }
+
+    if (
+      newEmail.endsWith("@firma.com") === false &&
+      newEmail.endsWith("@gmail.com") === false &&
+      newEmail.endsWith("@yahoo.com") === false
+    ) {
+      setEmailError(true);
+      setEmailErrorMessage("Email is invalid");
+      return;
+    } else {
+      setEmailError(false);
+    }
+
+    if (
+      oldUser.username === newUser.username &&
+      oldUser.name === newUser.name &&
+      oldUser.surname === newUser.surname &&
+      oldUser.email === newUser.email
+    ) {
+      setUsernameError(true);
+      setUsernameErrorMessage("No changes have been made");
+      return;
+    } else {
+      setUsernameError(false);
+    }
+
+    if (!newUsername.toLowerCase().includes(newSurname.toLowerCase())) {
+      setUsernameError(true);
+      setUsernameErrorMessage("Username must contain surname");
+      return;
+    } else {
+      setUsernameError(false);
+    }
+
+    setUsernameError(false);
+    setNameError(false);
+    setSurnameError(false);
+    setEmailError(false);
+
+    cards.forEach((carduri) => {
+      let newCard = {};
+      if (carduri.by === oldUser.username) {
+        newCard = {
+          id: carduri.id,
+          by: newUser.username,
+        };
+        console.log(
+          newCard.id + " " + oldUser.username + " -> " + newUser.username
+        );
+        updateCard(newCard);
+      }
+    });
+
+    updateUser(newUser);
+    props.logout(false);
+    props.showFunction(false);
   }
 
   function getInfo(username) {
@@ -169,7 +286,7 @@ export default function AccountSettings(props) {
               value={newUsername}
               disabled={!editable}
               onChange={(event) => {
-                console.log(event.target.value);
+                // console.log(event.target.value);
                 setNewUsername(event.target.value);
               }}
             />
