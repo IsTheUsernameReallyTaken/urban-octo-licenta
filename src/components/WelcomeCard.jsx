@@ -14,7 +14,7 @@ import AccountSettings from "./AccountSettings";
 
 import Review from "./Review";
 
-import { Button, Tooltip } from "@material-ui/core";
+import { Button, Tooltip, Menu, MenuItem } from "@material-ui/core";
 
 const Wrapper = styled.section`
   padding: 1em;
@@ -79,6 +79,10 @@ export default function WelcomeCard(props) {
 
   const [hover1, setHover1] = useState(false);
 
+  const [anchor1, setAnchor1] = useState(null);
+  const [anchor2, setAnchor2] = useState(null);
+  const [anchor3, setAnchor3] = useState(null);
+
   const welcome = "Welcome to our humble little app, " + props.username + ".";
   return (
     <Wrapper>
@@ -105,12 +109,44 @@ export default function WelcomeCard(props) {
               variant="contained"
               color="primary"
               size="small"
-              onClick={() => {
-                setCardsButtonShow(true);
+              onClick={(event) => {
+                setAnchor1(event.currentTarget);
               }}
             >
-              Add Cards
+              Cards
             </Button>
+            <Menu
+              open={Boolean(anchor1)}
+              anchorEl={anchor1}
+              onClose={() => {
+                setAnchor1(null);
+              }}
+            >
+              <MenuItem
+                onClick={() => {
+                  setCardsButtonShow(true);
+                  setAnchor1(null);
+                }}
+              >
+                Add Cards
+              </MenuItem>
+              <MenuItem
+                onClick={() => {
+                  setEditCardsButtonShow(true);
+                  setAnchor1(null);
+                }}
+              >
+                Edit Cards
+              </MenuItem>
+              <MenuItem
+                onClick={() => {
+                  setDeleteCardsButtonShow(true);
+                  setAnchor1(null);
+                }}
+              >
+                Delete Cards
+              </MenuItem>
+            </Menu>
           </MarginDiv>
 
           <MarginDiv>
@@ -119,68 +155,44 @@ export default function WelcomeCard(props) {
               variant="contained"
               color="primary"
               size="small"
-              onClick={() => {
-                setUsersButtonShow(true);
+              onClick={(event) => {
+                setAnchor2(event.currentTarget);
               }}
             >
-              Add Users
+              Users
             </Button>
-          </MarginDiv>
-
-          <MarginDiv>
-            <Button
-              style={{ background: "black", color: "white" }}
-              variant="contained"
-              color="primary"
-              size="small"
-              onClick={() => {
-                setEditCardsButtonShow(true);
+            <Menu
+              open={Boolean(anchor2)}
+              anchorEl={anchor2}
+              onClose={() => {
+                setAnchor2(null);
               }}
             >
-              Edit Cards
-            </Button>
-          </MarginDiv>
-
-          <MarginDiv>
-            <Button
-              style={{ background: "black", color: "white" }}
-              variant="contained"
-              color="primary"
-              size="small"
-              onClick={() => {
-                setEditUsersButtonShow(true);
-              }}
-            >
-              Edit Users
-            </Button>
-          </MarginDiv>
-
-          <MarginDiv>
-            <Button
-              style={{ background: "black", color: "white" }}
-              variant="contained"
-              color="primary"
-              size="small"
-              onClick={() => {
-                setDeleteCardsButtonShow(true);
-              }}
-            >
-              Delete Cards
-            </Button>
-          </MarginDiv>
-
-          <MarginDiv>
-            <Button
-              style={{ background: "black", color: "white" }}
-              variant="contained"
-              color="primary"
-              size="small"
-              onClick={() => {
-                setDeleteUsersButtonShow(true);
-              }}
-            >
-              Delete Users
-            </Button>
+              <MenuItem
+                onClick={() => {
+                  setUsersButtonShow(true);
+                  setAnchor2(null);
+                }}
+              >
+                Add Users
+              </MenuItem>
+              <MenuItem
+                onClick={() => {
+                  setEditUsersButtonShow(true);
+                  setAnchor2(null);
+                }}
+              >
+                Edit Users
+              </MenuItem>
+              <MenuItem
+                onClick={() => {
+                  setDeleteUsersButtonShow(true);
+                  setAnchor2(null);
+                }}
+              >
+                Delete Users
+              </MenuItem>
+            </Menu>
           </MarginDiv>
 
           <Tooltip
@@ -212,15 +224,145 @@ export default function WelcomeCard(props) {
               variant="contained"
               color="primary"
               size="small"
+              onClick={(event) => {
+                setAnchor3(event.currentTarget);
+              }}
+            >
+              Account
+            </Button>
+            <Menu
+              open={Boolean(anchor3)}
+              anchorEl={anchor3}
+              onClose={() => {
+                setAnchor3(null);
+              }}
+            >
+              <MenuItem
+                onClick={() => {
+                  setAccountSettingsShow(true);
+                  setAnchor3(null);
+                }}
+              >
+                Account Info
+              </MenuItem>
+              <MenuItem
+                onClick={() => {
+                  setPasswordChangeShow(true);
+                  setAnchor3(null);
+                }}
+              >
+                Change Password
+              </MenuItem>
+              <MenuItem
+                onClick={() => {
+                  props.logout(false);
+                  setAnchor3(null);
+                }}
+              >
+                Logout
+              </MenuItem>
+            </Menu>
+          </MarginDiv>
+
+          {/* <MarginDiv>
+            <Button
+              style={{ background: "black", color: "white" }}
+              variant="contained"
+              color="primary"
+              size="small"
+              onClick={() => {
+                setCardsButtonShow(true);
+              }}
+            >
+              Add Cards
+            </Button>
+          </MarginDiv> */}
+
+          {/* <MarginDiv>
+            <Button
+              style={{ background: "black", color: "white" }}
+              variant="contained"
+              color="primary"
+              size="small"
+              onClick={() => {
+                setUsersButtonShow(true);
+              }}
+            >
+              Add Users
+            </Button>
+          </MarginDiv> */}
+
+          {/* <MarginDiv>
+            <Button
+              style={{ background: "black", color: "white" }}
+              variant="contained"
+              color="primary"
+              size="small"
+              onClick={() => {
+                setEditCardsButtonShow(true);
+              }}
+            >
+              Edit Cards
+            </Button>
+          </MarginDiv> */}
+
+          {/* <MarginDiv>
+            <Button
+              style={{ background: "black", color: "white" }}
+              variant="contained"
+              color="primary"
+              size="small"
+              onClick={() => {
+                setEditUsersButtonShow(true);
+              }}
+            >
+              Edit Users
+            </Button>
+          </MarginDiv> */}
+
+          {/* <MarginDiv>
+            <Button
+              style={{ background: "black", color: "white" }}
+              variant="contained"
+              color="primary"
+              size="small"
+              onClick={() => {
+                setDeleteCardsButtonShow(true);
+              }}
+            >
+              Delete Cards
+            </Button>
+          </MarginDiv> */}
+
+          {/* <MarginDiv>
+            <Button
+              style={{ background: "black", color: "white" }}
+              variant="contained"
+              color="primary"
+              size="small"
+              onClick={() => {
+                setDeleteUsersButtonShow(true);
+              }}
+            >
+              Delete Users
+            </Button>
+          </MarginDiv> */}
+
+          {/* <MarginDiv>
+            <Button
+              style={{ background: "black", color: "white" }}
+              variant="contained"
+              color="primary"
+              size="small"
               onClick={() => {
                 setPasswordChangeShow(true);
               }}
             >
               Change password
             </Button>
-          </MarginDiv>
+          </MarginDiv> */}
 
-          <MarginDiv>
+          {/* <MarginDiv>
             <Button
               style={{ background: "black", color: "white" }}
               variant="contained"
@@ -232,9 +374,9 @@ export default function WelcomeCard(props) {
             >
               Account Settings
             </Button>
-          </MarginDiv>
+          </MarginDiv> */}
 
-          <MarginDiv>
+          {/* <MarginDiv>
             <Button
               style={{
                 background: hover1 === false ? "black" : "orange",
@@ -255,12 +397,58 @@ export default function WelcomeCard(props) {
             >
               LOGOUT
             </Button>
-          </MarginDiv>
+          </MarginDiv> */}
         </RowFlex>
       ) : (
         <RowFlex>
           <MarginDiv>
             <Button
+              style={{ background: "black", color: "white" }}
+              variant="contained"
+              color="primary"
+              size="small"
+              onClick={(event) => {
+                setAnchor3(event.currentTarget);
+              }}
+            >
+              Account
+            </Button>
+            <Menu
+              open={Boolean(anchor3)}
+              anchorEl={anchor3}
+              onClose={() => {
+                setAnchor3(null);
+              }}
+            >
+              <MenuItem
+                onClick={() => {
+                  setAccountSettingsShow(true);
+                  setAnchor3(null);
+                }}
+              >
+                Account Info
+              </MenuItem>
+              <MenuItem
+                onClick={() => {
+                  setPasswordChangeShow(true);
+                  setAnchor3(null);
+                }}
+              >
+                Change Password
+              </MenuItem>
+              <MenuItem
+                onClick={() => {
+                  props.logout(false);
+                  setAnchor3(null);
+                }}
+              >
+                Logout
+              </MenuItem>
+            </Menu>
+          </MarginDiv>
+
+          {/* <MarginDiv>
+            <Button
               style={{
                 background: hover1 === false ? "black" : "orange",
                 color: hover1 === false ? "white" : "black",
@@ -280,7 +468,7 @@ export default function WelcomeCard(props) {
             >
               LOGOUT
             </Button>
-          </MarginDiv>
+          </MarginDiv> */}
         </RowFlex>
       )}
       <Review show={review} showFunction={setReview} />
