@@ -159,6 +159,14 @@ export default function PasswordChange(props) {
       setPass3Error(false);
     }
 
+    if (parola1 === parola2) {
+      setPass3Error(true);
+      setPass3Message("New password is identical");
+      return;
+    } else {
+      setPass3Error(false);
+    }
+
     let newpass = parola2;
     let passhash = hash.generate(newpass);
 
@@ -167,8 +175,8 @@ export default function PasswordChange(props) {
       password: passhash,
     };
 
-    console.log(newUser);
-    console.log(newpass);
+    // console.log(newUser);
+    // console.log(newpass);
 
     updateUser(newUser);
     props.showFunction(false);
