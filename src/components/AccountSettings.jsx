@@ -86,7 +86,8 @@ export default function AccountSettings(props) {
 
   useEffect(() => {
     getUsers();
-  }, []);
+    getInfo(props.username);
+  }, [props.show]);
 
   function updateUser(updatedUser) {
     refUsers
@@ -147,7 +148,7 @@ export default function AccountSettings(props) {
     <Wrapper>
       {/* {getInfo(props.username)} */}
       <ColumnFlex>
-        <TitleDiv>Account Information for {props.username}</TitleDiv>
+        <TitleDiv>Account information for {props.username}</TitleDiv>
         {/* {getInfo(props.username)} */}
         <TextFieldDiv>
           <TextField
