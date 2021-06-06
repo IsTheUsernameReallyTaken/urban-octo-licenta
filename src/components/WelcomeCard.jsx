@@ -10,6 +10,7 @@ import PopUpCardDelete from "./PopUpCardDelete";
 import PopUpUserDelete from "./PopUpUserDelete";
 
 import PasswordChange from "./PasswordChange";
+import AccountSettings from "./AccountSettings";
 
 import Review from "./Review";
 
@@ -72,6 +73,7 @@ export default function WelcomeCard(props) {
   const [deleteUsersButtonShow, setDeleteUsersButtonShow] = useState(false);
 
   const [passwordChangeShow, setPasswordChangeShow] = useState(false);
+  const [accountSettingsShow, setAccountSettingsShow] = useState(false);
 
   const [review, setReview] = useState(false);
 
@@ -220,6 +222,20 @@ export default function WelcomeCard(props) {
 
           <MarginDiv>
             <Button
+              style={{ background: "black", color: "white" }}
+              variant="contained"
+              color="primary"
+              size="small"
+              onClick={() => {
+                setAccountSettingsShow(true);
+              }}
+            >
+              Account Settings
+            </Button>
+          </MarginDiv>
+
+          <MarginDiv>
+            <Button
               style={{
                 background: hover1 === false ? "black" : "orange",
                 color: hover1 === false ? "white" : "black",
@@ -273,6 +289,12 @@ export default function WelcomeCard(props) {
         username={props.username}
         show={passwordChangeShow}
         showFunction={setPasswordChangeShow}
+      />
+
+      <AccountSettings
+        username={props.username}
+        show={accountSettingsShow}
+        showFunction={setAccountSettingsShow}
       />
 
       <PopUpCard show={cardsButtonShow} showFunction={setCardsButtonShow} />
