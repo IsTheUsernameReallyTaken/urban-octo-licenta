@@ -215,24 +215,32 @@ export default function Login() {
     }
   }
 
+  function HelpMeILostMyPassword() {
+    let parola = "parola";
+    let hash = require("password-hash");
+    let hashedpass = hash.generate(parola);
+    console.log(hashedpass);
+  }
+
   useEffect(() => {
     getUsers();
   }, []);
 
-  return true ? (
-    <App
-      username={"daniel.dumitru"}
-      isAdmin={true}
-      dept={"dept-1"}
-      logout={setValid}
-    />
+  // return true ? (
+  //   <App
+  //     username={"daniel.dumitru"}
+  //     isAdmin={true}
+  //     dept={"dept-1"}
+  //     logout={setValid}
+  //   />
+  // ) : (
+  return valid ? (
+    <App username={username} isAdmin={isAdmin} dept={dept} logout={setValid} />
   ) : (
-    // return valid ? (
-    //   <App username={username} isAdmin={isAdmin} dept={dept} logout={setValid} />
-    // ) : (
     <Wrapper>
       <TitleDiv>
         <div>Hello there! Welcome to our (MINE) tiny little app.</div>
+        {HelpMeILostMyPassword()}
       </TitleDiv>
       <form>
         <UsernameField error={userWrong} message={userMessage} />

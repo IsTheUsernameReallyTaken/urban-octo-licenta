@@ -270,6 +270,7 @@ export default function WelcomeCard(props) {
       <Review show={review} showFunction={setReview} />
 
       <PasswordChange
+        username={props.username}
         show={passwordChangeShow}
         showFunction={setPasswordChangeShow}
       />
