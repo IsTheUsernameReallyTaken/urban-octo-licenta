@@ -9,6 +9,8 @@ import PopUpUserEdit from "./PopUpUserEdit";
 import PopUpCardDelete from "./PopUpCardDelete";
 import PopUpUserDelete from "./PopUpUserDelete";
 
+import PasswordChange from "./PasswordChange";
+
 import Review from "./Review";
 
 import { Button, Tooltip } from "@material-ui/core";
@@ -68,6 +70,8 @@ export default function WelcomeCard(props) {
 
   const [deleteCardsButtonShow, setDeleteCardsButtonShow] = useState(false);
   const [deleteUsersButtonShow, setDeleteUsersButtonShow] = useState(false);
+
+  const [passwordChangeShow, setPasswordChangeShow] = useState(false);
 
   const [review, setReview] = useState(false);
 
@@ -202,6 +206,20 @@ export default function WelcomeCard(props) {
 
           <MarginDiv>
             <Button
+              style={{ background: "black", color: "white" }}
+              variant="contained"
+              color="primary"
+              size="small"
+              onClick={() => {
+                setPasswordChangeShow(true);
+              }}
+            >
+              Change password
+            </Button>
+          </MarginDiv>
+
+          <MarginDiv>
+            <Button
               style={{
                 background: hover1 === false ? "black" : "orange",
                 color: hover1 === false ? "white" : "black",
@@ -250,6 +268,11 @@ export default function WelcomeCard(props) {
         </RowFlex>
       )}
       <Review show={review} showFunction={setReview} />
+
+      <PasswordChange
+        show={passwordChangeShow}
+        showFunction={setPasswordChangeShow}
+      />
 
       <PopUpCard show={cardsButtonShow} showFunction={setCardsButtonShow} />
       <PopUpUser show={usersButtonShow} showFunction={setUsersButtonShow} />
