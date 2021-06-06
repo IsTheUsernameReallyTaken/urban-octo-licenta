@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 
 import { Button, TextField, Checkbox } from "@material-ui/core";
+import EditIcon from "@material-ui/icons/Edit";
 
 import firebase from "../firebase";
 import "firebase/firestore";
@@ -50,6 +51,11 @@ const RowFlex = styled.div`
   flex-direction: row;
 `;
 
+const MarginDiv = styled.div`
+  margin: 5px;
+  padding: 5px;
+`;
+
 export default function AccountSettings(props) {
   const [username, setUsername] = useState("");
   const [name, setName] = useState("");
@@ -69,6 +75,8 @@ export default function AccountSettings(props) {
 
   const [emailError, setEmailError] = useState(false);
   const [emailErrorMessage, setEmailErrorMessage] = useState("");
+
+  const [editable, setEditable] = useState(false);
 
   const [users, setUsers] = useState([]);
 
@@ -124,8 +132,8 @@ export default function AccountSettings(props) {
       email: newEmail,
     };
 
-    console.log(oldUser);
-    console.log(newUser);
+    // console.log(oldUser);
+    // console.log(newUser);
   }
 
   function getInfo(username) {
@@ -151,18 +159,28 @@ export default function AccountSettings(props) {
         <TitleDiv>Account information for {props.username}</TitleDiv>
         {/* {getInfo(props.username)} */}
         <TextFieldDiv>
-          <TextField
-            error={usernameError}
-            helperText={usernameError ? usernameErrorMessage : ""}
-            id="usernameField"
-            variant="outlined"
-            label="Username"
-            value={newUsername}
-            onChange={(event) => {
-              console.log(event.target.value);
-              setNewUsername(event.target.value);
-            }}
-          />
+          <RowFlex>
+            <TextField
+              error={usernameError}
+              helperText={usernameError ? usernameErrorMessage : ""}
+              id="usernameField"
+              variant="outlined"
+              label="Username"
+              value={newUsername}
+              disabled={!editable}
+              onChange={(event) => {
+                console.log(event.target.value);
+                setNewUsername(event.target.value);
+              }}
+            />
+            <MarginDiv>
+              <EditIcon
+                onClick={() => {
+                  setEditable(!editable);
+                }}
+              />
+            </MarginDiv>
+          </RowFlex>
         </TextFieldDiv>
 
         <TextFieldDiv>
@@ -173,6 +191,7 @@ export default function AccountSettings(props) {
             variant="outlined"
             label="Name"
             value={newName}
+            disabled={!editable}
             onChange={(event) => {
               setNewName(event.target.value);
             }}
@@ -187,6 +206,7 @@ export default function AccountSettings(props) {
             variant="outlined"
             label="Surname"
             value={newSurname}
+            disabled={!editable}
             onChange={(event) => {
               setNewSurname(event.target.value);
             }}
@@ -201,6 +221,7 @@ export default function AccountSettings(props) {
             variant="outlined"
             label="Email"
             value={newEmail}
+            disabled={!editable}
             onChange={(event) => {
               setNewEmail(event.target.value);
             }}
