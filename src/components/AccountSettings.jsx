@@ -77,8 +77,10 @@ const SmallWrapper = styled.div`
 
 const SmallTitleDiv = styled.div`
   margin-bottom: 7px;
-  font-size: 1.2em;
+  font-size: 1.4em;
   padding: 40px;
+
+  text-align: center;
 `;
 
 const CenterDiv = styled.div`
@@ -418,6 +420,7 @@ export default function AccountSettings(props) {
               color="primary"
               size="large"
               onClick={() => {
+                setEditable(false);
                 props.showFunction(false);
               }}
             >
