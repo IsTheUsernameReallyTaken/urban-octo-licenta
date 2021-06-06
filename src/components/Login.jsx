@@ -226,21 +226,21 @@ export default function Login() {
     getUsers();
   }, []);
 
-  // return true ? (
-  //   <App
-  //     username={"daniel.dumitru"}
-  //     isAdmin={true}
-  //     dept={"dept-1"}
-  //     logout={setValid}
-  //   />
-  // ) : (
-  return valid ? (
-    <App username={username} isAdmin={isAdmin} dept={dept} logout={setValid} />
+  return true ? (
+    <App
+      username={"daniel.dumitru"}
+      isAdmin={true}
+      dept={"dept-1"}
+      logout={setValid}
+    />
   ) : (
+    // return valid ? (
+    //   <App username={username} isAdmin={isAdmin} dept={dept} logout={setValid} />
+    // ) : (
     <Wrapper>
       <TitleDiv>
         <div>Hello there! Welcome to our (MINE) tiny little app.</div>
-        {HelpMeILostMyPassword()}
+        {/* {HelpMeILostMyPassword()} */}
       </TitleDiv>
       <form>
         <UsernameField error={userWrong} message={userMessage} />

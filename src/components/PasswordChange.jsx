@@ -8,11 +8,15 @@ import "firebase/firestore";
 
 const Wrapper = styled.div`
   position: fixed;
-  width: 100%;
-  height: 100vh;
+  width: 64%;
+  height: 64vh;
 
-  top: 0;
-  left: 0;
+  top: 18%;
+  left: 18%;
+
+  border-radius: 7px;
+  border-style: solid;
+  border-width: thin;
 
   background: white;
 
