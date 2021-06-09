@@ -55,12 +55,57 @@ const SubmitDiv = styled.div`
   padding: 5px;
 `;
 
+const SmallWrapper = styled.div`
+  position: fixed;
+  width: 40%;
+  height: 40vh;
+
+  top: 30%;
+  left: 30%;
+
+  border-radius: 7px;
+  border-style: solid;
+  border-width: thin;
+
+  background: white;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const SmallTitleDiv = styled.div`
+  margin-bottom: 7px;
+  font-size: 1.4em;
+  padding: 40px;
+
+  text-align: center;
+`;
+
+const CenterDiv = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const ColumnFlex = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const RowFlex = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+
 export default function PopUpListDelete(props) {
   const [lists, setLists] = useState([]);
   const [cards, setCards] = useState([]);
 
   const [selectedList, setSelectedList] = useState("");
   const [selectError, setSelectError] = useState(false);
+
+  const [warningShow, setWarningShow] = useState(false);
 
   const refLists = firebase.firestore().collection("lists");
   const refCards = firebase.firestore().collection("cards");
@@ -103,9 +148,16 @@ export default function PopUpListDelete(props) {
       });
   }
 
-  function onListDelete() {
-    // console.log(selectedList);
+  function updateCard(updatedCard) {
+    refCards
+      .doc(updatedCard.id)
+      .update(updatedCard)
+      .catch((err) => {
+        console.error(err);
+      });
+  }
 
+  function onListDelete() {
     if (selectedList === "") {
       setSelectError(true);
       return;
@@ -113,9 +165,77 @@ export default function PopUpListDelete(props) {
       setSelectError(false);
     }
 
-    deleteList(selectedList);
+    let theCards = [];
+
+    lists.forEach((listele) => {
+      if (listele.id === selectedList) {
+        theCards = listele.hasCards;
+      }
+    });
+
+    if (theCards.length !== 0) {
+      setWarningShow(true);
+      return;
+    }
+
+    // deleteList(selectedList);
     props.showFunction(false);
   }
+
+  function onWarningMoveCards() {
+    console.log(selectedList);
+
+    let theCards1 = [];
+    lists.forEach((listele) => {
+      if (listele.id === selectedList) {
+        theCards1 = listele.hasCards;
+      }
+    });
+
+    console.log(theCards1);
+
+    cards.forEach((carduri1) => {
+      theCards1.forEach((carduriID) => {
+        if (carduri1.id === carduriID) {
+          let id = carduri1.id,
+            titlu = carduri1.title,
+            dept = carduri1.department;
+
+          const updatedCard = {
+            id: id,
+            title: titlu,
+            department: dept,
+            startTime: "",
+            endTime: "",
+            problemStart: "",
+            problemEnd: "",
+            by: "",
+          };
+
+          updateCard(updatedCard);
+        }
+      });
+    });
+
+    let newHasCards;
+
+    newHasCards = lists[0].hasCards.concat(theCards1);
+
+    let updatedList = {
+      id: lists[0].id,
+      hasCards: newHasCards,
+    };
+
+    updateList(updatedList);
+    deleteList(selectedList);
+
+    setWarningShow(false);
+    setSelectError(false);
+    setSelectedList("");
+    props.showFunction(false);
+  }
+
+  function onWarningDeleteCards() {}
 
   useEffect(() => {
     getCards();
@@ -135,77 +255,138 @@ export default function PopUpListDelete(props) {
   }
 
   return props.show ? (
-    <WrapperDiv>
-      <form>
-        <TitleDiv>
-          <div>Choose the list you'd like to delete</div>
-        </TitleDiv>
+    <div>
+      <WrapperDiv>
+        <form>
+          <TitleDiv>
+            <div>Choose the list you'd like to delete</div>
+          </TitleDiv>
 
-        <TextFieldDiv>
-          <FormControl
-            style={{ minWidth: "72.5%" }}
-            variant="outlined"
-            error={selectError}
-          >
-            <InputLabel>Lists</InputLabel>
-            <Select
-              label="Lists"
-              disabled={lists.length === 0}
-              onChange={(event) => {
-                setSelectedList(event.target.value);
-                setSelectError(false);
-              }}
+          <TextFieldDiv>
+            <FormControl
+              style={{ minWidth: "72.5%" }}
+              variant="outlined"
+              error={selectError}
             >
-              {lists.map((listele) => {
-                return (
-                  <MenuItem
-                    key={listele.id}
-                    value={listele.id}
-                    disabled={isDisabled(listele.id)}
+              <InputLabel>Lists</InputLabel>
+              <Select
+                label="Lists"
+                disabled={lists.length === 0}
+                onChange={(event) => {
+                  setSelectedList(event.target.value);
+                  setSelectError(false);
+                }}
+              >
+                {lists.map((listele) => {
+                  return (
+                    <MenuItem
+                      key={listele.id}
+                      value={listele.id}
+                      disabled={isDisabled(listele.id)}
+                    >
+                      List #{listele.id.replace(/[^0-9]/g, "")} -{" "}
+                      {listele.title}
+                    </MenuItem>
+                  );
+                })}
+              </Select>
+              <FormHelperText>
+                {selectError ? "Please select a list" : ""}
+              </FormHelperText>
+            </FormControl>
+          </TextFieldDiv>
+
+          <ButtonsFlexDiv>
+            <SubmitDiv>
+              <Button
+                style={{ background: "black", color: "white" }}
+                variant="contained"
+                color="primary"
+                size="large"
+                onClick={() => {
+                  onListDelete();
+                }}
+              >
+                Delete List
+              </Button>
+            </SubmitDiv>
+
+            <SubmitDiv>
+              <Button
+                style={{ background: "black", color: "white" }}
+                variant="contained"
+                color="primary"
+                size="large"
+                onClick={() => {
+                  setSelectError(false);
+                  setSelectedList("");
+                  props.showFunction(false);
+                }}
+              >
+                EXIT
+              </Button>
+            </SubmitDiv>
+          </ButtonsFlexDiv>
+        </form>
+      </WrapperDiv>
+
+      {warningShow ? (
+        <SmallWrapper>
+          <ColumnFlex>
+            <SmallTitleDiv>
+              You are about to delete a list that contains cards.
+            </SmallTitleDiv>
+            <CenterDiv>
+              <RowFlex>
+                <SubmitDiv>
+                  <Button
+                    style={{ background: "black", color: "white" }}
+                    variant="contained"
+                    color="primary"
+                    size="large"
+                    onClick={() => {
+                      onWarningMoveCards();
+                    }}
                   >
-                    List #{listele.id.replace(/[^0-9]/g, "")} - {listele.title}
-                  </MenuItem>
-                );
-              })}
-            </Select>
-            <FormHelperText>
-              {selectError ? "Please select a list" : ""}
-            </FormHelperText>
-          </FormControl>
-        </TextFieldDiv>
+                    Move cards
+                  </Button>
+                </SubmitDiv>
 
-        <ButtonsFlexDiv>
-          <SubmitDiv>
-            <Button
-              style={{ background: "black", color: "white" }}
-              variant="contained"
-              color="primary"
-              size="large"
-              onClick={() => {
-                onListDelete();
-              }}
-            >
-              Delete List
-            </Button>
-          </SubmitDiv>
+                <SubmitDiv>
+                  <Button
+                    style={{ background: "black", color: "white" }}
+                    variant="contained"
+                    color="primary"
+                    size="large"
+                    onClick={() => {
+                      onWarningDeleteCards();
+                    }}
+                  >
+                    Delete cards
+                  </Button>
+                </SubmitDiv>
 
-          <SubmitDiv>
-            <Button
-              style={{ background: "black", color: "white" }}
-              variant="contained"
-              color="primary"
-              size="large"
-              onClick={() => {
-                setSelectError(false);
-                props.showFunction(false);
-              }}
-            >
-              EXIT
-            </Button>
-          </SubmitDiv>
-        </ButtonsFlexDiv>
-      </form>
-    </WrapperDiv>
+                <SubmitDiv>
+                  <Button
+                    style={{ background: "black", color: "white" }}
+                    variant="contained"
+                    color="primary"
+                    size="large"
+                    onClick={() => {
+                      setWarningShow(false);
+                    }}
+                  >
+                    Back
+                  </Button>
+                </SubmitDiv>
+              </RowFlex>
+            </CenterDiv>
+          </ColumnFlex>
+        </SmallWrapper>
+      ) : (
+        <div />
+      )}
+    </div>
   ) : (
     <div />
   );
