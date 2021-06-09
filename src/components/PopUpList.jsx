@@ -96,7 +96,7 @@ export default function PopUpList(props) {
       }
     });
 
-    if (maxID === 9) {
+    if (maxID === 9 && lists.length === 9) {
       setAddingDisabled(true);
     } else {
       setAddingDisabled(false);
@@ -122,6 +122,21 @@ export default function PopUpList(props) {
         maxID = parseInt(listele.id.replace(/[^0-9]/g, ""));
       }
     });
+
+    if (maxID === 9) {
+      let aparitii = new Array(10).fill(0);
+
+      lists.forEach((listele) => {
+        aparitii[parseInt(listele.id.replace(/[^0-9]/g, ""))]++;
+      });
+
+      for (let i = 1; i <= 9; i++) {
+        if (aparitii[i] === 0) {
+          maxID = i - 1;
+          break;
+        }
+      }
+    }
 
     const listID = "list-" + (maxID + 1);
 
