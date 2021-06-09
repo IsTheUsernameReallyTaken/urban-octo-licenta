@@ -9,6 +9,7 @@ import {
   MenuItem,
   Select,
   FormHelperText,
+  Tooltip,
 } from "@material-ui/core";
 
 import firebase from "../firebase";
@@ -63,6 +64,8 @@ export default function PopUpList(props) {
 
   const [emptyTextError, setEmptyTextError] = useState(false);
 
+  const [addingDisabled, setAddingDisabled] = useState(false);
+
   const refLists = firebase.firestore().collection("lists");
 
   function getLists() {
@@ -82,6 +85,22 @@ export default function PopUpList(props) {
       .catch((err) => {
         console.error(err);
       });
+  }
+
+  function getAddingDisabled() {
+    let maxID = 0;
+
+    lists.forEach((listele) => {
+      if (listele.id.replace(/[^0-9]/g, "") > maxID) {
+        maxID = parseInt(listele.id.replace(/[^0-9]/g, ""));
+      }
+    });
+
+    if (maxID === 9) {
+      setAddingDisabled(true);
+    } else {
+      setAddingDisabled(false);
+    }
   }
 
   function onListAdd() {
@@ -124,7 +143,8 @@ export default function PopUpList(props) {
 
   useEffect(() => {
     getLists();
-  }, []);
+    getAddingDisabled();
+  }, [props.show]);
 
   return props.show ? (
     <WrapperDiv>
@@ -153,7 +173,40 @@ export default function PopUpList(props) {
         </TextFieldDiv>
 
         <ButtonsFlexDiv>
-          <SubmitDiv>
+          {addingDisabled ? (
+            <Tooltip title="Maximum number of lists reached">
+              <SubmitDiv>
+                <Button
+                  style={{ background: "lightgrey", color: "white" }}
+                  variant="contained"
+                  color="primary"
+                  size="large"
+                  disabled
+                  onClick={() => {
+                    // onListAdd();
+                  }}
+                >
+                  ADD LIST
+                </Button>
+              </SubmitDiv>
+            </Tooltip>
+          ) : (
+            <SubmitDiv>
+              <Button
+                style={{ background: "black", color: "white" }}
+                variant="contained"
+                color="primary"
+                size="large"
+                onClick={() => {
+                  onListAdd();
+                }}
+              >
+                ADD LIST
+              </Button>
+            </SubmitDiv>
+          )}
+
+          {/* <SubmitDiv>
             <Button
               style={{ background: "black", color: "white" }}
               variant="contained"
@@ -165,7 +218,7 @@ export default function PopUpList(props) {
             >
               ADD LIST
             </Button>
-          </SubmitDiv>
+          </SubmitDiv> */}
 
           <SubmitDiv>
             <Button
