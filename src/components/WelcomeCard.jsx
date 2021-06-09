@@ -89,6 +89,7 @@ export default function WelcomeCard(props) {
   const [anchor1, setAnchor1] = useState(null);
   const [anchor2, setAnchor2] = useState(null);
   const [anchor3, setAnchor3] = useState(null);
+  const [anchor4, setAnchor4] = useState(null);
 
   const welcome = "Welcome, " + props.username + ".";
   return (
@@ -202,6 +203,52 @@ export default function WelcomeCard(props) {
             </Menu>
           </MarginDiv>
 
+          <MarginDiv>
+            <Button
+              style={{ background: "black", color: "white" }}
+              variant="contained"
+              color="primary"
+              size="small"
+              onClick={(event) => {
+                setAnchor4(event.currentTarget);
+              }}
+            >
+              Lists
+            </Button>
+            <Menu
+              open={Boolean(anchor4)}
+              anchorEl={anchor4}
+              onClose={() => {
+                setAnchor4(null);
+              }}
+            >
+              <MenuItem
+                onClick={() => {
+                  setListsButtonShow(true);
+                  setAnchor4(null);
+                }}
+              >
+                Add Lists
+              </MenuItem>
+              <MenuItem
+                onClick={() => {
+                  setEditListsButtonShow(true);
+                  setAnchor4(null);
+                }}
+              >
+                Edit Lists
+              </MenuItem>
+              <MenuItem
+                onClick={() => {
+                  setDeleteListsButtonShow(true);
+                  setAnchor4(null);
+                }}
+              >
+                Delete Lists
+              </MenuItem>
+            </Menu>
+          </MarginDiv>
+
           <Tooltip
             title={
               props.emergencies === 0
@@ -225,7 +272,7 @@ export default function WelcomeCard(props) {
             </MarginDiv>
           </Tooltip>
 
-          <MarginDiv>
+          {/* <MarginDiv>
             <Button
               style={{ background: "black", color: "white" }}
               variant="contained"
@@ -237,9 +284,9 @@ export default function WelcomeCard(props) {
             >
               Add list
             </Button>
-          </MarginDiv>
+          </MarginDiv> */}
 
-          <MarginDiv>
+          {/* <MarginDiv>
             <Button
               style={{ background: "black", color: "white" }}
               variant="contained"
@@ -251,9 +298,9 @@ export default function WelcomeCard(props) {
             >
               Edit list
             </Button>
-          </MarginDiv>
+          </MarginDiv> */}
 
-          <MarginDiv>
+          {/* <MarginDiv>
             <Button
               style={{ background: "black", color: "white" }}
               variant="contained"
@@ -265,7 +312,7 @@ export default function WelcomeCard(props) {
             >
               Delete list
             </Button>
-          </MarginDiv>
+          </MarginDiv> */}
 
           <MarginDiv>
             <Button
