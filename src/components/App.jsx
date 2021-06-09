@@ -135,7 +135,11 @@ export default function App(props) {
           startTime: copy.startTime ? copy.startTime : new Date(),
           endTime: "",
           problemStart: copy.problemStart,
-          problemEnd: copy.problemStart && !copy.problemEnd ? new Date() : "",
+          problemEnd: copy.problemEnd
+            ? copy.problemEnd
+            : copy.problemStart && !copy.problemEnd
+            ? new Date()
+            : "",
         };
       }
 
@@ -153,7 +157,11 @@ export default function App(props) {
           startTime: copy.startTime,
           endTime: new Date(),
           problemStart: copy.problemStart ? copy.problemStart : "",
-          problemEnd: copy.problemEnd ? copy.problemEnd : new Date(),
+          problemEnd: copy.problemEnd
+            ? copy.problemEnd
+            : copy.problemStart
+            ? new Date()
+            : "",
         };
       }
 
@@ -169,7 +177,7 @@ export default function App(props) {
           department: copy.department,
           by: copy.by,
           startTime: copy.startTime,
-          endTime: copy.endTime,
+          endTime: "",
           problemStart: new Date(),
           problemEnd: "",
         };
@@ -181,10 +189,10 @@ export default function App(props) {
           title: copy.title,
           department: copy.department,
           by: props.username,
-          startTime: "",
-          endTime: "",
-          problemStart: "",
-          problemEnd: "",
+          startTime: copy.startTime,
+          endTime: copy.endTime,
+          problemStart: copy.problemStart,
+          problemEnd: copy.problemEnd,
         };
       }
 
