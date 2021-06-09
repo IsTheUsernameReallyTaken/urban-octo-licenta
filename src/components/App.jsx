@@ -99,6 +99,111 @@ export default function App(props) {
       let firstListToUpdate,
         secondListToUpdate = {};
 
+      let copy;
+      cards.forEach((carduri) => {
+        if (carduri.id === draggableId) {
+          copy = carduri;
+        }
+      });
+
+      let cardToUpdate,
+        found = false;
+
+      if (destination.droppableId === "list-1") {
+        found = true;
+
+        cardToUpdate = {
+          id: copy.id,
+          title: copy.title,
+          department: copy.department,
+          by: "",
+          startTime: "",
+          endTime: "",
+          problemStart: "",
+          problemEnd: "",
+        };
+      }
+
+      if (destination.droppableId === "list-2") {
+        found = true;
+
+        cardToUpdate = {
+          id: copy.id,
+          title: copy.title,
+          department: copy.department,
+          by: copy.by ? copy.by : props.username,
+          startTime: copy.startTime ? copy.startTime : new Date(),
+          endTime: "",
+          problemStart: copy.problemStart,
+          problemEnd: copy.problemStart && !copy.problemEnd ? new Date() : "",
+        };
+      }
+
+      if (destination.droppableId === "list-3") {
+        if (!copy.startTime) {
+          return;
+        }
+        found = true;
+
+        cardToUpdate = {
+          id: copy.id,
+          title: copy.title,
+          department: copy.department,
+          by: copy.by,
+          startTime: copy.startTime,
+          endTime: new Date(),
+          problemStart: copy.problemStart ? copy.problemStart : "",
+          problemEnd: copy.problemEnd ? copy.problemEnd : "",
+        };
+      }
+
+      if (destination.droppableId === "list-4m") {
+        if (!copy.startTime) {
+          return;
+        }
+        found = true;
+
+        cardToUpdate = {
+          id: copy.id,
+          title: copy.title,
+          department: copy.department,
+          by: copy.by,
+          startTime: copy.startTime,
+          endTime: copy.endTime,
+          problemStart: new Date(),
+          problemEnd: "",
+        };
+      }
+
+      if (found === false) {
+        cardToUpdate = {
+          id: copy.id,
+          title: copy.title,
+          department: copy.department,
+          by: props.username,
+          startTime: "",
+          endTime: "",
+          problemStart: "",
+          problemEnd: "",
+        };
+      }
+
+      lists.forEach((listele) => {
+        if (source.droppableId === listele.id) {
+          firstListToUpdate = listele;
+          firstListToUpdate.hasCards.splice(source.index, 1);
+        }
+        if (destination.droppableId === listele.id) {
+          secondListToUpdate = listele;
+          secondListToUpdate.hasCards.splice(destination.index, 0, draggableId);
+        }
+      });
+      updateList(firstListToUpdate);
+      updateList(secondListToUpdate);
+      updateCard(cardToUpdate);
+
+      return;
+
       if (
         source.droppableId === "list-1" &&
         destination.droppableId !== "list-2"

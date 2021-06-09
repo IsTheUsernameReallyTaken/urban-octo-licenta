@@ -164,12 +164,20 @@ export default class Card extends React.Component {
             {getDifference()}
             {timestamp1 &&
             !timestamp2 &&
-            this.props.parentList !== "list-4m" ? (
+            this.props.parentList !== "list-4m" &&
+            [1, 2, 3, 4].includes(
+              parseInt(this.props.parentList.replace(/[^0-9]/g, ""))
+            ) ? (
               <ByDiv>started at: {time1}</ByDiv>
             ) : (
               <div />
             )}
-            {timestamp1 && timestamp2 && this.props.parentList !== "list-4m" ? (
+            {timestamp1 &&
+            timestamp2 &&
+            this.props.parentList !== "list-4m" &&
+            [1, 2, 3, 4].includes(
+              parseInt(this.props.parentList.replace(/[^0-9]/g, ""))
+            ) ? (
               <div>
                 {/*<ByDiv>done at: {time2} secs</ByDiv>*/}
                 <ByDiv>duration: {durationString}</ByDiv>
