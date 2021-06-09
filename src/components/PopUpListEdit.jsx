@@ -323,7 +323,7 @@ export default function PopUpListEdit(props) {
               error={identicalError}
               id="editListEmptyTextField"
               variant="outlined"
-              label="Empty Text"
+              label="Empty List Text (optional)"
               value={newEmptyText}
               onChange={(event) => {
                 setNewEmptyText(event.target.value);

@@ -148,7 +148,7 @@ export default function PopUpList(props) {
             helperText={emptyTextError ? "" : ""}
             id="emptyTextField"
             variant="outlined"
-            label="List Empty Text (optional)"
+            label="Empty List Text (optional)"
           />
         </TextFieldDiv>
 

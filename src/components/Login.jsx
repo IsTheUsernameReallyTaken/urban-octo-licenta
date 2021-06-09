@@ -239,7 +239,7 @@ export default function Login() {
     // ) : (
     <Wrapper>
       <TitleDiv>
-        <div>Hello there! Welcome to our (MINE) tiny little app.</div>
+        <div>Hello there! Welcome to our little Kanban app.</div>
         {/* {HelpMeILostMyPassword()} */}
       </TitleDiv>
       <form>
