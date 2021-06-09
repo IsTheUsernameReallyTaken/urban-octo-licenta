@@ -183,18 +183,22 @@ export default function PopUpListEdit(props) {
       if (listele.id === selectedList) {
         setSelectedListID(listele.id);
         setSelectedListTitle(listele.title);
-        if (listele.emptyText === "List is empty") {
-          setSelectedListEmptyText("");
-        } else {
-          setSelectedListEmptyText(listele.emptyText);
-        }
+        setSelectedListEmptyText(listele.emptyText);
+
+        // if (listele.emptyText === "List is empty") {
+        //   setSelectedListEmptyText("");
+        // } else {
+        //   setSelectedListEmptyText(listele.emptyText);
+        // }
 
         setNewListTitle(listele.title);
-        if (listele.emptyText === "List is empty") {
-          setNewEmptyText("");
-        } else {
-          setNewEmptyText(listele.emptyText);
-        }
+        setNewEmptyText(listele.emptyText);
+
+        // if (listele.emptyText === "List is empty") {
+        //   setNewEmptyText("");
+        // } else {
+        //   setNewEmptyText(listele.emptyText);
+        // }
       }
     });
   }

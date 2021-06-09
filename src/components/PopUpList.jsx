@@ -109,7 +109,8 @@ export default function PopUpList(props) {
     const newList = {
       id: listID,
       title: listTitle,
-      emptyText: listEmptyText.length === 0 ? "List is empty" : listEmptyText,
+      //   emptyText: listEmptyText.length === 0 ? "List is empty" : listEmptyText,
+      emptyText: listEmptyText,
       hasCards: [],
     };
 
