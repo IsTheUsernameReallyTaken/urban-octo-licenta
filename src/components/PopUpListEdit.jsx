@@ -143,28 +143,21 @@ export default function PopUpListEdit(props) {
       emptyText: selectedListEmptyText,
     };
 
-    const listTitle = document.getElementById("editListTitleField").value;
-    const listEmptyText = document.getElementById(
-      "editListEmptyTextField"
-    ).value;
-
-    if (listTitle.length === 0) {
-      setEmptyTitle(true);
-      return;
-    } else {
-      setEmptyTitle(false);
-    }
-
     const newList = {
       id: selectedListID,
       title: newListTitle,
       emptyText: newEmptyText,
     };
 
-    // console.log("old card: ");
-    // console.log(oldCard);
-    // console.log("new card: ");
-    // console.log(newCard);
+    console.log(oldList);
+    console.log(newList);
+
+    if (newListTitle.length === 0) {
+      setEmptyTitle(true);
+      return;
+    } else {
+      setEmptyTitle(false);
+    }
 
     if (
       newList.title === oldList.title &&
@@ -176,8 +169,7 @@ export default function PopUpListEdit(props) {
       setIdenticalError(false);
     }
 
-    // updateCard(newCard);
-
+    updateList(newList);
     setEmptyTitle(false);
     setSelectedListError(false);
     setIdenticalError(false);
@@ -324,14 +316,7 @@ export default function PopUpListEdit(props) {
               multiline
               rows={4}
               style={{ minWidth: "82.4%" }}
-              error={emptyTitle || identicalError}
-              helperText={
-                emptyTitle
-                  ? "You need to add a title description."
-                  : identicalError
-                  ? "No changes were made"
-                  : ""
-              }
+              error={identicalError}
               id="editListEmptyTextField"
               variant="outlined"
               label="Empty Text"
