@@ -10,6 +10,7 @@ import PopUpUserEdit from "./PopUpUserEdit";
 
 import PopUpCardDelete from "./PopUpCardDelete";
 import PopUpUserDelete from "./PopUpUserDelete";
+import PopUpListDelete from "./PopUpListDelete";
 
 import PasswordChange from "./PasswordChange";
 import AccountSettings from "./AccountSettings";
@@ -71,9 +72,11 @@ export default function WelcomeCard(props) {
 
   const [editCardsButtonShow, setEditCardsButtonShow] = useState(false);
   const [editUsersButtonShow, setEditUsersButtonShow] = useState(false);
+  const [editListsButtonShow, setEditListsButtonShow] = useState(false);
 
   const [deleteCardsButtonShow, setDeleteCardsButtonShow] = useState(false);
   const [deleteUsersButtonShow, setDeleteUsersButtonShow] = useState(false);
+  const [deleteListsButtonShow, setDeleteListsButtonShow] = useState(false);
 
   const [passwordChangeShow, setPasswordChangeShow] = useState(false);
   const [accountSettingsShow, setAccountSettingsShow] = useState(false);
@@ -228,11 +231,24 @@ export default function WelcomeCard(props) {
               color="primary"
               size="small"
               onClick={() => {
-                console.log("hi");
                 setListsButtonShow(true);
               }}
             >
               Add list
+            </Button>
+          </MarginDiv>
+
+          <MarginDiv>
+            <Button
+              style={{ background: "black", color: "white" }}
+              variant="contained"
+              color="primary"
+              size="small"
+              onClick={() => {
+                setDeleteListsButtonShow(true);
+              }}
+            >
+              Delete list
             </Button>
           </MarginDiv>
 
@@ -525,6 +541,10 @@ export default function WelcomeCard(props) {
       <PopUpUserDelete
         show={deleteUsersButtonShow}
         showFunction={setDeleteUsersButtonShow}
+      />
+      <PopUpListDelete
+        show={deleteListsButtonShow}
+        showFunction={setDeleteListsButtonShow}
       />
     </Wrapper>
   );

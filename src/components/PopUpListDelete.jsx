@@ -55,15 +55,15 @@ const SubmitDiv = styled.div`
   padding: 5px;
 `;
 
-export default function PopUpList(props) {
+export default function PopUpListDelete(props) {
   const [lists, setLists] = useState([]);
+  const [cards, setCards] = useState([]);
 
-  const [titleError, setTitleError] = useState(false);
-  const [titleErrorMessage, setTitleErrorMessage] = useState("");
-
-  const [emptyTextError, setEmptyTextError] = useState(false);
+  const [selectedList, setSelectedList] = useState("");
+  const [selectError, setSelectError] = useState(false);
 
   const refLists = firebase.firestore().collection("lists");
+  const refCards = firebase.firestore().collection("cards");
 
   function getLists() {
     refLists.onSnapshot((querySnapshot) => {
@@ -75,80 +75,103 @@ export default function PopUpList(props) {
     });
   }
 
-  function addList(newList) {
+  function getCards() {
+    refCards.onSnapshot((querySnapshot) => {
+      const cardItems = [];
+      querySnapshot.forEach((document) => {
+        cardItems.push(document.data());
+      });
+      setCards(cardItems);
+    });
+  }
+
+  function deleteList(id) {
     refLists
-      .doc(newList.id)
-      .set(newList)
+      .doc(id)
+      .delete()
       .catch((err) => {
         console.error(err);
       });
   }
 
-  function onListAdd() {
-    const listTitle = document.getElementById("listTitleField").value;
-    const listEmptyText = document.getElementById("emptyTextField").value;
+  function updateList(updatedList) {
+    refLists
+      .doc(updatedList.id)
+      .update(updatedList)
+      .catch((err) => {
+        console.error(err);
+      });
+  }
 
-    if (listTitle.length === 0) {
-      setTitleError(true);
-      setTitleErrorMessage("Title cannot be empty");
+  function onListDelete() {
+    // console.log(selectedList);
+
+    if (selectedList === "") {
+      setSelectError(true);
       return;
     } else {
-      setTitleError(false);
+      setSelectError(false);
     }
 
-    let maxID = 0;
-
-    lists.forEach((listele) => {
-      if (listele.id.replace(/[^0-9]/g, "") > maxID) {
-        maxID = parseInt(listele.id.replace(/[^0-9]/g, ""));
-      }
-    });
-
-    const listID = "list-" + (maxID + 1);
-
-    const newList = {
-      id: listID,
-      title: listTitle,
-      emptyText: listEmptyText.length === 0 ? "List is empty" : listEmptyText,
-      hasCards: [],
-    };
-
-    console.log(newList);
-    addList(newList);
-
-    setTitleError(false);
-    setEmptyTextError(false);
+    deleteList(selectedList);
     props.showFunction(false);
   }
 
   useEffect(() => {
+    getCards();
     getLists();
   }, []);
+
+  function isDisabled(listID) {
+    if (
+      listID === "list-1" ||
+      listID === "list-2" ||
+      listID === "list-3" ||
+      listID === "list-4m"
+    ) {
+      return true;
+    }
+    return false;
+  }
 
   return props.show ? (
     <WrapperDiv>
       <form>
         <TitleDiv>
-          <div>Insert the title for the list you'd like to add</div>
+          <div>Choose the list you'd like to delete</div>
         </TitleDiv>
-        <TextFieldDiv>
-          <TextField
-            error={titleError}
-            helperText={titleError ? titleErrorMessage : ""}
-            id="listTitleField"
-            variant="outlined"
-            label="List Title"
-          />
-        </TextFieldDiv>
 
         <TextFieldDiv>
-          <TextField
-            error={emptyTextError}
-            helperText={emptyTextError ? "" : ""}
-            id="emptyTextField"
+          <FormControl
+            style={{ minWidth: "72.5%" }}
             variant="outlined"
-            label="List Empty Text (optional)"
-          />
+            error={selectError}
+          >
+            <InputLabel>Lists</InputLabel>
+            <Select
+              label="Lists"
+              disabled={lists.length === 0}
+              onChange={(event) => {
+                setSelectedList(event.target.value);
+                setSelectError(false);
+              }}
+            >
+              {lists.map((listele) => {
+                return (
+                  <MenuItem
+                    key={listele.id}
+                    value={listele.id}
+                    disabled={isDisabled(listele.id)}
+                  >
+                    List #{listele.id.replace(/[^0-9]/g, "")} - {listele.title}
+                  </MenuItem>
+                );
+              })}
+            </Select>
+            <FormHelperText>
+              {selectError ? "Please select a list" : ""}
+            </FormHelperText>
+          </FormControl>
         </TextFieldDiv>
 
         <ButtonsFlexDiv>
@@ -159,10 +182,10 @@ export default function PopUpList(props) {
               color="primary"
               size="large"
               onClick={() => {
-                onListAdd();
+                onListDelete();
               }}
             >
-              ADD LIST
+              Delete List
             </Button>
           </SubmitDiv>
 
@@ -173,6 +196,7 @@ export default function PopUpList(props) {
               color="primary"
               size="large"
               onClick={() => {
+                setSelectError(false);
                 props.showFunction(false);
               }}
             >
