@@ -139,11 +139,13 @@ export default class List extends React.Component {
 
     let condEM = this.props.id[this.props.id.length - 1] === "m";
 
-    if (condEM) {
-      titluLista = titluLista + "👷🏻‍♀️⛔️";
-    } else {
-      for (let i = 1; i <= numarOite; i++) {
-        titluLista = titluLista + "🐑";
+    if ([1, 2, 3, 4].includes(parseInt(numarOite))) {
+      if (condEM) {
+        titluLista = titluLista + "👷🏻‍♀️⛔️";
+      } else {
+        for (let i = 1; i <= numarOite; i++) {
+          titluLista = titluLista + "🐑";
+        }
       }
     }
 
