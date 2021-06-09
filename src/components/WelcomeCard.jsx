@@ -7,6 +7,7 @@ import PopUpList from "./PopUpList";
 
 import PopUpCardEdit from "./PopUpCardEdit";
 import PopUpUserEdit from "./PopUpUserEdit";
+import PopUpListEdit from "./PopUpListEdit";
 
 import PopUpCardDelete from "./PopUpCardDelete";
 import PopUpUserDelete from "./PopUpUserDelete";
@@ -89,7 +90,7 @@ export default function WelcomeCard(props) {
   const [anchor2, setAnchor2] = useState(null);
   const [anchor3, setAnchor3] = useState(null);
 
-  const welcome = "Welcome to our humble little app, " + props.username + ".";
+  const welcome = "Welcome, " + props.username + ".";
   return (
     <Wrapper>
       <Title>{welcome}</Title>
@@ -235,6 +236,20 @@ export default function WelcomeCard(props) {
               }}
             >
               Add list
+            </Button>
+          </MarginDiv>
+
+          <MarginDiv>
+            <Button
+              style={{ background: "black", color: "white" }}
+              variant="contained"
+              color="primary"
+              size="small"
+              onClick={() => {
+                setEditListsButtonShow(true);
+              }}
+            >
+              Edit list
             </Button>
           </MarginDiv>
 
@@ -532,6 +547,10 @@ export default function WelcomeCard(props) {
       <PopUpUserEdit
         show={editUsersButtonShow}
         showFunction={setEditUsersButtonShow}
+      />
+      <PopUpListEdit
+        show={editListsButtonShow}
+        showFunction={setEditListsButtonShow}
       />
 
       <PopUpCardDelete

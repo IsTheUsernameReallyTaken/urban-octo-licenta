@@ -187,7 +187,7 @@ export default function PopUpListDelete(props) {
       return;
     }
 
-    // deleteList(selectedList);
+    deleteList(selectedList);
     props.showFunction(false);
   }
 
