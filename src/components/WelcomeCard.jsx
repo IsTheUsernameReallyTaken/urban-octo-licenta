@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+
 import PopUpCard from "./PopUpCard";
 import PopUpUser from "./PopUpUser";
+import PopUpList from "./PopUpList";
 
 import PopUpCardEdit from "./PopUpCardEdit";
 import PopUpUserEdit from "./PopUpUserEdit";
@@ -65,6 +67,7 @@ const RowFlex = styled.div`
 export default function WelcomeCard(props) {
   const [cardsButtonShow, setCardsButtonShow] = useState(false);
   const [usersButtonShow, setUsersButtonShow] = useState(false);
+  const [listsButtonShow, setListsButtonShow] = useState(false);
 
   const [editCardsButtonShow, setEditCardsButtonShow] = useState(false);
   const [editUsersButtonShow, setEditUsersButtonShow] = useState(false);
@@ -99,7 +102,7 @@ export default function WelcomeCard(props) {
                 setReview(true);
               }}
             >
-              GET REPORT
+              Reviews
             </Button>
           </MarginDiv>
 
@@ -217,6 +220,21 @@ export default function WelcomeCard(props) {
               </Button>
             </MarginDiv>
           </Tooltip>
+
+          <MarginDiv>
+            <Button
+              style={{ background: "black", color: "white" }}
+              variant="contained"
+              color="primary"
+              size="small"
+              onClick={() => {
+                console.log("hi");
+                setListsButtonShow(true);
+              }}
+            >
+              Add list
+            </Button>
+          </MarginDiv>
 
           <MarginDiv>
             <Button
@@ -471,6 +489,7 @@ export default function WelcomeCard(props) {
           </MarginDiv> */}
         </RowFlex>
       )}
+
       <Review show={review} showFunction={setReview} />
 
       <PasswordChange
@@ -488,6 +507,7 @@ export default function WelcomeCard(props) {
 
       <PopUpCard show={cardsButtonShow} showFunction={setCardsButtonShow} />
       <PopUpUser show={usersButtonShow} showFunction={setUsersButtonShow} />
+      <PopUpList show={listsButtonShow} showFunction={setListsButtonShow} />
 
       <PopUpCardEdit
         show={editCardsButtonShow}

@@ -19,7 +19,16 @@ export default function App(props) {
   const refLists = firebase.firestore().collection("lists");
   const refCards = firebase.firestore().collection("cards");
 
-  const order = ["list-1", "list-2", "list-3", "list-4m"];
+  let order = [];
+
+  lists.forEach((listele) => {
+    // console.log(listele.id);
+    order[order.length] = listele.id;
+  });
+
+  // console.log(order);
+
+  // const order = ["list-1", "list-2", "list-3", "list-4m"];
 
   function getLists() {
     refLists.onSnapshot((querySnapshot) => {
