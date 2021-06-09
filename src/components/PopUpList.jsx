@@ -58,7 +58,10 @@ const SubmitDiv = styled.div`
 export default function PopUpList(props) {
   const [lists, setLists] = useState([]);
 
-  const [emptyTitle, setEmptyTitle] = useState(false);
+  const [titleError, setTitleError] = useState(false);
+  const [titleErrorMessage, setTitleErrorMessage] = useState("");
+
+  const [emptyTextError, setEmptyTextError] = useState(false);
 
   const refLists = firebase.firestore().collection("lists");
 
@@ -72,9 +75,49 @@ export default function PopUpList(props) {
     });
   }
 
+  function addList(newList) {
+    refLists
+      .doc(newList.id)
+      .set(newList)
+      .catch((err) => {
+        console.error(err);
+      });
+  }
+
   function onListAdd() {
     const listTitle = document.getElementById("listTitleField").value;
+    const listEmptyText = document.getElementById("emptyTextField").value;
 
+    if (listTitle.length === 0) {
+      setTitleError(true);
+      setTitleErrorMessage("Title cannot be empty");
+      return;
+    } else {
+      setTitleError(false);
+    }
+
+    let maxID = 0;
+
+    lists.forEach((listele) => {
+      if (listele.id.replace(/[^0-9]/g, "") > maxID) {
+        maxID = parseInt(listele.id.replace(/[^0-9]/g, ""));
+      }
+    });
+
+    const listID = "list-" + (maxID + 1);
+
+    const newList = {
+      id: listID,
+      title: listTitle,
+      emptyText: listEmptyText,
+      hasCards: [],
+    };
+
+    console.log(newList);
+    addList(newList);
+
+    setTitleError(false);
+    setEmptyTextError(false);
     props.showFunction(false);
   }
 
@@ -90,13 +133,21 @@ export default function PopUpList(props) {
         </TitleDiv>
         <TextFieldDiv>
           <TextField
-            error={emptyTitle}
-            helperText={
-              emptyTitle ? "You need to add a title description." : ""
-            }
+            error={titleError}
+            helperText={titleError ? titleErrorMessage : ""}
             id="listTitleField"
             variant="outlined"
             label="List Title"
+          />
+        </TextFieldDiv>
+
+        <TextFieldDiv>
+          <TextField
+            error={emptyTextError}
+            helperText={emptyTextError ? "" : ""}
+            id="emptyTextField"
+            variant="outlined"
+            label="List Empty Text (optional)"
           />
         </TextFieldDiv>
 
@@ -111,7 +162,7 @@ export default function PopUpList(props) {
                 onListAdd();
               }}
             >
-              ADD CARD
+              ADD LIST
             </Button>
           </SubmitDiv>
 
