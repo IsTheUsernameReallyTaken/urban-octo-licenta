@@ -139,6 +139,15 @@ export default function PopUpListDelete(props) {
       });
   }
 
+  function deleteCard(id) {
+    refCards
+      .doc(id)
+      .delete()
+      .catch((err) => {
+        console.error(err);
+      });
+  }
+
   function updateList(updatedList) {
     refLists
       .doc(updatedList.id)
@@ -183,16 +192,12 @@ export default function PopUpListDelete(props) {
   }
 
   function onWarningMoveCards() {
-    console.log(selectedList);
-
     let theCards1 = [];
     lists.forEach((listele) => {
       if (listele.id === selectedList) {
         theCards1 = listele.hasCards;
       }
     });
-
-    console.log(theCards1);
 
     cards.forEach((carduri1) => {
       theCards1.forEach((carduriID) => {
@@ -235,7 +240,29 @@ export default function PopUpListDelete(props) {
     props.showFunction(false);
   }
 
-  function onWarningDeleteCards() {}
+  function onWarningDeleteCards() {
+    let theCards1 = [];
+    lists.forEach((listele) => {
+      if (listele.id === selectedList) {
+        theCards1 = listele.hasCards;
+      }
+    });
+
+    cards.forEach((carduri1) => {
+      theCards1.forEach((carduriID) => {
+        if (carduri1.id === carduriID) {
+          deleteCard(carduri1.id);
+        }
+      });
+    });
+
+    deleteList(selectedList);
+
+    setWarningShow(false);
+    setSelectError(false);
+    setSelectedList("");
+    props.showFunction(false);
+  }
 
   useEffect(() => {
     getCards();
