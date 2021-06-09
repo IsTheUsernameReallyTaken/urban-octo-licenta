@@ -153,7 +153,7 @@ export default function App(props) {
           startTime: copy.startTime,
           endTime: new Date(),
           problemStart: copy.problemStart ? copy.problemStart : "",
-          problemEnd: copy.problemEnd ? copy.problemEnd : "",
+          problemEnd: copy.problemEnd ? copy.problemEnd : new Date(),
         };
       }
 
