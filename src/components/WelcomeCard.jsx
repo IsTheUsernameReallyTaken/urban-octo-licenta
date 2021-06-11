@@ -532,18 +532,18 @@ export default function WelcomeCard(props) {
               >
                 Change Password
               </MenuItem>
-              <MenuItem
+              {/* <MenuItem
                 onClick={() => {
                   props.logout(false);
                   setAnchor3(null);
                 }}
               >
                 Logout
-              </MenuItem>
+              </MenuItem> */}
             </Menu>
           </MarginDiv>
 
-          {/* <MarginDiv>
+          <MarginDiv>
             <Button
               style={{
                 background: hover1 === false ? "black" : "orange",
@@ -564,7 +564,7 @@ export default function WelcomeCard(props) {
             >
               LOGOUT
             </Button>
-          </MarginDiv> */}
+          </MarginDiv>
         </RowFlex>
       )}
 
