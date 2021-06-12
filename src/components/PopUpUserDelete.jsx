@@ -225,7 +225,6 @@ export default function PopUpUserDelete(props) {
     hasCards1.forEach((cardIDs) => {
       cards.forEach((carduri) => {
         if (carduri.id === cardIDs) {
-          // console.log(carduri.title);
           let cardToMove = {
             id: carduri.id,
             title: carduri.title,
@@ -236,35 +235,24 @@ export default function PopUpUserDelete(props) {
             problemEnd: "",
             by: "",
           };
-          // console.log(cardToMove);
+
           updateCard(cardToMove);
         }
       });
 
       lists.forEach((listele) => {
         if (listele.hasCards.includes(cardIDs)) {
-          // console.log(listele.id);
-          // console.log(listele.hasCards);
-
-          // console.log(listele.hasCards.indexOf(cardIDs));
-
           let oldHasCards, newHasCards;
 
           oldHasCards = listele.hasCards;
           newHasCards = listele.hasCards;
           newHasCards.splice(listele.hasCards.indexOf(cardIDs), 1);
 
-          // console.log("pentru " + listele.id);
-
-          // console.log(oldHasCards);
-          // console.log(newHasCards);
-
           let listToUpdate = {
             id: listele.id,
             hasCards: newHasCards,
           };
 
-          // console.log(listToUpdate);
           updateList(listToUpdate);
         }
       });
@@ -289,24 +277,35 @@ export default function PopUpUserDelete(props) {
   }
 
   function onWarningDeleteCards() {
-    // let theCards1 = [];
-    // lists.forEach((listele) => {
-    //   if (listele.id === selectedList) {
-    //     theCards1 = listele.hasCards;
-    //   }
-    // });
-    // cards.forEach((carduri1) => {
-    //   theCards1.forEach((carduriID) => {
-    //     if (carduri1.id === carduriID) {
-    //       deleteCard(carduri1.id);
-    //     }
-    //   });
-    // });
-    // deleteList(selectedList);
-    // setWarningShow(false);
-    // setSelectError(false);
-    // setSelectedList("");
-    // props.showFunction(false);
+    console.log(hasCards1);
+
+    hasCards1.forEach((cardIDs) => {
+      lists.forEach((listele) => {
+        if (listele.hasCards.includes(cardIDs)) {
+          let oldHasCards, newHasCards;
+
+          oldHasCards = listele.hasCards;
+          newHasCards = listele.hasCards;
+          newHasCards.splice(listele.hasCards.indexOf(cardIDs), 1);
+
+          let listToUpdate = {
+            id: listele.id,
+            hasCards: newHasCards,
+          };
+
+          updateList(listToUpdate);
+        }
+      });
+
+      deleteCard(cardIDs);
+    });
+
+    deleteUser(selectedUser);
+
+    setWarningShow(false);
+    setSelectError(false);
+    setSelectedUser("");
+    props.showFunction(false);
   }
 
   return props.show ? (
