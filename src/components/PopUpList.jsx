@@ -242,6 +242,7 @@ export default function PopUpList(props) {
               color="primary"
               size="large"
               onClick={() => {
+                setTitleError(false);
                 props.showFunction(false);
               }}
             >
