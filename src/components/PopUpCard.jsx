@@ -275,6 +275,8 @@ export default function PopUpCard(props) {
               color="primary"
               size="large"
               onClick={() => {
+                setEmptyTitle(false);
+                setDeptError(false);
                 props.showFunction(false);
               }}
             >
