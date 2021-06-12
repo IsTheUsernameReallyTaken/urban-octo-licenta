@@ -76,7 +76,7 @@ const SmallWrapper = styled.div`
 
 const SmallTitleDiv = styled.div`
   margin-bottom: 7px;
-  font-size: 1.4em;
+  font-size: 1.2em;
   padding: 40px;
 
   text-align: center;
