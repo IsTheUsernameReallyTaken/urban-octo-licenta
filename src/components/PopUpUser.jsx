@@ -429,6 +429,11 @@ export default function PopUpUser(props) {
               color="primary"
               size="large"
               onClick={() => {
+                setUsernameError(false);
+                setNameEmpty(false);
+                setSurnameEmpty(false);
+                setPasswordEmpty(false);
+                setDeptError(false);
                 props.showFunction(false);
               }}
             >
