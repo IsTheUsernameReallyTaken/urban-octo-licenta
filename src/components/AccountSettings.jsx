@@ -420,6 +420,11 @@ export default function AccountSettings(props) {
               color="primary"
               size="large"
               onClick={() => {
+                setUsernameError(false);
+                setNameError(false);
+                setSurnameError(false);
+                setEmailError(false);
+
                 setEditable(false);
                 props.showFunction(false);
               }}
