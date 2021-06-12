@@ -667,6 +667,14 @@ export default function PopUpUserEdit(props) {
                   setSelectedUser("");
                   setNewDept(false);
                   setEditMode(false);
+
+                  setUsernameError(false);
+                  setNameEmpty(false);
+                  setSurnameEmpty(false);
+                  setPasswordEmpty(false);
+                  setEmailEmpty(false);
+                  setEmailInvalid(false);
+                  setDeptError(false);
                 }}
               >
                 BACK
@@ -683,6 +691,15 @@ export default function PopUpUserEdit(props) {
                   setSelectedUser("");
                   setNewDept(false);
                   setEditMode(false);
+
+                  setUsernameError(false);
+                  setNameEmpty(false);
+                  setSurnameEmpty(false);
+                  setPasswordEmpty(false);
+                  setEmailEmpty(false);
+                  setEmailInvalid(false);
+                  setDeptError(false);
+
                   props.showFunction(false);
                 }}
               >
