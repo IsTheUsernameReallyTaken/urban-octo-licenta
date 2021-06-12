@@ -372,6 +372,7 @@ export default function PopUpUserDelete(props) {
               color="primary"
               size="large"
               onClick={() => {
+                setSelectError(false);
                 props.showFunction(false);
               }}
             >

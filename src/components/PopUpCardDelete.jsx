@@ -230,6 +230,7 @@ export default function PopUpCardDelete(props) {
               color="primary"
               size="large"
               onClick={() => {
+                setSelectError(false);
                 props.showFunction(false);
               }}
             >

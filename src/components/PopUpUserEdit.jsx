@@ -480,6 +480,7 @@ export default function PopUpUserEdit(props) {
                 color="primary"
                 size="large"
                 onClick={() => {
+                  setSelectedUserError(false);
                   props.showFunction(false);
                 }}
               >
