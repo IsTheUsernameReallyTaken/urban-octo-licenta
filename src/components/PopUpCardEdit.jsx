@@ -504,6 +504,8 @@ export default function PopUpCardEdit(props) {
                   setSelectedCardError(false);
                   setEmptyTitle(false);
 
+                  setIdenticalError(false);
+
                   setEditMode(false);
                 }}
               >
@@ -521,6 +523,9 @@ export default function PopUpCardEdit(props) {
                   setSelectedCard("");
                   setSelectedCardError(false);
                   setEditMode(false);
+
+                  setIdenticalError(false);
+
                   props.showFunction(false);
                 }}
               >
