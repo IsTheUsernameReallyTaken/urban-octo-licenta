@@ -359,6 +359,8 @@ export default function PopUpListEdit(props) {
                   setSelectedListError(false);
                   setEmptyTitle(false);
 
+                  setIdenticalError(false);
+
                   setEditMode(false);
                 }}
               >
@@ -376,6 +378,8 @@ export default function PopUpListEdit(props) {
                   setSelectedList("");
                   setSelectedListError(false);
                   setEditMode(false);
+                  setIdenticalError(false);
+
                   props.showFunction(false);
                 }}
               >
