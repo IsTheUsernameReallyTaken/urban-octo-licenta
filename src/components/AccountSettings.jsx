@@ -266,6 +266,21 @@ export default function AccountSettings(props) {
       setUsernameError(false);
     }
 
+    let usernameTaken = false;
+    users.forEach((useri) => {
+      if (useri.username === newUsername) {
+        usernameTaken = true;
+      }
+    });
+
+    if (usernameTaken === true) {
+      setUsernameError(true);
+      setUsernameErrorMessage("Username is already taken");
+      return;
+    } else {
+      setUsernameError(false);
+    }
+
     setUsernameError(false);
     setNameError(false);
     setSurnameError(false);
