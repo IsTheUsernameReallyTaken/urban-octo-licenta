@@ -91,6 +91,25 @@ export default function WelcomeCard(props) {
   const [anchor3, setAnchor3] = useState(null);
   const [anchor4, setAnchor4] = useState(null);
 
+  function disableAllPopUps() {
+    setCardsButtonShow(false);
+    setUsersButtonShow(false);
+    setListsButtonShow(false);
+
+    setEditCardsButtonShow(false);
+    setEditUsersButtonShow(false);
+    setEditListsButtonShow(false);
+
+    setDeleteCardsButtonShow(false);
+    setDeleteUsersButtonShow(false);
+    setDeleteListsButtonShow(false);
+
+    setPasswordChangeShow(false);
+    setAccountSettingsShow(false);
+
+    setReview(false);
+  }
+
   const welcome = "Welcome, " + props.username + ".";
   return (
     <Wrapper>
@@ -104,6 +123,7 @@ export default function WelcomeCard(props) {
               color="primary"
               size="small"
               onClick={() => {
+                disableAllPopUps();
                 setReview(true);
               }}
             >
@@ -132,6 +152,7 @@ export default function WelcomeCard(props) {
             >
               <MenuItem
                 onClick={() => {
+                  disableAllPopUps();
                   setCardsButtonShow(true);
                   setAnchor1(null);
                 }}
@@ -140,6 +161,7 @@ export default function WelcomeCard(props) {
               </MenuItem>
               <MenuItem
                 onClick={() => {
+                  disableAllPopUps();
                   setEditCardsButtonShow(true);
                   setAnchor1(null);
                 }}
@@ -148,6 +170,7 @@ export default function WelcomeCard(props) {
               </MenuItem>
               <MenuItem
                 onClick={() => {
+                  disableAllPopUps();
                   setDeleteCardsButtonShow(true);
                   setAnchor1(null);
                 }}
@@ -178,6 +201,7 @@ export default function WelcomeCard(props) {
             >
               <MenuItem
                 onClick={() => {
+                  disableAllPopUps();
                   setUsersButtonShow(true);
                   setAnchor2(null);
                 }}
@@ -186,6 +210,7 @@ export default function WelcomeCard(props) {
               </MenuItem>
               <MenuItem
                 onClick={() => {
+                  disableAllPopUps();
                   setEditUsersButtonShow(true);
                   setAnchor2(null);
                 }}
@@ -194,6 +219,7 @@ export default function WelcomeCard(props) {
               </MenuItem>
               <MenuItem
                 onClick={() => {
+                  disableAllPopUps();
                   setDeleteUsersButtonShow(true);
                   setAnchor2(null);
                 }}
@@ -224,6 +250,7 @@ export default function WelcomeCard(props) {
             >
               <MenuItem
                 onClick={() => {
+                  disableAllPopUps();
                   setListsButtonShow(true);
                   setAnchor4(null);
                 }}
@@ -232,6 +259,7 @@ export default function WelcomeCard(props) {
               </MenuItem>
               <MenuItem
                 onClick={() => {
+                  disableAllPopUps();
                   setEditListsButtonShow(true);
                   setAnchor4(null);
                 }}
@@ -240,6 +268,7 @@ export default function WelcomeCard(props) {
               </MenuItem>
               <MenuItem
                 onClick={() => {
+                  disableAllPopUps();
                   setDeleteListsButtonShow(true);
                   setAnchor4(null);
                 }}
@@ -335,6 +364,7 @@ export default function WelcomeCard(props) {
             >
               <MenuItem
                 onClick={() => {
+                  disableAllPopUps();
                   setAccountSettingsShow(true);
                   setAnchor3(null);
                 }}
@@ -343,6 +373,7 @@ export default function WelcomeCard(props) {
               </MenuItem>
               <MenuItem
                 onClick={() => {
+                  disableAllPopUps();
                   setPasswordChangeShow(true);
                   setAnchor3(null);
                 }}
@@ -518,6 +549,7 @@ export default function WelcomeCard(props) {
             >
               <MenuItem
                 onClick={() => {
+                  disableAllPopUps();
                   setAccountSettingsShow(true);
                   setAnchor3(null);
                 }}
@@ -526,6 +558,7 @@ export default function WelcomeCard(props) {
               </MenuItem>
               <MenuItem
                 onClick={() => {
+                  disableAllPopUps();
                   setPasswordChangeShow(true);
                   setAnchor3(null);
                 }}
