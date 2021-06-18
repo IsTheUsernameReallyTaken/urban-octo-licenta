@@ -339,7 +339,7 @@ export default function PopUpUserDelete(props) {
                   >
                     User #{useri.id.replace(/[^0-9]/g, "")} - D
                     {useri.department.replace(/[^0-9]/g, "")}: {useri.name}{" "}
-                    {useri.surname}
+                    {useri.surname} - {useri.username}
                   </MenuItem>
                 );
               })}
