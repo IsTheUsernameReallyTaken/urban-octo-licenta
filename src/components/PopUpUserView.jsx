@@ -65,6 +65,12 @@ const SubmitDiv = styled.div`
   padding: 5px;
 `;
 
+const CenterDiv = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
 export default function PopUpList(props) {
   const [users, setUsers] = useState([]);
 
@@ -142,19 +148,21 @@ export default function PopUpList(props) {
 
         <ScrollDiv>{showUsers()}</ScrollDiv>
 
-        <SubmitDiv>
-          <Button
-            style={{ background: "black", color: "white" }}
-            variant="contained"
-            color="primary"
-            size="large"
-            onClick={() => {
-              props.showFunction(false);
-            }}
-          >
-            EXIT
-          </Button>
-        </SubmitDiv>
+        <CenterDiv>
+          <SubmitDiv>
+            <Button
+              style={{ background: "black", color: "white" }}
+              variant="contained"
+              color="primary"
+              size="large"
+              onClick={() => {
+                props.showFunction(false);
+              }}
+            >
+              EXIT
+            </Button>
+          </SubmitDiv>
+        </CenterDiv>
       </form>
     </WrapperDiv>
   ) : (
