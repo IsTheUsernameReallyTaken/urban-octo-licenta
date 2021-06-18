@@ -74,6 +74,7 @@ export default function PopUpCardEdit(props) {
   const [selectedCardError, setSelectedCardError] = useState(false);
 
   const [emptyTitle, setEmptyTitle] = useState(false);
+  const [emptyTitleMessage, setEmptyTitleMessage] = useState("");
 
   const refUsers = firebase.firestore().collection("usernames");
   const refLists = firebase.firestore().collection("lists");
@@ -144,6 +145,7 @@ export default function PopUpCardEdit(props) {
 
     if (cardTitle.length === 0) {
       setEmptyTitle(true);
+      setEmptyTitleMessage("You need to add a title description");
       setDeptError(false);
       return;
     } else {
@@ -195,6 +197,24 @@ export default function PopUpCardEdit(props) {
       problemEnd: "",
       by: "",
     };
+
+    let titleFound = false;
+    cards.forEach((carduri) => {
+      if (
+        carduri.title === newCard.title &&
+        carduri.departamente === newCard.department
+      ) {
+        titleFound = true;
+      }
+    });
+
+    if (titleFound === true) {
+      setEmptyTitle(true);
+      setEmptyTitleMessage("Dept. already has this card");
+      return;
+    } else {
+      setEmptyTitle(false);
+    }
 
     // console.log(newCard);
 
@@ -414,7 +434,7 @@ export default function PopUpCardEdit(props) {
               error={emptyTitle || identicalError}
               helperText={
                 emptyTitle
-                  ? "You need to add a title description."
+                  ? emptyTitleMessage
                   : identicalError
                   ? "No changes were made"
                   : ""
