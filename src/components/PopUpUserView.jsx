@@ -53,6 +53,13 @@ const ButtonsFlexDiv = styled.div`
   flex-direction: row;
 `;
 
+const ScrollDiv = styled.div`
+  height: 45vh;
+  width: 200%;
+
+  overflow-y: scroll;
+`;
+
 const SubmitDiv = styled.div`
   margin-top: 20px;
   padding: 5px;
@@ -129,11 +136,11 @@ export default function PopUpList(props) {
   return props.show ? (
     <WrapperDiv>
       <form>
-        <TitleDiv>
+        {/* <TitleDiv>
           <div>Here you will see the users</div>
-        </TitleDiv>
+        </TitleDiv> */}
 
-        {showUsers()}
+        <ScrollDiv>{showUsers()}</ScrollDiv>
 
         <SubmitDiv>
           <Button
