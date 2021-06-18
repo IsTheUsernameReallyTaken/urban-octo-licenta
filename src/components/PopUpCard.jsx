@@ -64,6 +64,7 @@ export default function PopUpCard(props) {
   const [selectedDept, setSelectedDept] = useState("");
 
   const [emptyTitle, setEmptyTitle] = useState(false);
+  const [emptyTitleMessage, setEmptyTitleMessage] = useState("");
 
   const refUsers = firebase.firestore().collection("usernames");
   const refLists = firebase.firestore().collection("lists");
@@ -112,6 +113,7 @@ export default function PopUpCard(props) {
 
     if (cardTitle.length === 0) {
       setEmptyTitle(true);
+      setEmptyTitleMessage("You need to add a title description");
       setDeptError(false);
       return;
     } else {
@@ -123,6 +125,21 @@ export default function PopUpCard(props) {
       return;
     } else {
       setDeptError(false);
+    }
+
+    let titleFound = false;
+    cards.forEach((carduri) => {
+      if (carduri.title === cardTitle && carduri.department === selectedDept) {
+        titleFound = true;
+      }
+    });
+
+    if (titleFound === true) {
+      setEmptyTitle(true);
+      setEmptyTitleMessage("Dept. already has this card");
+      return;
+    } else {
+      setEmptyTitle(false);
     }
 
     let maxID = 0;
@@ -212,9 +229,7 @@ export default function PopUpCard(props) {
         <TextFieldDiv>
           <TextField
             error={emptyTitle}
-            helperText={
-              emptyTitle ? "You need to add a title description." : ""
-            }
+            helperText={emptyTitle ? emptyTitleMessage : ""}
             id="cardTitleField"
             variant="outlined"
             label="Card Title"
