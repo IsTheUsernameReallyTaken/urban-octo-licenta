@@ -77,7 +77,27 @@ export default function PopUpList(props) {
     getUsers();
   }, []);
 
-  function getTime(date1) {}
+  function getTime(date1) {
+    let time = "",
+      now = Date.now(),
+      duration;
+
+    duration = now / 1000 - date1.seconds;
+
+    let secunde, minute, ore, zile;
+    secunde = Math.floor(duration % 60);
+    minute = Math.floor((duration / 60) % 60);
+    ore = Math.floor(duration / 60 / 60);
+    zile = Math.floor(duration / 60 / 60 / 24);
+
+    if (zile > 0) {
+      time = zile + "d " + ore + "h ago";
+    } else {
+      time = ore + "h " + minute + "m ago";
+    }
+
+    return time;
+  }
 
   function showUsers() {
     let obj = {};
