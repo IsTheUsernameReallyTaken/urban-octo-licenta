@@ -262,6 +262,8 @@ export default function PopUpUser(props) {
       password: passhash,
       surname: surname,
       username: username,
+      online: false,
+      lastOnline: "",
     };
 
     console.log(userToAdd);
