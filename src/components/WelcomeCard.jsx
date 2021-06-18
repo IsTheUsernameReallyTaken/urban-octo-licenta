@@ -99,6 +99,16 @@ export default function WelcomeCard(props) {
     getUsers();
   }, []);
 
+  window.addEventListener("unload", (event) => {
+    event.preventDefault();
+    updateUser({
+      id: getID(props.username),
+      online: false,
+      lastOnline: new Date(),
+    });
+    return event.returnValue;
+  });
+
   const [cardsButtonShow, setCardsButtonShow] = useState(false);
   const [usersButtonShow, setUsersButtonShow] = useState(false);
   const [listsButtonShow, setListsButtonShow] = useState(false);
