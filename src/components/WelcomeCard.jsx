@@ -13,6 +13,8 @@ import PopUpCardDelete from "./PopUpCardDelete";
 import PopUpUserDelete from "./PopUpUserDelete";
 import PopUpListDelete from "./PopUpListDelete";
 
+import PopUpUserView from "./PopUpUserView";
+
 import PasswordChange from "./PasswordChange";
 import AccountSettings from "./AccountSettings";
 
@@ -78,6 +80,8 @@ export default function WelcomeCard(props) {
   const [deleteCardsButtonShow, setDeleteCardsButtonShow] = useState(false);
   const [deleteUsersButtonShow, setDeleteUsersButtonShow] = useState(false);
   const [deleteListsButtonShow, setDeleteListsButtonShow] = useState(false);
+
+  const [viewUsersButtonShow, setViewUsersButtonShow] = useState(false);
 
   const [passwordChangeShow, setPasswordChangeShow] = useState(false);
   const [accountSettingsShow, setAccountSettingsShow] = useState(false);
@@ -199,6 +203,15 @@ export default function WelcomeCard(props) {
                 setAnchor2(null);
               }}
             >
+              <MenuItem
+                onClick={() => {
+                  disableAllPopUps();
+                  setViewUsersButtonShow(true);
+                  setAnchor2(null);
+                }}
+              >
+                View Users
+              </MenuItem>
               <MenuItem
                 onClick={() => {
                   disableAllPopUps();
@@ -644,6 +657,11 @@ export default function WelcomeCard(props) {
       <PopUpListDelete
         show={deleteListsButtonShow}
         showFunction={setDeleteListsButtonShow}
+      />
+
+      <PopUpUserView
+        show={viewUsersButtonShow}
+        showFunction={setViewUsersButtonShow}
       />
     </Wrapper>
   );
