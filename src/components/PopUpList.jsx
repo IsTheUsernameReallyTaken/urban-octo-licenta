@@ -115,6 +115,21 @@ export default function PopUpList(props) {
       setTitleError(false);
     }
 
+    let titleFound = false;
+    lists.forEach((listele) => {
+      if (listele.title === listTitle) {
+        titleFound = true;
+      }
+    });
+
+    if (titleFound === true) {
+      setTitleError(true);
+      setTitleErrorMessage("List already exists");
+      return;
+    } else {
+      setTitleError(false);
+    }
+
     let maxID = 0;
 
     lists.forEach((listele) => {
