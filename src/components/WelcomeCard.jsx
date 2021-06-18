@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 
+import firebase from "../firebase";
+import "firebase/firestore";
+
 import PopUpCard from "./PopUpCard";
 import PopUpUser from "./PopUpUser";
 import PopUpList from "./PopUpList";
@@ -69,6 +72,33 @@ const RowFlex = styled.div`
 `;
 
 export default function WelcomeCard(props) {
+  const [users, setUsers] = useState([]);
+
+  const refUsers = firebase.firestore().collection("usernames");
+
+  function getUsers() {
+    refUsers.onSnapshot((querySnapshot) => {
+      const userItems = [];
+      querySnapshot.forEach((document) => {
+        userItems.push(document.data());
+      });
+      setUsers(userItems);
+    });
+  }
+
+  function updateUser(updatedUser) {
+    refUsers
+      .doc(updatedUser.id)
+      .update(updatedUser)
+      .catch((err) => {
+        console.error(err);
+      });
+  }
+
+  useEffect(() => {
+    getUsers();
+  }, []);
+
   const [cardsButtonShow, setCardsButtonShow] = useState(false);
   const [usersButtonShow, setUsersButtonShow] = useState(false);
   const [listsButtonShow, setListsButtonShow] = useState(false);
@@ -112,6 +142,17 @@ export default function WelcomeCard(props) {
     setAccountSettingsShow(false);
 
     setReview(false);
+  }
+
+  function getID(username) {
+    let id = "";
+    users.forEach((useri) => {
+      if (useri.username === username) {
+        id = useri.id;
+      }
+    });
+
+    return id;
   }
 
   const welcome = "Welcome, " + props.username + ".";
@@ -395,6 +436,11 @@ export default function WelcomeCard(props) {
               </MenuItem>
               <MenuItem
                 onClick={() => {
+                  updateUser({
+                    id: getID(props.username),
+                    online: false,
+                    lastOnline: new Date(),
+                  });
                   props.logout(false);
                   setAnchor3(null);
                 }}
@@ -599,6 +645,11 @@ export default function WelcomeCard(props) {
               color="primary"
               size="small"
               onClick={() => {
+                updateUser({
+                  id: getID(props.username),
+                  online: false,
+                  lastOnline: new Date(),
+                });
                 props.logout(false);
               }}
               onMouseEnter={() => {

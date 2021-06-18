@@ -82,7 +82,11 @@ export default function PopUpList(props) {
       <div>
         <ul>
           {users.map((useri) => {
-            return <li>{useri.username}</li>;
+            return (
+              <li>
+                {useri.username} - {useri.online ? "online" : "offline"}
+              </li>
+            );
           })}
         </ul>
       </div>

@@ -99,6 +99,15 @@ export default function Login() {
     });
   }
 
+  function updateUser(updatedUser) {
+    refUsers
+      .doc(updatedUser.id)
+      .update(updatedUser)
+      .catch((err) => {
+        console.error(err);
+      });
+  }
+
   function verifyLoginData(username1, password1) {
     let toReturn = {
       correctUsername: false,
@@ -176,9 +185,21 @@ export default function Login() {
     const auxDept = getDept(aux1);
     setDept(auxDept);
 
+    let id = "";
+    users.forEach((useri) => {
+      if (useri.username === aux1) {
+        id = useri.id;
+      }
+    });
+
     if ((result.correctUsername === true) & (result.correctPassword === true)) {
       setPassWrong(false);
       setUserWrong(false);
+      updateUser({
+        id: id,
+        online: true,
+        lastOnline: "",
+      });
       setValid(true);
       setUsername(aux1);
       console.log("Welcome, " + aux1 + "!");
