@@ -372,7 +372,28 @@ export default function PopUpUserEdit(props) {
 
     if (!selectedUserID.includes("admin") && finalID.includes("admin")) {
       deleteUser(selectedUserID);
-      addUser(newUser);
+
+      let newAdmin = {};
+      let old01 = {};
+      users.forEach((useri) => {
+        if (useri.id === selectedUserID) {
+          old01 = useri;
+        }
+      });
+
+      newAdmin = {
+        id: finalID,
+        username: username,
+        name: name,
+        surname: surname,
+        email: email,
+        department: finalDept,
+        password: old01.password,
+        online: old01.online,
+        lastOnline: old01.lastOnline,
+      };
+
+      addUser(newAdmin);
     } else {
       updateUser(newUser);
     }
