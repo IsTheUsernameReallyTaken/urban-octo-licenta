@@ -55,7 +55,7 @@ const ButtonsFlexDiv = styled.div`
 
 const ScrollDiv = styled.div`
   height: 45vh;
-  width: 200%;
+  width: 150%;
 
   overflow-y: scroll;
 `;
