@@ -44,6 +44,8 @@ const TitleDiv = styled.div`
 const TextFieldDiv = styled.div`
   margin-top: 10px;
   padding: 5px;
+
+  font-size: 1.2em;
 `;
 
 const ButtonsFlexDiv = styled.div`
@@ -75,6 +77,8 @@ export default function PopUpList(props) {
     getUsers();
   }, []);
 
+  function getTime(date1) {}
+
   function showUsers() {
     let obj = {};
 
@@ -84,7 +88,14 @@ export default function PopUpList(props) {
           {users.map((useri) => {
             return (
               <li>
-                {useri.username} - {useri.online ? "online" : "offline"}
+                <TextFieldDiv>
+                  {useri.username} -{" "}
+                  {useri.online
+                    ? "online"
+                    : useri.lastOnline !== ""
+                    ? "last online " + getTime(useri.lastOnline)
+                    : "never logged in"}
+                </TextFieldDiv>
               </li>
             );
           })}
