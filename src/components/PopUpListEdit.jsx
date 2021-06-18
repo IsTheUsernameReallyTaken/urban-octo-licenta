@@ -71,6 +71,7 @@ export default function PopUpListEdit(props) {
   const [selectedListError, setSelectedListError] = useState(false);
 
   const [emptyTitle, setEmptyTitle] = useState(false);
+  const [emptyTitleMessage, setEmptyTitleMessage] = useState("");
 
   const refUsers = firebase.firestore().collection("usernames");
   const refLists = firebase.firestore().collection("lists");
@@ -154,6 +155,8 @@ export default function PopUpListEdit(props) {
 
     if (newListTitle.length === 0) {
       setEmptyTitle(true);
+      setEmptyTitleMessage("You need to add a title description");
+
       return;
     } else {
       setEmptyTitle(false);
@@ -167,6 +170,21 @@ export default function PopUpListEdit(props) {
       return;
     } else {
       setIdenticalError(false);
+    }
+
+    let titleFound = false;
+    lists.forEach((listele) => {
+      if (listele.title === newList.title) {
+        titleFound = true;
+      }
+    });
+
+    if (titleFound === true) {
+      setEmptyTitle(true);
+      setEmptyTitleMessage("List already exists");
+      return;
+    } else {
+      setEmptyTitle(false);
     }
 
     updateList(newList);
@@ -300,7 +318,7 @@ export default function PopUpListEdit(props) {
               error={emptyTitle || identicalError}
               helperText={
                 emptyTitle
-                  ? "You need to add a title description."
+                  ? emptyTitleMessage
                   : identicalError
                   ? "No changes were made"
                   : ""
