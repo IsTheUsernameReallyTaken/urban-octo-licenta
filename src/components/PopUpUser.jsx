@@ -197,7 +197,7 @@ export default function PopUpUser(props) {
           });
           if (departamentulExistaDeja) {
             setDeptError(true);
-            setDeptErrorMessage("This deparment already exists");
+            setDeptErrorMessage("This department already exists");
             return;
           } else {
             setDeptError(false);
