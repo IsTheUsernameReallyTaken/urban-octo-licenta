@@ -74,7 +74,8 @@ export default function PopUpUserEdit(props) {
 
   useEffect(() => {
     getUsers();
-  }, []);
+    setNewDept(false);
+  }, [props.show]);
 
   const [selectedUser, setSelectedUser] = useState("");
   const [selectedUserError, setSelectedUserError] = useState(false);

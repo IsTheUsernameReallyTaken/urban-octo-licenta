@@ -81,9 +81,16 @@ export default function PasswordChange(props) {
     });
   }
 
+  function resetCheckboxes() {
+    setPass1Hidden(true);
+    setPass2Hidden(true);
+    setPass3Hidden(true);
+  }
+
   useEffect(() => {
     getUsers();
-  }, []);
+    resetCheckboxes();
+  }, [props.show]);
 
   function updateUser(updatedUser) {
     refUsers

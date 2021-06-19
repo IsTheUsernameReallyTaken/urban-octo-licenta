@@ -283,9 +283,16 @@ export default function PopUpUser(props) {
     return departamente;
   }
 
+  function resetCheckboxes() {
+    setHiddenPass(true);
+    setNewDept(false);
+    setAdminRights(false);
+  }
+
   useEffect(() => {
     getUsers();
-  }, []);
+    resetCheckboxes();
+  }, [props.show]);
 
   return props.show ? (
     <WrapperDiv>
