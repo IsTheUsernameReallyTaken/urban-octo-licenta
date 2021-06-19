@@ -317,6 +317,13 @@ export default function AccountSettings(props) {
     });
 
     updateUser(newUser1);
+
+    updateUser({
+      id: newUser1.id,
+      online: false,
+      lastOnline: new Date(),
+    });
+
     props.logout(false);
     props.showFunction(false);
   }
