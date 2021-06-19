@@ -51,7 +51,11 @@ const ScrollableDiv = styled.div`
   margin: 10px;
   height: 80vh;
   overflow: auto;
-  scrollbar-color: transparent transparent;
+  // scrollbar-color: transparent transparent;
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 export default function Review(props) {

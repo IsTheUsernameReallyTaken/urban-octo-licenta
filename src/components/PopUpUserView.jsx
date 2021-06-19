@@ -58,6 +58,10 @@ const ScrollDiv = styled.div`
   width: 150%;
 
   overflow-y: scroll;
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 const SubmitDiv = styled.div`
