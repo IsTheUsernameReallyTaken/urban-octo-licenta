@@ -257,15 +257,6 @@ export default function WelcomeCard(props) {
               <MenuItem
                 onClick={() => {
                   disableAllPopUps();
-                  setViewUsersButtonShow(true);
-                  setAnchor2(null);
-                }}
-              >
-                View Users
-              </MenuItem>
-              <MenuItem
-                onClick={() => {
-                  disableAllPopUps();
                   setUsersButtonShow(true);
                   setAnchor2(null);
                 }}
@@ -289,6 +280,15 @@ export default function WelcomeCard(props) {
                 }}
               >
                 Delete Users
+              </MenuItem>
+              <MenuItem
+                onClick={() => {
+                  disableAllPopUps();
+                  setViewUsersButtonShow(true);
+                  setAnchor2(null);
+                }}
+              >
+                View Users
               </MenuItem>
             </Menu>
           </MarginDiv>
