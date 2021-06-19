@@ -126,7 +126,15 @@ export default function PopUpList(props) {
         {users.map((useri) => {
           return (
             <TextFieldDiv>
-              <Alert severity="success">
+              <Alert
+                severity={
+                  useri.online
+                    ? "success"
+                    : useri.lastOnline !== ""
+                    ? "warning"
+                    : "error"
+                }
+              >
                 {useri.username} -{" "}
                 {useri.online
                   ? "online"
