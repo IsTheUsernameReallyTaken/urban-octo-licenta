@@ -12,6 +12,8 @@ import {
   Tooltip,
 } from "@material-ui/core";
 
+import Alert from "@material-ui/lab/Alert";
+
 import firebase from "../firebase";
 import "firebase/firestore";
 
@@ -121,22 +123,20 @@ export default function PopUpList(props) {
 
     obj = (
       <div>
-        <ul>
-          {users.map((useri) => {
-            return (
-              <li>
-                <TextFieldDiv>
-                  {useri.username} -{" "}
-                  {useri.online
-                    ? "online"
-                    : useri.lastOnline !== ""
-                    ? "last online " + getTime(useri.lastOnline)
-                    : "never logged in"}
-                </TextFieldDiv>
-              </li>
-            );
-          })}
-        </ul>
+        {users.map((useri) => {
+          return (
+            <TextFieldDiv>
+              <Alert severity="success">
+                {useri.username} -{" "}
+                {useri.online
+                  ? "online"
+                  : useri.lastOnline !== ""
+                  ? "last online " + getTime(useri.lastOnline)
+                  : "never logged in"}
+              </Alert>
+            </TextFieldDiv>
+          );
+        })}
       </div>
     );
 
