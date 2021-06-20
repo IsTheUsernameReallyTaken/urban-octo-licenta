@@ -110,7 +110,7 @@ export default function PopUpList(props) {
     zile = Math.floor(duration / 60 / 60 / 24);
 
     if (zile > 0) {
-      time = zile + "d " + ore + "h ago";
+      time = zile + "d " + (ore - zile * 24) + "h ago";
     } else {
       time = ore + "h " + minute + "m ago";
     }
