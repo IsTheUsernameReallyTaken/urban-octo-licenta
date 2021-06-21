@@ -23,6 +23,8 @@ import AccountSettings from "./AccountSettings";
 
 import Review from "./Review";
 
+import DownloadReview from "./DownloadReview";
+
 import { Button, Tooltip, Menu, MenuItem } from "@material-ui/core";
 
 const Wrapper = styled.section`
@@ -134,6 +136,7 @@ export default function WelcomeCard(props) {
   const [anchor2, setAnchor2] = useState(null);
   const [anchor3, setAnchor3] = useState(null);
   const [anchor4, setAnchor4] = useState(null);
+  const [anchor5, setAnchor5] = useState(null);
 
   function disableAllPopUps() {
     setCardsButtonShow(false);
@@ -177,13 +180,50 @@ export default function WelcomeCard(props) {
               variant="contained"
               color="primary"
               size="small"
-              onClick={() => {
-                disableAllPopUps();
-                setReview(true);
+              onClick={(event) => {
+                setAnchor5(event.currentTarget);
               }}
             >
               Reviews
             </Button>
+            <Menu
+              open={Boolean(anchor5)}
+              anchorEl={anchor5}
+              onClose={() => {
+                setAnchor5(null);
+              }}
+            >
+              <MenuItem
+                onClick={() => {
+                  disableAllPopUps();
+                  setReview(true);
+                  setAnchor5(null);
+                }}
+              >
+                Get Reviews
+              </MenuItem>
+              <MenuItem
+                onClick={() => {
+                  disableAllPopUps();
+
+                  let content = DownloadReview();
+
+                  const element = document.createElement("a");
+                  const file = new Blob([content], { type: "text" });
+
+                  element.href = URL.createObjectURL(file);
+                  element.download =
+                    "Review " + new Date().toLocaleDateString("en-GB");
+
+                  document.body.appendChild(element);
+                  element.click();
+
+                  setAnchor5(null);
+                }}
+              >
+                Download as txt
+              </MenuItem>
+            </Menu>
           </MarginDiv>
 
           <MarginDiv>
