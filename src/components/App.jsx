@@ -282,7 +282,7 @@ export default function App(props) {
         logout={props.logout}
         emergencies={emergencies}
         lists={lists}
-        cards={users}
+        cards={cards}
         users={users}
       />
 

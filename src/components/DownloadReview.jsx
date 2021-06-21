@@ -8,8 +8,34 @@ export default function DownloadReview(username, users, lists, cards) {
 
   lists[2].hasCards.length === 0
     ? (completed = completed + "no cards here")
-    : lists[2].hasCards.forEach((carduri) => {
-        completed = completed + String(carduri) + " ";
+    : lists[2].hasCards.forEach((carduri1) => {
+        cards.forEach((carduri) => {
+          if (carduri.id === carduri1) {
+            let duration = Math.floor(carduri.endTime - carduri.startTime);
+
+            let secunde, minute, ore;
+            secunde = Math.floor(duration % 60);
+            minute = Math.floor((duration / 60) % 60);
+            ore = Math.floor(duration / 60 / 60);
+
+            let durationString = ore + "h " + minute + "m " + secunde + "s";
+
+            completed =
+              completed +
+              "\n\t\t" +
+              carduri.id +
+              " - " +
+              carduri.title +
+              " by " +
+              carduri.by +
+              " from " +
+              new Date(carduri.startTime.seconds * 1000).toLocaleString(
+                "en-GB"
+              ) +
+              ", took " +
+              durationString;
+          }
+        });
       });
 
   reviews = reviews + completed;
@@ -18,8 +44,23 @@ export default function DownloadReview(username, users, lists, cards) {
 
   lists[1].hasCards.length === 0
     ? (inpr = inpr + "no cards here")
-    : lists[1].hasCards.forEach((carduri) => {
-        inpr = inpr + String(carduri) + " ";
+    : lists[1].hasCards.forEach((carduri1) => {
+        cards.forEach((carduri) => {
+          if (carduri.id === carduri1) {
+            inpr =
+              inpr +
+              "\n\t\t" +
+              carduri.id +
+              " - " +
+              carduri.title +
+              " started by " +
+              carduri.by +
+              " at " +
+              new Date(carduri.startTime.seconds * 1000).toLocaleString(
+                "en-GB"
+              );
+          }
+        });
       });
 
   reviews = reviews + inpr;
@@ -28,8 +69,12 @@ export default function DownloadReview(username, users, lists, cards) {
 
   lists[0].hasCards.length === 0
     ? (avail = avail + "no cards here")
-    : lists[0].hasCards.forEach((carduri) => {
-        avail = avail + String(carduri) + " ";
+    : lists[0].hasCards.forEach((carduri1) => {
+        cards.forEach((carduri) => {
+          if (carduri.id === carduri1) {
+            avail = avail + "\n\t\t" + carduri.id + " - " + carduri.title;
+          }
+        });
       });
 
   reviews = reviews + avail;
@@ -38,8 +83,23 @@ export default function DownloadReview(username, users, lists, cards) {
 
   lists[3].hasCards.length === 0
     ? (probs = probs + "no cards here")
-    : lists[3].hasCards.forEach((carduri) => {
-        probs = probs + String(carduri) + " ";
+    : lists[3].hasCards.forEach((carduri1) => {
+        cards.forEach((carduri) => {
+          if (carduri.id === carduri1) {
+            probs =
+              probs +
+              "\n\t\t" +
+              carduri.id +
+              " - " +
+              carduri.title +
+              " encountered by " +
+              carduri.by +
+              " at " +
+              new Date(carduri.startTime.seconds * 1000).toLocaleString(
+                "en-GB"
+              );
+          }
+        });
       });
 
   reviews = reviews + probs;
