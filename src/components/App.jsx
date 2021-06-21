@@ -13,9 +13,11 @@ const AppContainer = styled.div`
 `;
 
 export default function App(props) {
+  const [users, setUsers] = useState([]);
   const [lists, setLists] = useState([]);
   const [cards, setCards] = useState([]);
 
+  const refUsers = firebase.firestore().collection("usernames");
   const refLists = firebase.firestore().collection("lists");
   const refCards = firebase.firestore().collection("cards");
 
@@ -42,6 +44,16 @@ export default function App(props) {
         cardItems.push(document.data());
       });
       setCards(cardItems);
+    });
+  }
+
+  function getUsers() {
+    refUsers.onSnapshot((querySnapshot) => {
+      const userItems = [];
+      querySnapshot.forEach((document) => {
+        userItems.push(document.data());
+      });
+      setUsers(userItems);
     });
   }
 
@@ -257,6 +269,7 @@ export default function App(props) {
   });
 
   useEffect(() => {
+    getUsers();
     getLists();
     getCards();
   }, []);
@@ -268,6 +281,9 @@ export default function App(props) {
         isAdmin={props.isAdmin}
         logout={props.logout}
         emergencies={emergencies}
+        lists={lists}
+        cards={users}
+        users={users}
       />
 
       {/* {console.log(props.dept)} */}
