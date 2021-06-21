@@ -206,7 +206,7 @@ export default function WelcomeCard(props) {
                 onClick={() => {
                   disableAllPopUps();
 
-                  let content = DownloadReview();
+                  let content = DownloadReview(props.username);
 
                   const element = document.createElement("a");
                   const file = new Blob([content], { type: "text" });
