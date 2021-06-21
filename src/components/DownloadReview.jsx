@@ -104,5 +104,21 @@ export default function DownloadReview(username, users, lists, cards) {
 
   reviews = reviews + probs;
 
+  let departamente = [];
+
+  for (let i = 0; i < cards.length; i++) {
+    departamente[departamente.length] = cards[i].department;
+  }
+
+  departamente = Array.from(new Set(departamente));
+
+  reviews = reviews + "\n\n - BY DEPARTMENT - ";
+
+  departamente.length === 0
+    ? (reviews = reviews + "\n\t Nothing here")
+    : departamente.forEach((dept) => {
+        reviews = reviews + "\n\t" + dept;
+      });
+
   return reviews;
 }
