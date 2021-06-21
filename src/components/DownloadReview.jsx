@@ -4,49 +4,30 @@ import firebase from "../firebase";
 import "firebase/firestore";
 
 export default function DownloadReview(username) {
-  const [lists, setLists] = useState([]);
-  const [cards, setCards] = useState([]);
-  const [users, setUsers] = useState([]);
-
   const refLists = firebase.firestore().collection("lists");
   const refCards = firebase.firestore().collection("cards");
   const refUsers = firebase.firestore().collection("usernames");
 
-  function getLists() {
-    refLists.onSnapshot((querySnapshot) => {
-      const listItems = [];
-      querySnapshot.forEach((document) => {
-        listItems.push(document.data());
-      });
-      setLists(listItems);
+  refLists.onSnapshot((querySnapshot) => {
+    const lists = [];
+    querySnapshot.forEach((document) => {
+      lists.push(document.data());
     });
-  }
+  });
 
-  function getCards() {
-    refCards.onSnapshot((querySnapshot) => {
-      const cardItems = [];
-      querySnapshot.forEach((document) => {
-        cardItems.push(document.data());
-      });
-      setCards(cardItems);
+  refCards.onSnapshot((querySnapshot) => {
+    const cards = [];
+    querySnapshot.forEach((document) => {
+      cards.push(document.data());
     });
-  }
+  });
 
-  function getUsers() {
-    refUsers.onSnapshot((querySnapshot) => {
-      const userItems = [];
-      querySnapshot.forEach((document) => {
-        userItems.push(document.data());
-      });
-      setUsers(userItems);
+  refUsers.onSnapshot((querySnapshot) => {
+    const users = [];
+    querySnapshot.forEach((document) => {
+      users.push(document.data());
     });
-  }
-
-  {
-    getUsers();
-    getLists();
-    getCards();
-  }
+  });
 
   let reviews = "Reviews \tas of " + new Date().toLocaleString("en-GB");
   reviews = reviews + "\n\t\tdownloaded by " + username;
