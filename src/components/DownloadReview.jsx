@@ -16,12 +16,12 @@ export default function DownloadReview(username, users, lists, cards) {
     return durationString;
   }
 
-  let reviews = "Reviews \tas of " + new Date().toLocaleString("en-GB");
+  let reviews = "REVIEWS \tas of " + new Date().toLocaleString("en-GB");
   reviews = reviews + "\n\t\tdownloaded by " + username;
 
   reviews = reviews + "\n\nBY PROGRESS";
 
-  let completed = "\n\tCompleted cards: ";
+  let completed = "\n\tcompleted cards: ";
 
   lists[2].hasCards.length === 0
     ? (completed = completed + "no cards here")
@@ -59,7 +59,7 @@ export default function DownloadReview(username, users, lists, cards) {
 
   reviews = reviews + completed;
 
-  let inpr = "\n\tIn Progress cards: ";
+  let inpr = "\n\tin progress cards: ";
 
   lists[1].hasCards.length === 0
     ? (inpr = inpr + "no cards here")
@@ -86,7 +86,7 @@ export default function DownloadReview(username, users, lists, cards) {
 
   reviews = reviews + inpr;
 
-  let avail = "\n\tAvailable cards: ";
+  let avail = "\n\tavailable cards: ";
 
   lists[0].hasCards.length === 0
     ? (avail = avail + "no cards here")
@@ -107,7 +107,7 @@ export default function DownloadReview(username, users, lists, cards) {
 
   reviews = reviews + avail;
 
-  let probs = "\n\tEncountered problems: ";
+  let probs = "\n\tencountered problems: ";
 
   lists[3].hasCards.length === 0
     ? (probs = probs + "no cards here")
@@ -283,7 +283,10 @@ export default function DownloadReview(username, users, lists, cards) {
   reviews = reviews + "\n\nSTATISTICS";
 
   if (lists[2].hasCards.length !== cards.length || cards.length === 0) {
-    reviews = reviews + "\n\tno statistics available - not all cards are done";
+    reviews =
+      reviews +
+      "\n\tno statistics available - " +
+      (cards.length === 0 ? "no cards" : "not all cards are done");
   } else {
     // reviews = reviews + "\n\tstatistics here";
     let duration,
