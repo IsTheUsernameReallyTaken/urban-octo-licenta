@@ -145,7 +145,7 @@ export default function DownloadReview(username, users, lists, cards) {
   reviews = reviews + "\n\nBY DEPARTMENT";
 
   departamente.length === 0
-    ? (reviews = reviews + "\n\t Nothing here")
+    ? (reviews = reviews + "\n\tthere are no cards at the moment")
     : departamente.forEach((dept) => {
         reviews = reviews + "\n\t" + dept + ": ";
         cards.forEach((carduri) => {
