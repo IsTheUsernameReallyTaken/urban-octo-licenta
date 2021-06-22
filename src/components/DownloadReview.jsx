@@ -130,7 +130,63 @@ export default function DownloadReview(username, users, lists, cards) {
   departamente.length === 0
     ? (reviews = reviews + "\n\t Nothing here")
     : departamente.forEach((dept) => {
-        reviews = reviews + "\n\t" + dept;
+        reviews = reviews + "\n\t" + dept + ": ";
+        cards.forEach((carduri) => {
+          if (carduri.department === dept) {
+            if (lists[2].hasCards.includes(carduri.id)) {
+              let duration = Math.floor(carduri.endTime - carduri.startTime);
+
+              let secunde, minute, ore;
+              secunde = Math.floor(duration % 60);
+              minute = Math.floor((duration / 60) % 60);
+              ore = Math.floor(duration / 60 / 60);
+
+              let durationString = ore + "h " + minute + "m " + secunde + "s";
+              reviews =
+                reviews +
+                "\n\t\t" +
+                carduri.id +
+                ": completed by" +
+                carduri.by +
+                " from " +
+                new Date(carduri.startTime.seconds * 1000).toLocaleString(
+                  "en-GB"
+                ) +
+                " in " +
+                durationString;
+            }
+
+            if (lists[1].hasCards.includes(carduri.id)) {
+              reviews =
+                reviews +
+                "\n\t\t" +
+                carduri.id +
+                ": in progress by" +
+                carduri.by +
+                " ince " +
+                new Date(carduri.startTime.seconds * 1000).toLocaleString(
+                  "en-GB"
+                );
+            }
+
+            if (lists[0].hasCards.includes(carduri.id)) {
+              reviews = reviews + "\n\t\t" + carduri.id + ": available";
+            }
+
+            if (lists[3].hasCards.includes(carduri.id)) {
+              reviews =
+                reviews +
+                "\n\t\t" +
+                carduri.id +
+                ": problem encoutered by" +
+                carduri.by +
+                " ince " +
+                new Date(carduri.problemStart.seconds * 1000).toLocaleString(
+                  "en-GB"
+                );
+            }
+          }
+        });
       });
 
   return reviews;
