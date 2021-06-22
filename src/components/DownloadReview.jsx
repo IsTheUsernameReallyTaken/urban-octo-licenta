@@ -152,7 +152,7 @@ export default function DownloadReview(username, users, lists, cards) {
                 new Date(carduri.startTime.seconds * 1000).toLocaleString(
                   "en-GB"
                 ) +
-                " done in " +
+                ", done in " +
                 durationString;
             }
 
@@ -228,7 +228,7 @@ export default function DownloadReview(username, users, lists, cards) {
             carduri.department +
             "): completed, started at " +
             new Date(carduri.startTime.seconds * 1000).toLocaleString("en-GB") +
-            " done in " +
+            ", done in " +
             durationString;
         }
 
