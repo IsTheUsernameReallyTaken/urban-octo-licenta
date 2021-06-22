@@ -148,7 +148,7 @@ export default function DownloadReview(username, users, lists, cards) {
                 carduri.id +
                 ": completed by" +
                 carduri.by +
-                " from " +
+                " started at " +
                 new Date(carduri.startTime.seconds * 1000).toLocaleString(
                   "en-GB"
                 ) +
@@ -180,7 +180,7 @@ export default function DownloadReview(username, users, lists, cards) {
                 carduri.id +
                 ": problem encoutered by" +
                 carduri.by +
-                " since " +
+                " at " +
                 new Date(carduri.problemStart.seconds * 1000).toLocaleString(
                   "en-GB"
                 );
@@ -208,6 +208,59 @@ export default function DownloadReview(username, users, lists, cards) {
       " interacted with " +
       count +
       " cards.";
+
+    cards.forEach((carduri) => {
+      if (carduri.by === useri.username) {
+        if (lists[2].hasCards.includes(carduri.id)) {
+          let duration = Math.floor(carduri.endTime - carduri.startTime);
+
+          let secunde, minute, ore;
+          secunde = Math.floor(duration % 60);
+          minute = Math.floor((duration / 60) % 60);
+          ore = Math.floor(duration / 60 / 60);
+
+          let durationString = ore + "h " + minute + "m " + secunde + "s";
+          reviews =
+            reviews +
+            "\n\t\t" +
+            carduri.id +
+            " (" +
+            carduri.department +
+            "): completed, started at " +
+            new Date(carduri.startTime.seconds * 1000).toLocaleString("en-GB") +
+            " in " +
+            durationString;
+        }
+
+        if (lists[1].hasCards.includes(carduri.id)) {
+          reviews =
+            reviews +
+            "\n\t\t" +
+            carduri.id +
+            " (" +
+            carduri.department +
+            "): in progress since " +
+            new Date(carduri.startTime.seconds * 1000).toLocaleString("en-GB");
+        }
+
+        if (lists[0].hasCards.includes(carduri.id)) {
+          reviews = reviews + "\n\t\t" + carduri.id + ": available";
+        }
+
+        if (lists[3].hasCards.includes(carduri.id)) {
+          reviews =
+            reviews +
+            "\n\t\t" +
+            carduri.id +
+            " (" +
+            carduri.department +
+            "): problem encoutered at " +
+            new Date(carduri.problemStart.seconds * 1000).toLocaleString(
+              "en-GB"
+            );
+        }
+      }
+    });
   });
 
   return reviews;
