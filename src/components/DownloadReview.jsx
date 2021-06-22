@@ -146,7 +146,7 @@ export default function DownloadReview(username, users, lists, cards) {
                 reviews +
                 "\n\t\t" +
                 carduri.id +
-                ": completed by" +
+                ": completed by " +
                 carduri.by +
                 " started at " +
                 new Date(carduri.startTime.seconds * 1000).toLocaleString(
@@ -161,7 +161,7 @@ export default function DownloadReview(username, users, lists, cards) {
                 reviews +
                 "\n\t\t" +
                 carduri.id +
-                ": in progress by" +
+                ": in progress by " +
                 carduri.by +
                 " since " +
                 new Date(carduri.startTime.seconds * 1000).toLocaleString(
@@ -178,7 +178,7 @@ export default function DownloadReview(username, users, lists, cards) {
                 reviews +
                 "\n\t\t" +
                 carduri.id +
-                ": problem encoutered by" +
+                ": problem encoutered by " +
                 carduri.by +
                 " at " +
                 new Date(carduri.problemStart.seconds * 1000).toLocaleString(
