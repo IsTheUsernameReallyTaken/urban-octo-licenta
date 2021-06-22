@@ -316,6 +316,26 @@ export default function DownloadReview(username, users, lists, cards) {
       "m " +
       secunde +
       "s";
+
+    secunde = Math.floor(minDuration % 60);
+    minute = Math.floor((minDuration / 60) % 60);
+    ore = Math.floor(minDuration / 60 / 60);
+
+    reviews =
+      reviews +
+      "\n\tleast time spent: card #" +
+      minID.replace(/[^0-9]/g, "") +
+      " - " +
+      minTitle +
+      " by " +
+      mainBy +
+      " - " +
+      ore +
+      "h " +
+      minute +
+      "m " +
+      secunde +
+      "s";
   }
 
   return reviews;
