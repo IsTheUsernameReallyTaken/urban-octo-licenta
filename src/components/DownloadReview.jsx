@@ -2,7 +2,7 @@ export default function DownloadReview(username, users, lists, cards) {
   let reviews = "Reviews \tas of " + new Date().toLocaleString("en-GB");
   reviews = reviews + "\n\t\tdownloaded by " + username;
 
-  reviews = reviews + "\n\n - BY PROGRESS - ";
+  reviews = reviews + "\n\nBY PROGRESS";
 
   let completed = "\n\tCompleted cards: ";
 
@@ -24,7 +24,9 @@ export default function DownloadReview(username, users, lists, cards) {
               completed +
               "\n\t\t" +
               carduri.id +
-              " - " +
+              " (" +
+              carduri.department +
+              ") - " +
               carduri.title +
               " by " +
               carduri.by +
@@ -51,7 +53,9 @@ export default function DownloadReview(username, users, lists, cards) {
               inpr +
               "\n\t\t" +
               carduri.id +
-              " - " +
+              " (" +
+              carduri.department +
+              ") - " +
               carduri.title +
               " started by " +
               carduri.by +
@@ -72,7 +76,14 @@ export default function DownloadReview(username, users, lists, cards) {
     : lists[0].hasCards.forEach((carduri1) => {
         cards.forEach((carduri) => {
           if (carduri.id === carduri1) {
-            avail = avail + "\n\t\t" + carduri.id + " - " + carduri.title;
+            avail =
+              avail +
+              "\n\t\t" +
+              carduri.id +
+              " (" +
+              carduri.department +
+              ") - " +
+              carduri.title;
           }
         });
       });
@@ -90,7 +101,9 @@ export default function DownloadReview(username, users, lists, cards) {
               probs +
               "\n\t\t" +
               carduri.id +
-              " - " +
+              " (" +
+              carduri.department +
+              ") - " +
               carduri.title +
               " encountered by " +
               carduri.by +
@@ -112,7 +125,7 @@ export default function DownloadReview(username, users, lists, cards) {
 
   departamente = Array.from(new Set(departamente));
 
-  reviews = reviews + "\n\n - BY DEPARTMENT - ";
+  reviews = reviews + "\n\nBY DEPARTMENT";
 
   departamente.length === 0
     ? (reviews = reviews + "\n\t Nothing here")
