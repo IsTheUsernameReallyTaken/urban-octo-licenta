@@ -226,7 +226,7 @@ export default function WelcomeCard(props) {
                   setAnchor5(null);
                 }}
               >
-                Download as txt
+                Download as .txt file
               </MenuItem>
             </Menu>
           </MarginDiv>
