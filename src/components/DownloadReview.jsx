@@ -163,7 +163,7 @@ export default function DownloadReview(username, users, lists, cards) {
                 carduri.id +
                 ": in progress by" +
                 carduri.by +
-                " ince " +
+                " since " +
                 new Date(carduri.startTime.seconds * 1000).toLocaleString(
                   "en-GB"
                 );
@@ -180,7 +180,7 @@ export default function DownloadReview(username, users, lists, cards) {
                 carduri.id +
                 ": problem encoutered by" +
                 carduri.by +
-                " ince " +
+                " since " +
                 new Date(carduri.problemStart.seconds * 1000).toLocaleString(
                   "en-GB"
                 );
