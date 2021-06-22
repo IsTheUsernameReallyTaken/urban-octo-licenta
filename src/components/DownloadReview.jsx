@@ -282,7 +282,7 @@ export default function DownloadReview(username, users, lists, cards) {
 
   reviews = reviews + "\n\nSTATISTICS";
 
-  if (lists[2].hasCards.length !== cards.length) {
+  if (lists[2].hasCards.length !== cards.length || cards.length === 0) {
     reviews = reviews + "\n\tno statistics available - not all cards are done";
   } else {
     // reviews = reviews + "\n\tstatistics here";
@@ -417,6 +417,72 @@ export default function DownloadReview(username, users, lists, cards) {
         }
       });
     }
+
+    let maxUserID = 0;
+
+    users.forEach((useri) => {
+      if (useri.id.replace(/[^0-9]/g, "") > maxUserID) {
+        maxUserID = parseInt(useri.id.replace(/[^0-9]/g, ""));
+      }
+    });
+
+    let userCards = new Array(maxUserID).fill(0);
+
+    users.forEach((useri) => {
+      cards.forEach((carduri) => {
+        if (carduri.by === useri.username) {
+          userCards[parseInt(useri.id.replace(/[^0-9]/g, "") - 1)]++;
+        }
+      });
+    });
+
+    let maxUserCards = 0,
+      minUser = 100000;
+    let username1 = "",
+      usernameIndex;
+
+    userCards.forEach((cardsNo, index) => {
+      if (cardsNo > maxUserCards) {
+        maxUserCards = cardsNo;
+        usernameIndex = index + 1;
+      }
+    });
+
+    // console.log(usernameIndex + " a lucrat cel mai mult: " + maxUserCards);
+
+    users.forEach((useri) => {
+      if (parseInt(useri.id.replace(/[^0-9]/g, "")) === usernameIndex) {
+        username1 = useri.username;
+      }
+    });
+
+    let totalTime = 0;
+
+    cards.forEach((carduri) => {
+      if (carduri.by === username1) {
+        totalTime = totalTime + Math.floor(carduri.endTime - carduri.startTime);
+      }
+    });
+
+    secunde = Math.floor(totalTime % 60);
+    minute = Math.floor((totalTime / 60) % 60);
+    ore = Math.floor(totalTime / 60 / 60);
+
+    reviews =
+      reviews +
+      "\n\tuser " +
+      usernameIndex +
+      ": " +
+      username1 +
+      " worked most: " +
+      maxUserCards +
+      " cards, for a total of " +
+      ore +
+      "h " +
+      minute +
+      "m " +
+      secunde +
+      "s";
   }
 
   return reviews;
