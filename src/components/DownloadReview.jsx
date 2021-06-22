@@ -328,7 +328,7 @@ export default function DownloadReview(username, users, lists, cards) {
       " - " +
       minTitle +
       " by " +
-      mainBy +
+      minBy +
       " - " +
       ore +
       "h " +
