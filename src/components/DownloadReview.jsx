@@ -268,7 +268,54 @@ export default function DownloadReview(username, users, lists, cards) {
   if (lists[2].hasCards.length !== cards.length) {
     reviews = reviews + "\n\tno statistics available - not all cards are done";
   } else {
-    reviews = reviews + "\n\tstatistics here";
+    // reviews = reviews + "\n\tstatistics here";
+    let duration,
+      maxDuration = 0,
+      minDuration = 100000 * 24 * 60 * 60,
+      minTitle,
+      minID,
+      minBy,
+      maxTitle,
+      maxID,
+      maxBy;
+
+    cards.forEach((carduri) => {
+      duration = Math.floor(carduri.endTime - carduri.startTime);
+      if (duration > maxDuration) {
+        maxDuration = duration;
+        maxTitle = carduri.title;
+        maxID = carduri.id;
+        maxBy = carduri.by;
+      }
+
+      if (duration < minDuration) {
+        minDuration = duration;
+        minTitle = carduri.title;
+        minID = carduri.id;
+        minBy = carduri.by;
+      }
+    });
+
+    let secunde, minute, ore;
+    secunde = Math.floor(maxDuration % 60);
+    minute = Math.floor((maxDuration / 60) % 60);
+    ore = Math.floor(maxDuration / 60 / 60);
+
+    reviews =
+      reviews +
+      "\n\tmost time spent: card #" +
+      maxID.replace(/[^0-9]/g, "") +
+      " - " +
+      maxTitle +
+      " by " +
+      maxBy +
+      " - " +
+      ore +
+      "h " +
+      minute +
+      "m " +
+      secunde +
+      "s";
   }
 
   return reviews;
