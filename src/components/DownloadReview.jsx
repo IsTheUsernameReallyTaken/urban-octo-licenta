@@ -263,5 +263,13 @@ export default function DownloadReview(username, users, lists, cards) {
     });
   });
 
+  reviews = reviews + "\n\nSTATISTICS";
+
+  if (lists[2].hasCards.length !== cards.length) {
+    reviews = reviews + "\n\tno statistics available - not all cards are done";
+  } else {
+    reviews = reviews + "\n\tstatistics here";
+  }
+
   return reviews;
 }
