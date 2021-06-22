@@ -189,5 +189,26 @@ export default function DownloadReview(username, users, lists, cards) {
         });
       });
 
+  reviews = reviews + "\n\nBY USER";
+
+  users.forEach((useri) => {
+    let count = 0;
+    cards.forEach((carduri) => {
+      if (carduri.by === useri.username) {
+        count = count + 1;
+      }
+    });
+    reviews =
+      reviews +
+      "\n\t" +
+      "#" +
+      useri.id.replace(/[^0-9]/g, "") +
+      " - " +
+      useri.username +
+      " interacted with " +
+      count +
+      " cards.";
+  });
+
   return reviews;
 }
