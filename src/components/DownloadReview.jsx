@@ -500,12 +500,17 @@ export default function DownloadReview(username, users, lists, cards) {
     if (usersWhoDidntWork.length === 0) {
       reviews = reviews + "\n\t" + "there are no users who didn't work";
     } else {
-      reviews =
-        reviews +
-        "\n\t" +
-        "there are " +
-        usersWhoDidntWork.length +
-        " users who didn't work:";
+      if (usersWhoDidntWork.length === 1) {
+        reviews = reviews + "\n\t" + "there was one user who didn't work:";
+      } else {
+        reviews =
+          reviews +
+          "\n\t" +
+          "there were " +
+          usersWhoDidntWork.length +
+          " users who didn't work:";
+      }
+
       usersWhoDidntWork.forEach((userIDs) => {
         users.forEach((useri) => {
           if (useri.id === userIDs) {

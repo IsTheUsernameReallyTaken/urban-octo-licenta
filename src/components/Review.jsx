@@ -605,6 +605,20 @@ export default function Review(props) {
 
     console.log(usersWhoDidntWork);
 
+    let sir =
+      usersWhoDidntWork.length === 1 ? (
+        <span>
+          There was <b>one user</b> who did not work at all:
+        </span>
+      ) : usersWhoDidntWork.length > 1 ? (
+        <span>
+          There were <b>{usersWhoDidntWork.length} users </b> who did not work
+          at all:
+        </span>
+      ) : (
+        <span />
+      );
+
     let objNoWorkUsers = (
       <MarginDiv>
         {usersWhoDidntWork.length === 0 ? (
@@ -613,8 +627,7 @@ export default function Review(props) {
           </span>
         ) : (
           <span>
-            There were <b>{usersWhoDidntWork.length} user(s)</b> who did not
-            work at all:
+            {sir}
             <ul>
               {usersWhoDidntWork.map((userIDs) => {
                 let ID, USERNAME, DEPT;
