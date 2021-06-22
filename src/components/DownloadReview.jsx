@@ -483,6 +483,46 @@ export default function DownloadReview(username, users, lists, cards) {
       "m " +
       secunde +
       "s";
+
+    let usersWhoDidntWork = [];
+
+    userCards.forEach((cardsNo, index) => {
+      if (cardsNo === 0) {
+        users.forEach((useri) => {
+          if (useri.id.replace(/[^0-9]/g, "") === String(index + 1)) {
+            // console.log("userul " + useri.id + " nu a lucrat");
+            usersWhoDidntWork[usersWhoDidntWork.length] = useri.id;
+          }
+        });
+      }
+    });
+
+    if (usersWhoDidntWork.length === 0) {
+      reviews = reviews + "\n\t" + "there are no users who didn't work";
+    } else {
+      reviews =
+        reviews +
+        "\n\t" +
+        "there are " +
+        usersWhoDidntWork.length +
+        " users who didn't work:";
+      usersWhoDidntWork.forEach((userIDs) => {
+        users.forEach((useri) => {
+          if (useri.id === userIDs) {
+            reviews =
+              reviews +
+              "\n\t\t" +
+              "user #" +
+              useri.id.replace(/[^0-9]/g, "") +
+              " - " +
+              useri.username +
+              " (" +
+              useri.department +
+              ")";
+          }
+        });
+      });
+    }
   }
 
   return reviews;
