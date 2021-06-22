@@ -1,4 +1,21 @@
 export default function DownloadReview(username, users, lists, cards) {
+  function getDuration(endTime, startTime) {
+    let duration = "",
+      durationUnit = "",
+      durationString = "";
+
+    duration = Math.floor(endTime - startTime);
+    durationUnit = "seconds";
+
+    let secunde, minute, ore;
+    secunde = Math.floor(duration % 60);
+    minute = Math.floor((duration / 60) % 60);
+    ore = Math.floor(duration / 60 / 60);
+
+    durationString = ore + "h " + minute + "m " + secunde + "s";
+    return durationString;
+  }
+
   let reviews = "Reviews \tas of " + new Date().toLocaleString("en-GB");
   reviews = reviews + "\n\t\tdownloaded by " + username;
 
@@ -336,6 +353,70 @@ export default function DownloadReview(username, users, lists, cards) {
       "m " +
       secunde +
       "s";
+
+    let numberOfProblems = 0,
+      maxProblem = 0,
+      minProblem = 100000 * 24 * 60 * 60;
+
+    cards.forEach((carduri) => {
+      if (carduri.problemStart) {
+        numberOfProblems++;
+        if (
+          Math.floor(carduri.problemEnd - carduri.problemStart) > maxProblem
+        ) {
+          maxProblem = Math.floor(carduri.problemEnd - carduri.problemStart);
+        }
+        if (
+          Math.floor(carduri.problemEnd - carduri.problemStart) < minProblem
+        ) {
+          minProblem = Math.floor(carduri.problemEnd - carduri.problemStart);
+        }
+      }
+    });
+
+    if (numberOfProblems === 0) {
+      reviews = reviews + "\n\tproblems encountered: no cards here";
+    } else {
+      reviews = reviews + "\n\tproblems encountered: ";
+      cards.map((carduri) => {
+        if (carduri.problemStart) {
+          let time1, durata1;
+
+          time1 = new Date(carduri.problemStart.seconds * 1000).toLocaleString(
+            "en-GB"
+          );
+
+          durata1 = getDuration(carduri.problemEnd, carduri.problemStart);
+
+          reviews =
+            reviews +
+            "\n\t\t" +
+            carduri.id +
+            ": encountered at " +
+            time1 +
+            " by " +
+            carduri.by +
+            " solved in " +
+            durata1;
+
+          if (
+            maxProblem ===
+              Math.floor(carduri.problemEnd - carduri.problemStart) &&
+            numberOfProblems !== 1
+          ) {
+            reviews = reviews + " (the most time for a problem)";
+          }
+
+          if (
+            minProblem ===
+              Math.floor(carduri.problemEnd - carduri.problemStart) &&
+            numberOfProblems !== 1
+          ) {
+            reviews = reviews + " (the least time for a problem)";
+          }
+        }
+      });
+    }
   }
 
   return reviews;
