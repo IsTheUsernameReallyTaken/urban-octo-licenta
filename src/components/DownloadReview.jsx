@@ -16,8 +16,8 @@ export default function DownloadReview(username, users, lists, cards) {
     return durationString;
   }
 
-  let reviews = "REVIEWS \tas of " + new Date().toLocaleString("en-GB");
-  reviews = reviews + "\n\t\tdownloaded by " + username;
+  let reviews = "REVIEW \tas of " + new Date().toLocaleString("en-GB");
+  reviews = reviews + "\n\tdownloaded by " + username;
 
   reviews = reviews + "\n\nBY PROGRESS";
 
