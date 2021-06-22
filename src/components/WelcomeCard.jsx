@@ -200,7 +200,7 @@ export default function WelcomeCard(props) {
                   setAnchor5(null);
                 }}
               >
-                Get Reviews
+                Get reviews
               </MenuItem>
               <MenuItem
                 onClick={() => {
@@ -218,7 +218,13 @@ export default function WelcomeCard(props) {
 
                   element.href = URL.createObjectURL(file);
                   element.download =
-                    "Review " + new Date().toLocaleDateString("en-GB");
+                    "Review--" +
+                    new Date()
+                      .toLocaleString("en-GB")
+                      .replaceAll("/", "-")
+                      .replaceAll(":", "-")
+                      .replaceAll(",", "-")
+                      .replaceAll(" ", "-");
 
                   document.body.appendChild(element);
                   element.click();
