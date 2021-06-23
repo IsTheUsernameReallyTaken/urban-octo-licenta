@@ -188,6 +188,7 @@ export default function PopUpCard(props) {
 
     setEmptyTitle(false);
     setDeptError(false);
+    setSelectedDept("");
 
     props.showFunction(false);
   }
@@ -292,6 +293,8 @@ export default function PopUpCard(props) {
               onClick={() => {
                 setEmptyTitle(false);
                 setDeptError(false);
+                setSelectedDept("");
+
                 props.showFunction(false);
               }}
             >
