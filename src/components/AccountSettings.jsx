@@ -267,11 +267,13 @@ export default function AccountSettings(props) {
     }
 
     let usernameTaken = false;
-    users.forEach((useri) => {
-      if (useri.username === newUsername) {
-        usernameTaken = true;
-      }
-    });
+    if (newUsername !== oldUser.username) {
+      users.forEach((useri) => {
+        if (useri.username === newUsername) {
+          usernameTaken = true;
+        }
+      });
+    }
 
     if (usernameTaken === true) {
       setUsernameError(true);
@@ -288,6 +290,7 @@ export default function AccountSettings(props) {
 
     if (oldUser.username === newUser.username) {
       updateUser(newUser);
+      setEditable(false);
       props.showFunction(false);
       return;
     } else {
@@ -298,10 +301,6 @@ export default function AccountSettings(props) {
   }
 
   function onSaveChangesAgain() {
-    // console.log("haha ok");
-    // console.log(oldUser1);
-    // console.log(newUser1);
-
     cards.forEach((carduri) => {
       let newCard = {};
       if (carduri.by === oldUser1.username) {
@@ -309,9 +308,6 @@ export default function AccountSettings(props) {
           id: carduri.id,
           by: newUser1.username,
         };
-        // console.log(
-        //   newCard.id + " " + oldUser.username + " -> " + newUser.username
-        // );
         updateCard(newCard);
       }
     });
