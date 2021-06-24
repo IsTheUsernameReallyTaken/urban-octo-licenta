@@ -135,7 +135,7 @@ export default function PopUpList(props) {
                     : "error"
                 }
               >
-                {useri.username} -{" "}
+                {useri.username} (D{useri.department.replace(/[^0-9]/g, "")}) -{" "}
                 {useri.online
                   ? "online"
                   : useri.lastOnline !== ""
