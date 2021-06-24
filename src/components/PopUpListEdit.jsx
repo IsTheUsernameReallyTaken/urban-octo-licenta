@@ -173,11 +173,13 @@ export default function PopUpListEdit(props) {
     }
 
     let titleFound = false;
-    lists.forEach((listele) => {
-      if (listele.title === newList.title) {
-        titleFound = true;
-      }
-    });
+    if (newList.title !== oldList.title) {
+      lists.forEach((listele) => {
+        if (listele.title === newList.title) {
+          titleFound = true;
+        }
+      });
+    }
 
     if (titleFound === true) {
       setEmptyTitle(true);
